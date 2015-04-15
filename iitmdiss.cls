@@ -129,7 +129,7 @@ footskip=30pt,bottom=1in]{geometry}
 % \department{department name} -- user macro to declare name of department.
 \def\department#1{\gdef\@department{#1}}
 
-\RequirePackage[dvips]{graphicx}
+\RequirePackage{graphicx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The title page
@@ -205,8 +205,8 @@ footskip=30pt,bottom=1in]{geometry}
   %\centerline{\psfig{figure=emblem.ps}}
   %\centerline{\includegraphics[scale=1]{iitm.png}}
   %\centerline{\includegraphics[scale=0.3]{iitm.eps}}
-  \centerline{\includegraphics[scale=0.3]{iitm.pdf}}
-  \vspace*{-0.15in}
+  \centerline{\includegraphics[scale=0.3]{./imgs/iitmlogo.eps}}
+  \vspace*{0.15in}
   \begin{center}
     {\bf \large DEPARTMENT OF \MakeUppercase{\@department}\par}
     {\bf \large INDIAN INSTITUTE OF TECHNOLOGY, MADRAS.}
