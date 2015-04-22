@@ -21,7 +21,7 @@ The Major motivations for deep architectures are the following:
 One of major motivation of Deep Architectures is deep structure of brain. For example, study of visual cortex, shows areas which contains representation of the input, and signals flow from one area to the next. Each level represents the input at a different level of abstraction, with more abstract features further up in the hierarchy, defined in terms of the lower-level ones. Moreover, representation in brain is between dense distributed and local: they are sparse (only 1\% of neurons are simultaneously active). 
 
 \subsubsection{Insufficient depth can hurt}
-According to complexity theory of circuit, deep architectures is more efficient than shallow architectures in terms of computational elements and parameters required to represent some functions. \citep{bengio2007scaling}. \citet{haastad1987computational} found that a function (of $n$ inputs) which can be efficiently represented with $O(n)$ nodes with a depth $d$, requires an exponential number ($O(2^n)$) of nodes if depth is $d-1$. \citep{bengio2007greedy}
+According to complexity theory of circuit, deep architectures is more efficient than shallow architectures in terms of computational elements and parameters required to represent some functions. \citep{bengio2007scaling}. Haastad found that a function (of $n$ inputs) which can be efficiently represented with $O(n)$ nodes with a depth $d$, requires an exponential number ($O(2^n)$) of nodes if depth is $d-1$. \citep{bengio2007greedy}
 
 \subsubsection{Cognitive processes seem deep}
 If you consider process of perceiving by humans, we always organize ideas and concepts hierarchically.  we first learn simple concepts and then compose them to represent more abstract ones. 
@@ -45,9 +45,57 @@ variation in data. This act as initialization step. Hence, instead of doing a ra
 
 \section{Deep Belief Networks}
 Hinton showed that Restricted Boltzmann Machines (RBMs) can be stacked and trained in a greedy manner to form so-called Deep Belief Networks (DBN) \cite{hinton2006reducing}. Deep Belief Network is graphical model which learns to extract a deep hierarchical representation of data. First, an unsupervised training is performed on each layer (RBM) in a greedy manner. Then fine-tune network based on a supervised training criterion.
-\begin{figure}
+\begin{figure}[!ht]
 \includegraphics[scale=1]{./imgs/RBM_Train.eps} 
 \caption{Training of DBN}
 \end{figure}
 
-RBM is an energy-based model. Energy based models has a scalar value (energy) to each configuration of variables. The Energy function $E(v,h)$ is defined as 
+RBM is an energy-based model. Energy based models has a scalar value (energy) to each configuration of variables. A graphical depiction of an RBM is shown in figure \ref{fig:rbm_layer}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale=0.9]{./imgs/rbm.eps}
+    \caption{A Restricted Boltzmann Machine Layer}
+    \label{fig:rbm_layer}
+\end{figure}%
+
+The Energy function $E(v,h)$ is defined as 
+$$E(v,h) = - b'v - c'h - h'Wv$$
+where $W$ is weights between hidden and visible units and $b \& c$  are the offsets of the visible($v$) and hidden layers($h$) respectively. Like other Energy based model RBM also uses free energy (inspired from physics), which is defined as
+$$\mathcal{F}(v) = -log \sum_{h}{e^{-(E(v,h))}}  $$
+$$\mathcal{F}(v) = - b'v - \sum_i \log \sum_{h_i} e^{h_i (c_i + W_i v)}$$
+
+Since hidden nodes and visible nodes are conditionally independent and binary units (where $v_j \& h_i \in \{0,1\}$), we have 
+%\begin{equation} 
+\begin{align}
+p(h|v) &= \prod_i p(h_i|v) \\
+p(v|h) &= \prod_j p(v_j|h) \\
+P(h_i=1|v) &= sigm(c_i + W_i v) \label{eq:rbm_layers_prob1} \\
+P(v_j=1|h) &= sigm(b_j + W'_j h) \label{eq:rbm_layers_prob2}  
+\end{align}
+
+And hence free energy is 
+$$\mathcal{F}(v)= - b'v - \sum_i \log(1 + e^{(c_i + W_i v)})$$ %\label{eq:rbm_freeE}
+Probability distributions over visible vectors are defined in terms of the energy function/free energy.
+\begin{align*} 
+p(v) = \frac {e^{-E(v)}} {Z} \text{ with } Z = \sum_v e^{-E(v)} \\
+P(x) = \frac{e^{-\mathcal{F}(x)}}{Z} \text{ with } Z=\sum_x e^{-\mathcal{F}(x)}.
+\end{align*}
+Restricted Boltzmann machines are trained to maximize the product of probabilities assigned to some training set. It is usually difficult to determine this gradient analytically, as it involves the computation of $E_P[\frac{\partial \mathcal{F}(x)} {\partial \theta} ]$. This is nothing less than an expectation over all possible configurations of the input v (under the distribution P formed by the model). \cite{hinton2010practical}
+
+A faster learning alogarithm was proposed by Hinton \cite{hinton2002training,hinton2006reducing,hinton2010practical}. It starts by assigining the states of the visible units to a training vector. Then the states of hidden units are all computed in parallel using equation \ref{eq:rbm_layers_prob1}. Once binary states have been chosen for the hidden units, \textit{reconstruction} is produced by setting each $v_i$ to $1$ with a probability given by equation \ref{eq:rbm_layers_prob2}. This process is repeated for $k$ steps to produce $v'= v^{(k)}$ and $h' = h^{(k)}$. 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.3\textwidth]{./imgs/markov_chain.png}
+\caption{Markov chain, that uses alternating Gibbs sampling for training RBM layer}
+\label{fig:rbmmarkovChain}
+\end{figure}
+
+The change in the weights is given by
+$$ \Delta W = \eta ({vh^\mathsf{T}}_{data} - {v'h'^{\mathsf{T}}}_{recon}). $$
+where $\eta$ is learning rate. Outer product of $v \& h$ and called as the positive gradient and that of of $v' \& h'$ as negative gradient. A similar learning rule that uses the states of individual units is used for the adaption of biases. This process is called \textbf{Contrastive Divergence (CD-k)}. And in practice, $k=1$ has been shown to work surprisingly well \cite{hinton2010practical}.
+
+\section{Deep Belief Networks}
+
+\section{Deep Belief Networks}
+
