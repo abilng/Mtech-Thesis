@@ -116,12 +116,54 @@ The participle behind \emph{denoising autoencoders (dA)} is that, \textit{in ord
 \end{figure}
 
 \section{Convolutional Neural Networks}
-\emph{Convolutional Neural Network (CNN)} is a varient of Multilayer perceptron  and inspired by biological processes (From complex arrangement of cells in the cat’s visual cortex). Convolutional Neural Networks are designed to use less amount of preprocessing \cite{lecun1998gradient}. It was Introduced by Fukushima in 1980 and later  improved by \citet{lecun1998gradient}. CNNs are widely used as models for  image/video recognition. CNNs make use of local receptive fields, shared weights and spatial sub-sampling to ensure some degree of shift, scale and distortion invariance.
+\emph{Convolutional Neural Network (CNN)} is a variant of Multilayer perceptron  and inspired by biological processes (From complex arrangement of cells in the cat’s visual cortex). Convolutional Neural Networks are designed to use less amount of preprocessing \cite{lecun1998gradient}. It was Introduced by Fukushima in 1980 and later  improved by \citet{lecun1998gradient}. CNNs are widely used as models for  image/video recognition. CNNs make use of local receptive fields, shared weights and spatial sub-sampling to ensure some degree of shift, scale and distortion invariant.
 
-CNNs tries to capture high level feature of input images  has following layers:
+\noindent Two key idea of Convolutional Neural Network are
 \begin{itemize}
-\item Convolution
-\item Subsampling
+\item \textsc{Sparse Connectivity:} The inputs of hidden units in layer $m$ are from a subset of units in layer $m-1$, units that have spatially contiguous receptive fields. This create a receptive field behavior and hence ensure that filters produce strong response to a spatially local pattern in input.
+
+
+\item \textsc{Shared Weights:} Each filter $h_i$ of CNN is replicated. These replicated units share the same weight vector and bias and form a feature map. This not only reduces the number of free parameters to be estimated but also make CNN to learn position invariant feature detection.
 \end{itemize}
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\textwidth]{./imgs/convolution.png} 
+\caption[convolutional layer explained]{An example of a convolutional layer. Layer $m-1$ contains 4 feature maps and layer $m$ contains 2 feature maps ($h^0$ and $h^1$). Pixels in $h^0$ and $h^1$ (blue and red squares) are computed from pixels of layer $(m-1)$ which are within their $2\times2$ receptive field in the layer below (colored rectangles).}
+\label{fig:cnn_layer}
+\end{figure}
 
+
+\noindent CNNs tries to capture high level feature of input images using following operations:
+\begin{itemize}
+\item \textsc{Convolution}: Most important operation of CNN is convolution. A \textit{feature map} is obtained by convolution of the input image with a linear filter and then applying a non-linear function. 
+$$h^k_{ij} = fn( (W^k * x)_{ij} + b_k ).$$
+Since this linear filter is applying repeatedly, the resulting connectivity act as a series of overlapping receptive fields
+\item \textsc{Sub Sampling}: Sub-sampling refers to reducing the overall size of a signal. The most commonly used subsampling method is \textit{max pooling}. Max pooling divides the input into a set of non-overlapping sub-regions and, for each such sub-region, outputs the maximum value. It help in reduction of computation for higher layers. Moreover, it provides some form of translation invariance. 
+\end{itemize}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.9\textwidth]{./imgs/cnn1.png} 
+\caption[An example of a convolutional neural network]{A typical example of a CNN \footnote{From site: http://white.stanford.edu/}. }
+\label{fig:cnn_layer}
+\end{figure}
+
+
+Typically, Convolutional Neural Networks consists of a number of convolutional and subsampling layers optionally followed by fully connected layers (MLP). Some times we can use SVM instead of MLP. The input to a convolutional layer is a $m \times n \times r$ image where $m$ is the height and width of the image and $r$ is the number of channels (eg: 3 for RGB)/input feature maps. 
+
+\section{Summary}
+Deep learning algorithms attempts learn model high-level abstractions in data by help of multiple non-linear transformations. Deep Neural Networks is basically Artificial Neural Network with multiple hidden layers between input and output. Major characteristics  of Deep Learning are:
+\begin{itemize}
+\item They are usually Multilayered and Hierarchical.
+\item They contains Multiple non-linear transformations 
+\item They act as a feature extractors, they tries to high level abstract features from raw data.
+\end{itemize}
+
+Most of DNNs have greedy layer-wise training algorithm (pretraining) for initialization weights and followed by supervised fine-tuning.
+ 
+Deep Belief Network is made of stacking of RBM layers. RBM attempts to reduce Free energy of network, and trained by Contrastive Divergence.
+  
+Denoising Auto-encodes can be stacked to form SdA. The aim of denoising Auto-encodes to predict the original data from the it's corrupted version.
+
+Convolutional Neural Network contains a series of Convolution and sub sampling layers and optionally fully connected layer. CNN uses shared weights and spatial sub-sampling to ensure some degree of freedom from shift, scale and distortion of input.
