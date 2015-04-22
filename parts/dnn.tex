@@ -44,7 +44,7 @@ variation in data. This act as initialization step. Hence, instead of doing a ra
 \end{itemize}
 
 \section{Deep Belief Networks}
-Hinton showed that Restricted Boltzmann Machines (RBMs) can be stacked and trained in a greedy manner to form so-called Deep Belief Networks (DBN) \cite{hinton2006reducing}. Deep Belief Network is graphical model which learns to extract a deep hierarchical representation of data. First, an unsupervised training is performed on each layer (RBM) in a greedy manner. Then fine-tune network based on a supervised training criterion.
+Hinton showed that \emph{Restricted Boltzmann Machines (RBMs)} can be stacked and trained in a greedy manner to form so-called \emph{Deep Belief Networks (DBN)} \cite{hinton2006reducing}. Deep Belief Network is graphical model which learns to extract a deep hierarchical representation of data. First, an unsupervised training is performed on each layer (RBM) in a greedy manner. Then fine-tune network based on a supervised training criterion.
 \begin{figure}[!ht]
 \includegraphics[scale=1]{./imgs/RBM_Train.eps} 
 \caption{Training of DBN}
@@ -75,27 +75,53 @@ P(v_j=1|h) &= sigm(b_j + W'_j h) \label{eq:rbm_layers_prob2}
 
 And hence free energy is 
 $$\mathcal{F}(v)= - b'v - \sum_i \log(1 + e^{(c_i + W_i v)})$$ %\label{eq:rbm_freeE}
-Probability distributions over visible vectors are defined in terms of the energy function/free energy.
-\begin{align*} 
-p(v) = \frac {e^{-E(v)}} {Z} \text{ with } Z = \sum_v e^{-E(v)} \\
+Probability distributions over visible vectors are defined in terms of the free energy.
+%p(v) = \frac {e^{-E(v)}} {Z} \text{ with } Z = \sum_v e^{-E(v)} \\
+\begin{align*}
 P(x) = \frac{e^{-\mathcal{F}(x)}}{Z} \text{ with } Z=\sum_x e^{-\mathcal{F}(x)}.
 \end{align*}
 Restricted Boltzmann machines are trained to maximize the product of probabilities assigned to some training set. It is usually difficult to determine this gradient analytically, as it involves the computation of $E_P[\frac{\partial \mathcal{F}(x)} {\partial \theta} ]$. This is nothing less than an expectation over all possible configurations of the input v (under the distribution P formed by the model). \cite{hinton2010practical}
 
-A faster learning alogarithm was proposed by Hinton \cite{hinton2002training,hinton2006reducing,hinton2010practical}. It starts by assigining the states of the visible units to a training vector. Then the states of hidden units are all computed in parallel using equation \ref{eq:rbm_layers_prob1}. Once binary states have been chosen for the hidden units, \textit{reconstruction} is produced by setting each $v_i$ to $1$ with a probability given by equation \ref{eq:rbm_layers_prob2}. This process is repeated for $k$ steps to produce $v'= v^{(k)}$ and $h' = h^{(k)}$. 
+A faster learning algorithm was proposed by Hinton \cite{hinton2002training,hinton2006reducing,hinton2010practical}. It starts by assigining the states of the visible units to a training vector. Then the states of hidden units are all computed in parallel using equation \ref{eq:rbm_layers_prob1}. Once binary states have been chosen for the hidden units, \textit{reconstruction} is produced by setting each $v_i$ to $1$ with a probability given by equation \ref{eq:rbm_layers_prob2}. This process is repeated for $k$ steps to produce $v'= v^{(k)}$ and $h' = h^{(k)}$. 
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.3\textwidth]{./imgs/markov_chain.png}
-\caption{Markov chain, that uses alternating Gibbs sampling for training RBM layer}
+\caption[Markov chain of training RBM layer]{Markov chain, that uses alternating Gibbs sampling for training RBM layer. As $t \rightarrow \infty$, samples $(v^{(t)}, h^{(t)})$ are guaranteed to be accurate samples of $p(v,h)$}
 \label{fig:rbmmarkovChain}
 \end{figure}
 
 The change in the weights is given by
 $$ \Delta W = \eta ({vh^\mathsf{T}}_{data} - {v'h'^{\mathsf{T}}}_{recon}). $$
-where $\eta$ is learning rate. Outer product of $v \& h$ and called as the positive gradient and that of of $v' \& h'$ as negative gradient. A similar learning rule that uses the states of individual units is used for the adaption of biases. This process is called \textbf{Contrastive Divergence (CD-k)}. And in practice, $k=1$ has been shown to work surprisingly well \cite{hinton2010practical}.
+where $\eta$ is learning rate. Outer product of $v$ and $h$ and called as the positive gradient and that of of $v'$ and $h'$ as negative gradient. A similar learning rule that uses the states of individual units is used for the adaption of biases. This process is called \textbf{Contrastive Divergence (CD-k)}. In practice, $k=1$ has been shown to work exceptionally well \cite{hinton2010practical}.
 
-\section{Deep Belief Networks}
+\section{Stacked Denoising Autoencoders}
+\citet{vincent2010stacked} introduced the \emph{Stacked Denoising Auto-encoder (SdA)} which is an extension of the stacked auto-encoder. The denoising auto-encoders can be stacked to form a deep network by feeding the latent representation of the denoising auto-encoder found on the layer below, as input to the current layer. The unsupervised pre-training is done one layer at a time. Each layer is trained as a denoising auto-encoder by minimising the reconstruction error with respect of its input (which is the output code of the previous layer). Once all layers are \textit{pre-trained}, the network goes through a second stage of training called supervised \textit{fine-tuning} where we want to minimize prediction error on a supervised task.
 
-\section{Deep Belief Networks}
+The idea of auto-encoders has been part of the landscape of neural networks for decades. An auto-encoder is trained to encode the input $x$ into some representation $y = f(x)$ so that the input can be reconstructed from that representation. The auto-encoder has two components: the encoder $f:x \rightarrow y$ and the decoder $g:y\rightarrow z$. The reconstruction error can be computed in different ways, depending on the distributional assumptions on the input. More commonly used are:
+\begin{itemize}
+\item Traditional squared error.
+$$ L(\mathbf{x} \mathbf{z}) = || \mathbf{x} - \mathbf{z} ||^2$$
+\item If the inputs are either binary or considered to be binomial probabilities, then we can use cross-entropy of the reconstruction.
+$$L(\mathbf{x}, \mathbf{z}) = - \sum^d_{k=1}[\mathbf{x}_k \log \mathbf{z}_k + (1 - \mathbf{x}_k)\log(1 - \mathbf{z}_k)]$$
+\end{itemize}
+
+The participle behind \emph{denoising autoencoders (dA)} is that, \textit{in order to force the hidden layer to discover more robust features and prevent it from simply learning the identity, we train the autoencoder to reconstruct the input from a corrupted version of it} \cite{vincent2008extracting}. The denoising auto-encoder can be viewed as a stochastic version of the auto-encoder. The stochastic corruption process randomly sets some of the inputs (probability is called corruption rate) to zero and tries to predict the original vector from the it's corrupted vectors. Hence, \textit{able to predict any subset of variables from the rest} is a sufficient condition for completely capturing the joint distribution between a set of variables.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{./imgs/sda.eps}
+\caption[The denoising autoencoder architecture]{The denoising autoencoder architecture. An example $\mathbf{x}$ is stochastically corrupted to $\mathbf{\tilde{x}}$. The autoencoder then maps it to $\mathbf{y}$ (via encoder $f$) and attempts to reconstruct $\mathbf{x}$ via decoder $g$, producing reconstruction $\mathbf{z}$. Reconstruction error is measured by loss $L_{H}(\mathbf{x},\mathbf{z})$. }
+\label{fig:sdaChain}
+\end{figure}
+
+\section{Convolutional Neural Networks}
+\emph{Convolutional Neural Network (CNN)} is a varient of Multilayer perceptron  and inspired by biological processes (From complex arrangement of cells in the cat’s visual cortex). Convolutional Neural Networks are designed to use less amount of preprocessing \cite{lecun1998gradient}. It was Introduced by Fukushima in 1980 and later  improved by \citet{lecun1998gradient}. CNNs are widely used as models for  image/video recognition. CNNs make use of local receptive fields, shared weights and spatial sub-sampling to ensure some degree of shift, scale and distortion invariance.
+
+CNNs tries to capture high level feature of input images  has following layers:
+\begin{itemize}
+\item Convolution
+\item Subsampling
+\end{itemize}
+
 
