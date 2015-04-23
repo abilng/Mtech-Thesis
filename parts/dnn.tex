@@ -138,7 +138,7 @@ The participle behind \emph{denoising autoencoders (dA)} is that, \textit{in ord
 \begin{itemize}
 \item \textsc{Convolution}: Most important operation of CNN is convolution. A \textit{feature map} is obtained by convolution of the input image with a linear filter and then applying a non-linear function. 
 $$h^k_{ij} = fn( (W^k * x)_{ij} + b_k ).$$
-Since this linear filter is applying repeatedly, the resulting connectivity act as a series of overlapping receptive fields
+Since this linear filter is applying repeatedly, the resulting connectivity act as a series of overlapping receptive fields \cite{NIPS2012_4824}.
 \item \textsc{Sub Sampling}: Sub-sampling refers to reducing the overall size of a signal. The most commonly used subsampling method is \textit{max pooling}. Max pooling divides the input into a set of non-overlapping sub-regions and, for each such sub-region, outputs the maximum value. It help in reduction of computation for higher layers. Moreover, it provides some form of translation invariance. 
 \end{itemize}
 
@@ -150,7 +150,13 @@ Since this linear filter is applying repeatedly, the resulting connectivity act 
 \end{figure}
 
 Typically, Convolutional Neural Networks consists of a number of convolutional and subsampling layers optionally followed by fully connected layers (MLP). Some times we can use SVM instead of MLP. The input to a convolutional layer is a $m \times n \times r$ image where $m$ is the height and width of the image and $r$ is the number of channels (eg: 3 for RGB)/input feature maps. 
-TODO: 3dCNN????????????
+
+\subsection{3D Convolutional Neural Networks}
+3D Convolutional Neural Networks extracts features from both the spatial and the temporal domain by performing 3D convolutions, hence capturing the motion information from multiple adjacent frames.\cite{ji20133d} The value at $(x, y, z)$ on the $j^{th}$ feature map (in the $i^th$ layer) is given by
+$$v^{xyz}_{ij} = \tanh(b_{ij}+\sum_{m} \sum_{p=0}^{P_i-1} \sum_{q=0}^{Q_i-1} \sum_{r=0}^{R_i-1} w^{pqr}_{ijm} v^{(x+p)(y+q)(z+r)}_{(i−1)m}) $$
+where $P_i \times Q_i \times R_i$ is the size (height, width and depth along along the temporal
+dimension) of the 3D kernel and $w^{pqr}_{ijm}$ is the value of the kernel connected to the $m^{th}$ feature map in the previous layer. Similarly Pooling/Sub-sampling is done in both spatial and temporal domain.
+
 \section{Summary}
 Deep learning algorithms attempts learn model high-level abstractions in data by help of multiple non-linear transformations. Deep Neural Networks is basically Artificial Neural Network with multiple hidden layers between input and output. Major characteristics  of Deep Learning are:
 \begin{itemize}

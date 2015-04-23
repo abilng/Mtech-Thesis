@@ -1,0 +1,26 @@
+\chapter{Event Spotting on Video}
+\label{chap:event}
+
+\section{Introduction}
+As mentioned in chapter \ref{chap:intro}, our ultimate aim was to find all the events in the search video $(\mathcal{V})$ which are similar to the event in given query $(\mathcal{Q})$  for a given video ($\mathcal{V}$) and a query $(\mathcal{Q})$. Since video is temporal sequence we have to model temporal dependencies
+in the data at sub-event level. 
+
+Dynamic time warping is well known for it's ability to compare two time dependent sequences. Intuitively, the sequences are warped in a nonlinear fashion to match each other. Even though DTW was developed for compare different speech patterns in ASR (Automatic Speech Recognition), nowadays DTW has been applied to other fields \cite{muller2007information}.  So we decided to make use of DTW for comparing (and hence spotting events) in Query and Search Video.
+
+Now we have to extract effective features from video sequence so that features will be able to describe events  in video. We decided to make use of Deep Neural Network for extracting these features. 
+
+In this chapter, We will fist discuss why we preferred  DNN over classical feature extractors. In Section \ref{sec:event:unsupervised}, we go through different unsupervised methods attempted to answer the question \textit{``Will any unsupervised Deep Learning Techniques work for feature extraction ?"}. Later in section \ref{sec:event:supervised}, we go through experiments which uses supervised CNNs  
+
+\section{Why Deep Neural Networks?}
+\label{sec:event:why}
+
+
+\section{Unsupervised Methods}
+\label{sec:event:unsupervised}
+DBN
+Sda
+DCT + DBN 
+DCT + GMM
+\section{Supervised Methods}
+\label{sec:event:supervised}
+\section{Summary}
