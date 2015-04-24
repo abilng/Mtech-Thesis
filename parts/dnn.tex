@@ -94,43 +94,41 @@ The change in the weights is given by
 $$ \Delta W = \eta ({vh^\mathsf{T}}_{data} - {v'h'^{\mathsf{T}}}_{recon}). $$
 where $\eta$ is learning rate. Outer product $vh^\mathsf{T}$ is called as the positive gradient and that of of $v'$ and $h'$ as negative gradient. The Adaption of biases of hidden and visible layer is done by a similar learning method that uses the states of individual nodes. This process is called \textbf{Contrastive Divergence (CD-k)}. In practice, $k=1$ has been shown to work exceptionally well \cite{hinton2010practical}.
 
-\textit{\textbf{TODO:Correction}}
+\section{Stacked Denoising Auto-encoders}
+\citet{vincent2010stacked} introduced the \emph{Stacked Denoising Auto-encoder (SdA)} which is a modified version of the stacked auto-encoder. The Stacked Denoising Auto-encoder (SdA) is formed by stacking of denoising auto-encoders so that input of each layer ($dA_i$) is the hidden representation produced by the layer below ($dA_{i-1}$). The pre-training of SdA is performed on one layer at a time . Each layer is trained independently so that the reconstruction error with respect to input of current layer (output code of the previous denoising auto-encoder layer) is minimized. Once this unsupervised \textit{pre-training} is completed on all layers, the network goes through a second stage of training called supervised \textit{fine-tuning} where we want to minimize prediction error on a supervised task.
 
-\section{Stacked Denoising Autoencoders}
-\citet{vincent2010stacked} introduced the \emph{Stacked Denoising Auto-encoder (SdA)} which is an extension of the stacked auto-encoder. The denoising auto-encoders can be stacked to form a deep network by feeding the latent representation of the denoising auto-encoder found on the layer below, as input to the current layer. The unsupervised pre-training is done one layer at a time. Each layer is trained as a denoising auto-encoder by minimising the reconstruction error with respect of its input (which is the output code of the previous layer). Once all layers are \textit{pre-trained}, the network goes through a second stage of training called supervised \textit{fine-tuning} where we want to minimize prediction error on a supervised task.
-
-The idea of auto-encoders has been part of the landscape of neural networks for decades. An auto-encoder is trained to encode the input $x$ into some representation $y = f(x)$ so that the input can be reconstructed from that representation. The auto-encoder has two components: the encoder $f:x \rightarrow y$ and the decoder $g:y\rightarrow z$. The reconstruction error can be computed in different ways, depending on the distributional assumptions on the input. More commonly used are:
+The idea of auto-encoders has been part of the landscape of neural networks for decades. The aim auto-encoder is to encode the input $x$ into some latent representation $y = f(x)$ so that the input can be regenerated from the latent representation. The auto-encoder has two components: the encoder $f:x \rightarrow y$ and the decoder $g:y\rightarrow z$. The reconstruction error of Auto-encoder can be computed in different ways.  Appropriate error measure is determined by the distributional assumptions on the input. More commonly used are:
 \begin{itemize}
-\item Traditional squared error.
+\item Squared error.
 $$ L(\mathbf{x} \mathbf{z}) = || \mathbf{x} - \mathbf{z} ||^2$$
-\item If the inputs are either binary or considered to be binomial probabilities, then we can use cross-entropy of the reconstruction.
+\item If the inputs can be considered as binomial probabilities or inputs are binary, then we can use cross-entropy between input and reconstruction as Error Measure .
 $$L(\mathbf{x}, \mathbf{z}) = - \sum^d_{k=1}[\mathbf{x}_k \log \mathbf{z}_k + (1 - \mathbf{x}_k)\log(1 - \mathbf{z}_k)]$$
 \end{itemize}
 
-The participle behind \emph{denoising autoencoders (dA)} is that, \textit{in order to force the hidden layer to discover more robust features and prevent it from simply learning the identity, we train the autoencoder to reconstruct the input from a corrupted version of it} \cite{vincent2008extracting}. The denoising auto-encoder can be viewed as a stochastic version of the auto-encoder. The stochastic corruption process randomly sets some of the inputs (probability is called corruption rate) to zero and tries to predict the original vector from the it's corrupted vectors. Hence, \textit{able to predict any subset of variables from the rest} is a sufficient condition for completely capturing the joint distribution between a set of variables.
+The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in order to force the hidden layer to discover more robust features and prevent it from simply learning the identity, the auto-encoder is trained to reconstruct the input from a corrupted version of it} \cite{vincent2008extracting}. The denoising auto-encoder can be viewed as a stochastic version of the auto-encoder. The stochastic corruption process randomly make few of the inputs  to $0$ with a probability (called as corruption rate). Then auto-encoder tries to predict the original vector from the it's corrupted vectors. Hence, \textit{able to predict any subset of variables from the rest} is a adequate condition for effectively capturing the joint distribution between a set of variables.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\textwidth]{./imgs/sda.eps}
-\caption[The denoising autoencoder architecture]{The denoising autoencoder architecture. An example $\mathbf{x}$ is stochastically corrupted to $\mathbf{\tilde{x}}$. The autoencoder then maps it to $\mathbf{y}$ (via encoder $f$) and attempts to reconstruct $\mathbf{x}$ via decoder $g$, producing reconstruction $\mathbf{z}$. Reconstruction error is measured by loss $L_{H}(\mathbf{x},\mathbf{z})$. }
+\caption[The denoising auto-encoder architecture]{The denoising auto-encoder architecture. $\mathbf{\tilde{x}}$ is a corrupted version of  a train vector $\mathbf{x}$. The auto-encoder maps (encodes) $\mathbf{\tilde{x}}$ to $\mathbf{y}$ ($\mathbf{y} = f(\mathbf{\tilde{x}})$). Then auto-encoder attempts to reconstruct $\mathbf{x}$ , resulting $ \mathbf{z} = g(\mathbf{y}) $. Reconstruction error is measured by loss $L_{H}(\mathbf{x},\mathbf{z})$. }
 \label{fig:sdaChain}
 \end{figure}
 
 \section{Convolutional Neural Networks}
-\emph{Convolutional Neural Network (CNN)} is a variant of Multilayer perceptron  and inspired by biological processes (From complex arrangement of cells in the cat’s visual cortex). Convolutional Neural Networks are designed to use less amount of preprocessing \cite{lecun1998gradient}. It was Introduced by Fukushima in 1980 and later  improved by \citet{lecun1998gradient}. CNNs are widely used as models for  image/video recognition. CNNs make use of local receptive fields, shared weights and spatial sub-sampling to ensure some degree of shift, scale and distortion invariant.
+\emph{Convolutional Neural Network (CNN)} is a variant of Multilayer perceptron  and inspired by biological processes (From complex arrangement of cells in the cat's visual cortex). Convolutional Neural Networks are designed to use less amount of preprocessing \cite{lecun1998gradient}. It was Introduced by Fukushima in 1980 and later  improved by \citet{lecun1998gradient}. CNNs are widely used as image \& video recognition model. CNNs make use of local receptive fields, shared weights and spatial sub-sampling to ensure some degree of shift, scale and distortion invariant.
 
 \noindent Two key idea of Convolutional Neural Network are
 \begin{itemize}
 \item \textsc{Sparse Connectivity:} The inputs of hidden units in layer $m$ are from a subset of units in layer $m-1$, units that have spatially contiguous receptive fields. This create a receptive field behavior and hence ensure that filters produce strong response to a spatially local pattern in input.
 
 
-\item \textsc{Shared Weights:} Each filter $h_i$ of CNN is replicated. These replicated units share the same weight vector and bias and form a feature map. This not only reduces the number of free parameters to be estimated but also make CNN to learn position invariant feature detection.
+\item \textsc{Shared Weights:} Each filter $h_i$ of CNN is replicated. These replicated filters share the same weight vector and bias. This not only reduces the number of free parameters to be estimated but also make CNN to learn position invariant feature detection.
 \end{itemize}
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.6\textwidth]{./imgs/convolution.png} 
-\caption[convolutional layer explained]{An example of a convolutional layer. Layer $m-1$ contains 4 feature maps and layer $m$ contains 2 feature maps ($h^0$ and $h^1$). Pixels in $h^0$ and $h^1$ (blue and red squares) are computed from pixels of layer $(m-1)$ which are within their $2\times2$ receptive field in the layer below (colored rectangles).}
+\caption[convolutional layer explained]{An example convolutional layer. Layer $m-1$ contains 4 feature maps and layer $m$ contains 2 feature maps ($h^0$ and $h^1$). Pixels in $h^0$ and $h^1$ (blue and red squares) are computed from pixels of layer $(m-1)$ which are within their $2\times2$ receptive field in the layer below (colored rectangles).}
 \label{fig:cnn_layer}
 \end{figure}
 
@@ -140,23 +138,23 @@ The participle behind \emph{denoising autoencoders (dA)} is that, \textit{in ord
 \item \textsc{Convolution}: Most important operation of CNN is convolution. A \textit{feature map} is obtained by convolution of the input image with a linear filter and then applying a non-linear function. 
 $$h^k_{ij} = fn( (W^k * x)_{ij} + b_k ).$$
 Since this linear filter is applying repeatedly, the resulting connectivity act as a series of overlapping receptive fields \cite{NIPS2012_4824}.
-\item \textsc{Sub Sampling}: Sub-sampling refers to reducing the overall size of a signal. The most commonly used subsampling method is \textit{max pooling}. Max pooling divides the input into a set of non-overlapping sub-regions and, for each such sub-region, outputs the maximum value. It help in reduction of computation for higher layers. Moreover, it provides some form of translation invariance. 
+\item \textsc{Sub Sampling}: Sub-sampling refers to reducing the overall size of a signal. The most commonly used subsampling method is \textit{max pooling}. Max pooling divides the input into a set of sub-regions which are non-overlapping, and emits the maximum value in each such sub-region. It help in reduction of computation for higher layers. Moreover, it provides some form of translation invariance. 
 \end{itemize}
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.9\textwidth]{./imgs/cnn1.png} 
 \caption[An example of a convolutional neural network]{A typical example of a CNN \footnote{From site: http://white.stanford.edu/}. }
-\label{fig:cnn_layer}
+\label{fig:cnn}
 \end{figure}
 
 Typically, Convolutional Neural Networks consists of a number of convolutional and subsampling layers optionally followed by fully connected layers (MLP). Some times we can use SVM instead of MLP. The input to a convolutional layer is a $m \times n \times r$ image where $m$ is the height and width of the image and $r$ is the number of channels (eg: 3 for RGB)/input feature maps. 
 
 \subsection{3D Convolutional Neural Networks}
-3D Convolutional Neural Networks extracts features from both the spatial and the temporal domain by performing 3D convolutions, hence capturing the motion information from multiple adjacent frames.\cite{ji20133d} The value at $(x, y, z)$ on the $j^{th}$ feature map (in the $i^th$ layer) is given by
-$$v^{xyz}_{ij} = \tanh(b_{ij}+\sum_{m} \sum_{p=0}^{P_i-1} \sum_{q=0}^{Q_i-1} \sum_{r=0}^{R_i-1} w^{pqr}_{ijm} v^{(x+p)(y+q)(z+r)}_{(i−1)m}) $$
-where $P_i \times Q_i \times R_i$ is the size (height, width and depth along along the temporal
-dimension) of the 3D kernel and $w^{pqr}_{ijm}$ is the value of the kernel connected to the $m^{th}$ feature map in the previous layer. Similarly Pooling/Sub-sampling is done in both spatial and temporal domain.
+3D Convolutional Neural Networks extracts features from both the spatial and the temporal domain by performing 3D convolutions, hence capturing the motion information from multiple adjacent frames.\cite{ji20133d} The value at $(p, q, r)$ on the $j^{th}$ feature map (in the $i^th$ layer) is given by
+$$v^{pqr}_{ij} = \tanh(b_{ij}+\sum_{m} \sum_{x=0}^{X_i-1} \sum_{y=0}^{Y_i-1} \sum_{z=0}^{Z_i-1} w^{xyz}_{ijm} v^{(p+x)(q+y)(r+z)}_{(i−1)m}) $$
+where $X_i \times Y_i \times Z_i$ is the size (height, width and depth along along the temporal
+dimension) of the 3D kernel and $w^{xyz}_{ijm}$ is the cost of the 3D kernel connected to the $m^{th}$ feature map in the $i^{th}$ layer. Similarly Pooling/Sub-sampling is done in both spatial and temporal domain.
 
 \section{Summary}
 Deep learning algorithms attempts learn model high-level abstractions in data by help of multiple non-linear transformations. Deep Neural Networks is basically Artificial Neural Network with multiple hidden layers between input and output. Major characteristics  of Deep Learning are:
@@ -172,4 +170,4 @@ Deep Belief Network is made of stacking of RBM layers. RBM attempts to reduce Fr
   
 Denoising Auto-encodes can be stacked to form SdA. The aim of denoising Auto-encodes to predict the original data from the it's corrupted version.
 
-Convolutional Neural Network contains a series of Convolution and sub sampling layers and optionally fully connected layer. CNN uses shared weights and spatial sub-sampling to ensure some degree of freedom from shift, scale and distortion of input.
+Convolutional Neural Network contains a series of Convolution and sub sampling layers and optionally fully connected layer. CNN uses spatial sub-sampling and shared weights to provide some degree of freedom from shift, scale and distortion of input.
