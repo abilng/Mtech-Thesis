@@ -5,13 +5,13 @@ The major Problem in \textit{Machine Learning} is that in most of real world app
 
 According to \cite{deng2014deep}, \textit{``Deep learning is a set of algorithms in machine learning that attempt to model high-level abstractions in data by using model architectures composed of multiple non-linear transformations"}.They are also called deep structured learning or hierarchical learning. 
 
-Most of the successful deep learning methods uses principles of \textit{Artificial Neural Networks (ANN)}. Different deep learning architectures like  Deep Belief Networks (DBN) and Convolutional Neural Networks (CNNs) produced state-of-the-art results in different fields like image recognition, natural language processing and automatic speech recognition .
+Most of the successful deep learning methods uses principles of \textit{Artificial Neural Networks (ANN)}. Different deep learning architectures like Deep Belief Networks (DBN) and Convolutional Neural Networks (CNNs) produced state-of-the-art results in different fields like image recognition, natural language processing and automatic speech recognition.
 
 In this chapter we fist introduces Deep Neural Network and its bacic concepts in \ref{sec:dnn:dnn}. Later we briefly discuss common DNN architecture like \textit{CNNs, DBN, etc}.
 
 \section{Deep Neural Network}
 \label{sec:dnn:dnn}
-Artificial neural networks are family of statistical learning models inspired by the \textit{biological model of 1959 (by Nobel laureates T.Wiesel and D.~H.~Hubel)}. A \textit{DNN (Deep Neural Network)} can be considered as a form of  Artificial Neural Network, with multiple hidden layers. 
+Artificial neural networks are family of statistical learning models inspired by the \textit{biological model of 1959 (by Nobel laureates T.Wiesel and D.~H.~Hubel)}. A \textit{DNN (Deep Neural Network)} can be considered as a form of Artificial Neural Network, with multiple hidden layers. 
 
 
 \subsection{Motivations for Deep Architectures}
@@ -21,7 +21,7 @@ The Major motivations for deep architectures are the following:
 One of major motivation of Deep Architectures is deep structure of brain. For example, study of visual cortex, shows areas which contains representation of the input, and how signals are flowing from an area to the next. Each level defines different level of abstractions. And in higher level, more abstract features represented in terms of the lower-level features. Moreover, representation in brain is neither local nor dense distributed. These representation in brain are sparse (only 1\% of neurons are simultaneously active). 
 
 \subsubsection{Insufficient depth can hurt}
-According to complexity theory of circuit, compared to  shallow architectures, deep architectures are more efficient in terms of number of parameters and computational elements for representing functions\citep{bengio2007scaling}. Haastad found that a function (of $n$ inputs) which can be efficiently represented with $O(n)$ nodes with a depth $d$, requires an ($O(2^n)$) nodes if depth is $d-1$. \citep{bengio2007greedy}
+According to complexity theory of circuit, compared to shallow architectures, deep architectures are more efficient in terms of number of parameters and computational elements for representing functions\citep{bengio2007scaling}. Haastad found that a function (of $n$ inputs) which can be efficiently represented with $O(n)$ nodes with a depth $d$, requires an ($O(2^n)$) nodes if depth is $d-1$. \citep{bengio2007greedy}
 
 \subsubsection{Cognitive processes seem deep}
 If you consider process of perceiving by humans, we always organize ideas and concepts hierarchically. Humans first learns simple concepts and then composes these concepts for representing more abstract ones. 
@@ -43,7 +43,7 @@ So For training Deep Network, \citet{hinton2006reducing} proposed a greedy layer
 \end{itemize}
 
 \section{Deep Belief Networks}
-\citet{hinton2006reducing} introduced  \emph{Deep Belief Networks (DBN)} which is a stacking of \emph{Restricted Boltzmann Machines (RBMs)}. Deep Belief Networks can be trained in a greedy manner\cite{hinton2006reducing}. Deep Belief Network is graphical model which tries to represent data into a deep hierarchical features. First, an unsupervised training is performed on each layer (RBM) in a greedy manner. Then fine-tune network based on a supervised training criterion.
+\citet{hinton2006reducing} introduced \emph{Deep Belief Networks (DBN)} which is a stacking of \emph{Restricted Boltzmann Machines (RBMs)}. Deep Belief Networks can be trained in a greedy manner\cite{hinton2006reducing}. Deep Belief Network is graphical model which tries to represent data into a deep hierarchical features. First, an unsupervised training is performed on each layer (RBM) in a greedy manner. Then fine-tune network based on a supervised training criterion.
 \begin{figure}[!ht]
 \includegraphics[scale=1]{./imgs/RBM_Train.eps} 
 \caption{Training of DBN}
@@ -51,16 +51,16 @@ So For training Deep Network, \citet{hinton2006reducing} proposed a greedy layer
 
 RBM is an energy-based model. A graphical depiction of an RBM is shown in figure \ref{fig:rbm_layer}
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[scale=0.9]{./imgs/rbm.eps}
-    \caption{A Restricted Boltzmann Machine Layer}
-    \label{fig:rbm_layer}
+  \centering
+  \includegraphics[scale=0.9]{./imgs/rbm.eps}
+  \caption{A Restricted Boltzmann Machine Layer}
+  \label{fig:rbm_layer}
 \end{figure}%
 
 Like every other energy based models, RBM also has energy for every possible configuration of parameters. The Energy function of RBM, $E(v,h)$ is defined as: 
 $$E(v,h) = - b'v - c'h - h'Wv$$
-where $W$ is weights between hidden and visible units and $b$ and $c$  are the bias of the visible($v$) and hidden layers($h$) respectively. Like other Energy based models, RBM also uses free energy (inspired from physics), which is defined as
-$$\mathcal{F}(v) = -log \sum_{h}{e^{-(E(v,h))}}  $$
+where $W$ is weights between hidden and visible units and $b$ and $c$ are the bias of the visible($v$) and hidden layers($h$) respectively. Like other Energy based models, RBM also uses free energy (inspired from physics), which is defined as
+$$\mathcal{F}(v) = -log \sum_{h}{e^{-(E(v,h))}} $$
 $$\mathcal{F}(v) = - b'v - \sum_i \log \sum_{h_i} e^{h_i (c_i + W_i v)}$$
 
 Since hidden nodes and visible nodes are conditionally independent and binary units (where $v_j \& h_i \in \{0,1\}$), we have 
@@ -69,7 +69,7 @@ Since hidden nodes and visible nodes are conditionally independent and binary un
 p(h|v) &= \prod_i p(h_i|v) \\
 p(v|h) &= \prod_j p(v_j|h) \\
 P(h_i=1|v) &= sigm(c_i + W_i v) \label{eq:rbm_layers_prob1} \\
-P(v_j=1|h) &= sigm(b_j + W'_j h) \label{eq:rbm_layers_prob2}  
+P(v_j=1|h) &= sigm(b_j + W'_j h) \label{eq:rbm_layers_prob2} 
 \end{align}
 
 And hence free energy becomes 
@@ -95,27 +95,27 @@ $$ \Delta W = \eta ({vh^\mathsf{T}}_{data} - {v'h'^{\mathsf{T}}}_{recon}). $$
 where $\eta$ is learning rate. Outer product $vh^\mathsf{T}$ is called as the positive gradient and that of of $v'$ and $h'$ as negative gradient. The Adaption of biases of hidden and visible layer is done by a similar learning method that uses the states of individual nodes. This process is called \textbf{Contrastive Divergence (CD-k)}. In practice, $k=1$ has been shown to work exceptionally well \cite{hinton2010practical}.
 
 \section{Stacked Denoising Auto-encoders}
-\citet{vincent2010stacked} introduced the \emph{Stacked Denoising Auto-encoder (SdA)} which is a modified version of the stacked auto-encoder. The Stacked Denoising Auto-encoder (SdA) is formed by stacking of denoising auto-encoders so that input of each layer ($dA_i$) is the hidden representation produced by the layer below ($dA_{i-1}$). The pre-training of SdA is performed on one layer at a time . Each layer is trained independently so that the reconstruction error with respect to input of current layer (output code of the previous denoising auto-encoder layer) is minimized. Once this unsupervised \textit{pre-training} is completed on all layers, the network goes through a second stage of training called supervised \textit{fine-tuning} where we want to minimize prediction error on a supervised task.
+\citet{vincent2010stacked} introduced the \emph{Stacked Denoising Auto-encoder (SdA)} which is a modified version of the stacked auto-encoder. The Stacked Denoising Auto-encoder (SdA) is formed by stacking of denoising auto-encoders so that input of each layer ($dA_i$) is the hidden representation produced by the layer below ($dA_{i-1}$). The pre-training of SdA is performed on one layer at a time. Each layer is trained independently so that the reconstruction error with respect to input of current layer (output code of the previous denoising auto-encoder layer) is minimized. Once this unsupervised \textit{pre-training} is completed on all layers, the network goes through a second stage of training called supervised \textit{fine-tuning} where we want to minimize prediction error on a supervised task.
 
-The idea of auto-encoders has been part of the landscape of neural networks for decades. The aim auto-encoder is to encode the input $x$ into some latent representation $y = f(x)$ so that the input can be regenerated from the latent representation. The auto-encoder has two components: the encoder $f:x \rightarrow y$ and the decoder $g:y\rightarrow z$. The reconstruction error of Auto-encoder can be computed in different ways.  Appropriate error measure is determined by the distributional assumptions on the input. More commonly used are:
+The idea of auto-encoders has been part of the landscape of neural networks for decades. The aim auto-encoder is to encode the input $x$ into some latent representation $y = f(x)$ so that the input can be regenerated from the latent representation. The auto-encoder has two components: the encoder $f:x \rightarrow y$ and the decoder $g:y\rightarrow z$. The reconstruction error of Auto-encoder can be computed in different ways. Appropriate error measure is determined by the distributional assumptions on the input. More commonly used are:
 \begin{itemize}
 \item Squared error.
 $$ L(\mathbf{x} \mathbf{z}) = || \mathbf{x} - \mathbf{z} ||^2$$
-\item If the inputs can be considered as binomial probabilities or inputs are binary, then we can use cross-entropy between input and reconstruction as Error Measure .
+\item If the inputs can be considered as binomial probabilities or inputs are binary, then we can use cross-entropy between input and reconstruction as Error Measure.
 $$L(\mathbf{x}, \mathbf{z}) = - \sum^d_{k=1}[\mathbf{x}_k \log \mathbf{z}_k + (1 - \mathbf{x}_k)\log(1 - \mathbf{z}_k)]$$
 \end{itemize}
 
-The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in order to force the hidden layer to discover more robust features and prevent it from simply learning the identity, the auto-encoder is trained to reconstruct the input from a corrupted version of it} \cite{vincent2008extracting}. The denoising auto-encoder can be viewed as a stochastic version of the auto-encoder. The stochastic corruption process randomly make few of the inputs  to $0$ with a probability (called as corruption rate). Then auto-encoder tries to predict the original vector from the it's corrupted vectors. Hence, \textit{able to predict any subset of variables from the rest} is a adequate condition for effectively capturing the joint distribution between a set of variables.
+The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in order to force the hidden layer to discover more robust features and prevent it from simply learning the identity, the auto-encoder is trained to reconstruct the input from a corrupted version of it} \cite{vincent2008extracting}. The denoising auto-encoder can be viewed as a stochastic version of the auto-encoder. The stochastic corruption process randomly make few of the inputs to $0$ with a probability (called as corruption rate). Then auto-encoder tries to predict the original vector from the it's corrupted vectors. Hence, \textit{able to predict any subset of variables from the rest} is a adequate condition for effectively capturing the joint distribution between a set of variables.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\textwidth]{./imgs/sda.eps}
-\caption[The denoising auto-encoder architecture]{The denoising auto-encoder architecture. $\mathbf{\tilde{x}}$ is a corrupted version of  a train vector $\mathbf{x}$. The auto-encoder maps (encodes) $\mathbf{\tilde{x}}$ to $\mathbf{y}$ ($\mathbf{y} = f(\mathbf{\tilde{x}})$). Then auto-encoder attempts to reconstruct $\mathbf{x}$ , resulting $ \mathbf{z} = g(\mathbf{y}) $. Reconstruction error is measured by loss $L_{H}(\mathbf{x},\mathbf{z})$. }
+\caption[The denoising auto-encoder architecture]{The denoising auto-encoder architecture. $\mathbf{\tilde{x}}$ is a corrupted version of a train vector $\mathbf{x}$. The auto-encoder maps (encodes) $\mathbf{\tilde{x}}$ to $\mathbf{y}$ ($\mathbf{y} = f(\mathbf{\tilde{x}})$). Then auto-encoder attempts to reconstruct $\mathbf{x}$ , resulting $ \mathbf{z} = g(\mathbf{y}) $. Reconstruction error is measured by loss $L_{H}(\mathbf{x},\mathbf{z})$. }
 \label{fig:sdaChain}
 \end{figure}
 
 \section{Convolutional Neural Networks}
-\emph{Convolutional Neural Network (CNN)} is a variant of Multilayer perceptron  and inspired by biological processes (From complex arrangement of cells in the cat's visual cortex). Convolutional Neural Networks are designed to use less amount of preprocessing \cite{lecun1998gradient}. It was Introduced by Fukushima in 1980 and later  improved by \citet{lecun1998gradient}. CNNs are widely used as image \& video recognition model. CNNs make use of local receptive fields, shared weights and spatial sub-sampling to ensure some degree of shift, scale and distortion invariant.
+\emph{Convolutional Neural Network (CNN)} is a variant of Multilayer perceptron and inspired by biological processes (From complex arrangement of cells in the cat's visual cortex). Convolutional Neural Networks are designed to use less amount of preprocessing \cite{lecun1998gradient}. It was Introduced by Fukushima in 1980 and later improved by \citet{lecun1998gradient}. CNNs are widely used as image \& video recognition model. CNNs make use of local receptive fields, shared weights and spatial sub-sampling to ensure some degree of shift, scale and distortion invariant.
 
 \noindent Two key idea of Convolutional Neural Network are
 \begin{itemize}
@@ -157,7 +157,7 @@ where $X_i \times Y_i \times Z_i$ is the size (height, width and depth along alo
 dimension) of the 3D kernel and $w^{xyz}_{ijm}$ is the cost of the 3D kernel connected to the $m^{th}$ feature map in the $i^{th}$ layer. Similarly Pooling/Sub-sampling is done in both spatial and temporal domain.
 
 \section{Summary}
-Deep learning algorithms attempts learn model high-level abstractions in data by help of multiple non-linear transformations. Deep Neural Networks is basically Artificial Neural Network with multiple hidden layers between input and output. Major characteristics  of Deep Learning are:
+Deep learning algorithms attempts learn model high-level abstractions in data by help of multiple non-linear transformations. Deep Neural Networks is basically Artificial Neural Network with multiple hidden layers between input and output. Major characteristics of Deep Learning are:
 \begin{itemize}
 \item They are usually Multilayered and Hierarchical.
 \item They contains Multiple non-linear transformations 
@@ -167,7 +167,7 @@ Deep learning algorithms attempts learn model high-level abstractions in data by
 Most of DNNs have greedy layer-wise training algorithm (pretraining) for initialization weights and followed by supervised fine-tuning.
  
 Deep Belief Network is made of stacking of RBM layers. RBM attempts to reduce Free energy of network, and trained by Contrastive Divergence.
-  
+ 
 Denoising Auto-encodes can be stacked to form SdA. The aim of denoising Auto-encodes to predict the original data from the it's corrupted version.
 
 Convolutional Neural Network contains a series of Convolution and sub sampling layers and optionally fully connected layer. CNN uses spatial sub-sampling and shared weights to provide some degree of freedom from shift, scale and distortion of input.
