@@ -29,9 +29,13 @@
 \def\abovespace{\abovestrut{0.20in }}
 \def\aroundspace{\abovestrut{0.20in}\belowstrut{0.10in}}
 \def\belowspace{\belowstrut{0.10in}}
-%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand*{\rom}[1]{\expandafter\@slowromancap%\romannumeral #1@}
+\newcommand{\RN}[1]{%
+  \textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\def\thesistitle{Event Spotting  in Video using DNN features}
 \def\thesistitle{Deep Neural Network Toolkit  \& Event Spotting  in Video using DNN features}
 \def\thesisauthor{ABIL N GEORGE}

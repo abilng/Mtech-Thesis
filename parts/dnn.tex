@@ -43,16 +43,18 @@ So For training Deep Network, \citet{hinton2006reducing} proposed a greedy layer
 \end{itemize}
 
 \section{Deep Belief Networks}
-\citet{hinton2006reducing} introduced \emph{Deep Belief Networks (DBN)} which is a stacking of \emph{Restricted Boltzmann Machines (RBMs)}. Deep Belief Networks can be trained in a greedy manner\cite{hinton2006reducing}. Deep Belief Network is graphical model which tries to represent data into a deep hierarchical features. First, an unsupervised training is performed on each layer (RBM) in a greedy manner. Then fine-tune network based on a supervised training criterion.
+\citet{hinton2006reducing} introduced \emph{Deep Belief Networks (DBN)} which is a stacking of \emph{Restricted Boltzmann Machines (RBMs)}. Deep Belief Networks can be trained in a greedy manner\cite{hinton2006reducing}. Deep Belief Network is graphical model which tries to represent data into a deep hierarchical features. First, an unsupervised training is performed on each layer (RBM) in a greedy manner. Then fine-tune network based on a supervised training criterion.\\
 \begin{figure}[!ht]
-\includegraphics[scale=1]{./imgs/RBM_Train.eps} 
+\centering
+\includegraphics[width=1\textwidth]{./imgs/RBM_Train.eps} 
 \caption{Training of DBN}
 \end{figure}
 
-RBM is an energy-based model. A graphical depiction of an RBM is shown in figure \ref{fig:rbm_layer}
+Restricted Boltzmann Machine (RBM) is an energy-based model. A graphical representation of an RBM is shown in figure. \ref{fig:rbm_layer}.
+
 \begin{figure}[!ht]
   \centering
-  \includegraphics[scale=0.9]{./imgs/rbm.eps}
+  \includegraphics[width=0.5\textwidth]{./imgs/rbm.eps}
   \caption{A Restricted Boltzmann Machine Layer}
   \label{fig:rbm_layer}
 \end{figure}%
@@ -79,7 +81,7 @@ Probability distributions over visible vectors can be defined in terms of the fr
 \begin{align*}
 P(v) = \frac{e^{-\mathcal{F}(v)}}{Z} \text{, where } Z=\sum_v e^{-\mathcal{F}(v)}.
 \end{align*}
-Restricted Boltzmann machines are trained to maximize the product of probabilities assigned to some training set. It is very difficult to determine this gradient, because it requires to compute $E_P[\frac{\partial \mathcal{F}(v)} {\partial \theta} ]$. This is an expectation over all attainable configurations of input ($v$). \cite{hinton2010practical}
+Restricted Boltzmann machines are trained to maximize the product of probabilities assigned to some training set. It is almost impossible to determine this gradient, because it requires to compute $E_P[\frac{\partial \mathcal{F}(v)} {\partial \theta} ]$. This is an expectation over all attainable configurations of input ($v$). \cite{hinton2010practical}
 
 A faster learning algorithm was proposed by Hinton \cite{hinton2002training,hinton2006reducing,hinton2010practical}. It starts by assigning values in a training vector as the states of the visible nodes. Then the states of all hidden nodes are computed using equation \ref{eq:rbm_layers_prob1}. After binary states computed for the hidden units, each $v_i$ is made $1$ with a probability calculated by equation \ref{eq:rbm_layers_prob2} to produce a \textit{reconstruction}. This process is repeated for $k$ steps to produce $v'= v^{(k)}$ and $h' = h^{(k)}$. 
 
@@ -95,7 +97,7 @@ $$ \Delta W = \eta ({vh^\mathsf{T}}_{data} - {v'h'^{\mathsf{T}}}_{recon}). $$
 where $\eta$ is learning rate. Outer product $vh^\mathsf{T}$ is called as the positive gradient and that of of $v'$ and $h'$ as negative gradient. The Adaption of biases of hidden and visible layer is done by a similar learning method that uses the states of individual nodes. This process is called \textbf{Contrastive Divergence (CD-k)}. In practice, $k=1$ has been shown to work exceptionally well \cite{hinton2010practical}.
 
 \section{Stacked Denoising Auto-encoders}
-\citet{vincent2010stacked} introduced the \emph{Stacked Denoising Auto-encoder (SdA)} which is a modified version of the stacked auto-encoder. The Stacked Denoising Auto-encoder (SdA) is formed by stacking of denoising auto-encoders so that input of each layer ($dA_i$) is the hidden representation produced by the layer below ($dA_{i-1}$). The pre-training of SdA is performed on one layer at a time. Each layer is trained independently so that the reconstruction error with respect to input of current layer (output code of the previous denoising auto-encoder layer) is minimized. Once this unsupervised \textit{pre-training} is completed on all layers, the network goes through a second stage of training called supervised \textit{fine-tuning} where we want to minimize prediction error on a supervised task.
+\citet{vincent2010stacked} introduced the \emph{Stacked Denoising Auto-encoder (SdA)} which is a modified version of the stacked auto-encoder. The Stacked Denoising Auto-encoder (SdA) is formed by stacking of denoising auto-encoders so that input of each layer ($dA_i$) is the hidden representation produced by the layer below ($dA_{i-1}$). The pre-training of SdA is performed on one layer at a time. That is, each layer is trained independently so that the reconstruction error with respect to input of current layer (output of the previous denoising auto-encoder layer) is minimized. Once this unsupervised \textit{pre-training} is completed on all layers, the network undergoes a another stage of training called supervised \textit{fine-tuning} where aim is to minimize prediction error on a supervised task.
 
 The idea of auto-encoders has been part of the landscape of neural networks for decades. The aim auto-encoder is to encode the input $x$ into some latent representation $y = f(x)$ so that the input can be regenerated from the latent representation. The auto-encoder has two components: the encoder $f:x \rightarrow y$ and the decoder $g:y\rightarrow z$. The reconstruction error of Auto-encoder can be computed in different ways. Appropriate error measure is determined by the distributional assumptions on the input. More commonly used are:
 \begin{itemize}
@@ -105,7 +107,7 @@ $$ L(\mathbf{x} \mathbf{z}) = || \mathbf{x} - \mathbf{z} ||^2$$
 $$L(\mathbf{x}, \mathbf{z}) = - \sum^d_{k=1}[\mathbf{x}_k \log \mathbf{z}_k + (1 - \mathbf{x}_k)\log(1 - \mathbf{z}_k)]$$
 \end{itemize}
 
-The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in order to force the hidden layer to discover more robust features and prevent it from simply learning the identity, the auto-encoder is trained to reconstruct the input from a corrupted version of it} \cite{vincent2008extracting}. The denoising auto-encoder can be viewed as a stochastic version of the auto-encoder. The stochastic corruption process randomly make few of the inputs to $0$ with a probability (called as corruption rate). Then auto-encoder tries to predict the original vector from the it's corrupted vectors. Hence, \textit{able to predict any subset of variables from the rest} is a adequate condition for effectively capturing the joint distribution between a set of variables.
+The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in order to force the hidden layer to discover more robust features and prevent it from simply learning the identity, the auto-encoder is trained to reconstruct the input from a corrupted version of it} \cite{vincent2008extracting}. The denoising auto-encoder can be viewed as a stochastic version of the auto-encoder. The stochastic corruption process randomly make few of nodes in the inputs layer to $0$ with a probability (called as corruption rate). Then auto-encoder tries to predict the original vector from the it's corrupted vectors. Hence, \textit{able to predict any subset of variables from the rest} is a adequate condition for effectively capturing the joint distribution between a set of variables.
 
 \begin{figure}[ht]
 \centering
@@ -119,16 +121,16 @@ The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in ord
 
 \noindent Two key idea of Convolutional Neural Network are
 \begin{itemize}
-\item \textsc{Sparse Connectivity:} The inputs of hidden units in layer $m$ are from a subset of units in layer $m-1$, units that have spatially contiguous receptive fields. This create a receptive field behavior and hence ensure that filters produce strong response to a spatially local pattern in input.
+\item \textsc{Sparse Connectivity:} The inputs to hidden nodes in layer $m$ are from a subset of nodes in layer $m-1$, which have spatially contiguous receptive fields. This create a receptive field behavior and hence ensure that filters produce strong response to a spatially local pattern in input.
 
 
-\item \textsc{Shared Weights:} Each filter $h_i$ of CNN is replicated. These replicated filters share the same weight vector and bias. This not only reduces the number of free parameters to be estimated but also make CNN to learn position invariant feature detection.
+\item \textsc{Shared Weights:} Each filter $h_i$ of CNN is replicated. These replicated filters share the same weight matrix and bias vector. This replication of weights not only reduces the number of parameters to be estimated but also make CNN to learn position invariant feature detection.
 \end{itemize}
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.6\textwidth]{./imgs/convolution.png} 
-\caption[convolutional layer explained]{An example convolutional layer. Layer $m-1$ contains 4 feature maps and layer $m$ contains 2 feature maps ($h^0$ and $h^1$). Pixels in $h^0$ and $h^1$ (blue and red squares) are computed from pixels of layer $(m-1)$ which are within their $2\times2$ receptive field in the layer below (colored rectangles).}
+\caption[convolutional layer explained]{An example convolutional layer.  There are four feature maps in ${(m-1)}^{th}$ layer and two (represented by $h^0$ and $h^1$) in next ($m$). The blue and red squares denotes pixel values in feature maps ($h^0$ and $h^1$) in the $m^{th}$ layer. These pixels are computed from $(m-1)^{th}$ layer pixels that falls within the $2\times2$ receptive field of corresponding kernel (represented as colored rectangles).}
 \label{fig:cnn_layer}
 \end{figure}
 
@@ -137,8 +139,8 @@ The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in ord
 \begin{itemize}
 \item \textsc{Convolution}: Most important operation of CNN is convolution. A \textit{feature map} is obtained by convolution of the input image with a linear filter and then applying a non-linear function. 
 $$h^k_{ij} = fn( (W^k * x)_{ij} + b_k ).$$
-Since this linear filter is applying repeatedly, the resulting connectivity act as a series of overlapping receptive fields \cite{NIPS2012_4824}.
-\item \textsc{Sub Sampling}: Sub-sampling refers to reducing the overall size of a signal. The most commonly used subsampling method is \textit{max pooling}. Max pooling divides the input into a set of sub-regions which are non-overlapping, and emits the maximum value in each such sub-region. It help in reduction of computation for higher layers. Moreover, it provides some form of translation invariance. 
+Since this linear filter is applying repeatedly, the resulting connectivity act as a series of overlapping receptive fields \cite{KarpathyCVPR14}.
+\item \textsc{Sub Sampling}: Sub-sampling refers to reducing the overall size of a signal. The most commonly used subsampling method is \textit{max pooling}. Max pooling divides the input feature map into a collection of sub-regions which are non-overlapping, and emits the maximum value in each such sub-region. It help in reduction of computation for higher layers. Moreover, it provides some form of translation invariance. 
 \end{itemize}
 
 \begin{figure}[!ht]
