@@ -2,7 +2,7 @@
 \label{chap:event}
 
 \section{Introduction}
-As mentioned in chapter \ref{chap:intro}, our ultimate aim was to find all the events in the search video $(\mathcal{V})$ which are similar to the event in given query $(\mathcal{Q})$  for a given video ($\mathcal{V}$) and a query $(\mathcal{Q})$. Since video is temporal sequence we have to model temporal dependencies
+As mentioned in \nameref{chap:intro}, our ultimate aim was to find all the events in the search video $(\mathcal{V})$ which are similar to the event in given query $(\mathcal{Q})$  for a given video ($\mathcal{V}$) and a query $(\mathcal{Q})$. Since video is temporal sequence we have to model temporal dependencies
 in the data at sub-event level. 
 
 \textit{Dynamic Time Warping (DTW)} is well known for it's ability to compare two time dependent sequences. Intuitively, the sequences are warped in a nonlinear fashion to match each other. Even though DTW was developed for compare different speech patterns in ASR (Automatic Speech Recognition), nowadays DTW has been applied to other fields \cite{muller2007information}.  So we decided to make use of DTW for comparing (and hence spotting events) in Query and Search Video.
@@ -93,15 +93,16 @@ Classification result of 3d-CNN was biased on both datasets, Almost all of data 
 \subsection{CNN with color map feature}
 \citet{KarpathyCVPR14} showed that single-frame architecture with color map as input will produce satisfactory results. So each frame of videos with reduced resolution is fed into CNN model with 3 color channel (RGB) as input feature maps.
 
-In case of basketball dataset, input is size of $X \times Y \times 3$. Using shorthand notation, the full architecture is $C(15, 15, 10)-P(4, 4)-C(5, 5, 10)-P(2, 2)-FC(500)$. $C(X, Y, K)$ denotes convolutional layer with $K$ kernels of size $X \times Y$. Max-Pooling layer of size $X \times Y$ is represented as $P(X,Y)$. $FC(N)$ represents a fully connected layer with $N$ nodes. 
+In case of basketball dataset, input is size of $144 \times 256 \times 3$. Using shorthand notation, the full architecture is $C(15, 15, 10)-P(4, 4)-C(5, 5, 10)-P(2, 2)-FC(500)$. $C(X, Y, K)$ denotes convolutional layer with $K$ kernels of size $X \times Y$. Max-Pooling layer of size $X \times Y$ is represented as $P(X,Y)$. $FC(N)$ represents a fully connected layer with $N$ nodes. 
 
-For MSR dataset size of input is $X \times Y \times 3$. The full architecture of CNN is $C(10, 10, 7)-P(2, 2)-C(5, 5, 5)-P(2, 2)-FC(100)$
+For MSR dataset size of input is $120 \times 160 \times 3$. The full architecture of CNN is $C(10, 10, 7)-P(2, 2)-C(5, 5, 5)-P(2, 2)-FC(100)$
 
 The result of Experiments is shown in table \ref{table:cnn_res}.
 
 We found that CNN with single frame will give better classification accuracy than 3D-CNN. We belief that it may be due to deficiency of data (3D-CNN has only $1/5^{th}$ of data point when compared to single frame CNN).
 
 Even though, MSR Dataset has produced good result, result of basketball dataset is poor. The reason behind this lies in the fact that basketball dataset has more camera motion, motion blur and scaling compared to MSR dataset.
+
 
 \begin{table}[h]
 \centering
@@ -113,13 +114,16 @@ Method & OSUPEL Basketball& MSR Action\\
 \hline
 3D-CNN  &24.769\%   &39.063\% \\
 \hline
-CNN with color map  &69.375\%   &85.687\% \\
+CNN with color map  &69.375\%   &76.687\% \\
 \hline
 CNN with frame-difference &&\\
-and edge detection &84.219\%   &91.508\% \\
+and edge detection &84.219\%   &90.508\% \\
 \hline
 HOG-MHI+Hierarchical &&\\
-Motion Filter  & -  &78.8\% \\
+Motion Filter \footnote{14}  & -  &78.80\% \\
+\hline
+&&\\
+  & -  &81.54\% \\
 \hline
  &&\\
  & 79.98\%   & - \\
@@ -128,6 +132,7 @@ Motion Filter  & -  &78.8\% \\
 \caption[Classification Accuracy]{Classification Accuracy}
 \label{table:cnn_res}
 \end{table} 
+
 
 \subsection{CNN with frame-difference and edge detection}
 

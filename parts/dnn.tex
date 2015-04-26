@@ -1,9 +1,9 @@
-\chapter{Todo-rename-DNN}
+\chapter{Deep Neural Networks}
 \label{chap:dnn}
 \section{Introduction}
 The major Problem in \textit{Machine Learning} is that in most of real world applications, many factors of variation influence every single piece of data. Most of real world applications require us to disentangle these factors of variation in data and discard the ones which we don't care about. But it can be very difficult to extract these high level abstract features from raw data obtained. \textit{Deep learning} aims solves this problem in representation learning by introducing representations that are expressed in terms of other, simpler representations.
 
-According to \cite{deng2014deep}, \textit{``Deep learning is a set of algorithms in machine learning that attempt to model high-level abstractions in data by using model architectures composed of multiple non-linear transformations"}.They are also called deep structured learning or hierarchical learning. 
+According to \cite{deng2014deep}, \textit{``Deep learning is a set of algorithms in machine learning that attempt to model high-level abstractions in data by using model architectures composed of multiple non-linear transformations"}.They are also called hierarchical learning or deep structured learning. 
 
 Most of the successful deep learning methods uses principles of \textit{Artificial Neural Networks (ANN)}. Different deep learning architectures like Deep Belief Networks (DBN) and Convolutional Neural Networks (CNNs) produced state-of-the-art results in different fields like image recognition, natural language processing and automatic speech recognition.
 
@@ -11,7 +11,7 @@ In this chapter we fist introduces Deep Neural Network and its bacic concepts in
 
 \section{Deep Neural Network}
 \label{sec:dnn:dnn}
-Artificial neural networks are family of statistical learning models inspired by the \textit{biological model of 1959 (by Nobel laureates T.Wiesel and D.~H.~Hubel)}. A \textit{DNN (Deep Neural Network)} can be considered as a form of Artificial Neural Network, with multiple hidden layers. 
+Artificial neural networks are family of statistical learning models inspired by the \textit{biological model of 1959 (by Nobel prize winners T.Wiesel and D.~H.~Hubel)}. A \textit{DNN (Deep Neural Network)} can be considered as a form of Artificial Neural Network, with multiple hidden layers. 
 
 
 \subsection{Motivations for Deep Architectures}
@@ -97,7 +97,7 @@ $$ \Delta W = \eta ({vh^\mathsf{T}}_{data} - {v'h'^{\mathsf{T}}}_{recon}). $$
 where $\eta$ is learning rate. Outer product $vh^\mathsf{T}$ is called as the positive gradient and that of of $v'$ and $h'$ as negative gradient. The Adaption of biases of hidden and visible layer is done by a similar learning method that uses the states of individual nodes. This process is called \textbf{Contrastive Divergence (CD-k)}. In practice, $k=1$ has been shown to work exceptionally well \cite{hinton2010practical}.
 
 \section{Stacked Denoising Auto-encoders}
-\citet{vincent2010stacked} introduced the \emph{Stacked Denoising Auto-encoder (SdA)} which is a modified version of the stacked auto-encoder. The Stacked Denoising Auto-encoder (SdA) is formed by stacking of denoising auto-encoders so that input of each layer ($dA_i$) is the hidden representation produced by the layer below ($dA_{i-1}$). The pre-training of SdA is performed on one layer at a time. That is, each layer is trained independently so that the reconstruction error with respect to input of current layer (output of the previous denoising auto-encoder layer) is minimized. Once this unsupervised \textit{pre-training} is completed on all layers, the network undergoes a another stage of training called supervised \textit{fine-tuning} where aim is to minimize prediction error on a supervised task.
+\citet{vincent2010stacked} introduced the \emph{Stacked Denoising Auto-encoder (SdA)} which is a modified version of the stacked auto-encoder. The Stacked Denoising Auto-encoder (SdA) is formed by stacking of denoising auto-encoders so that input of each layer ($dA_i$) is the hidden representation produced by the layer below ($dA_{i-1}$). The pre-training of SdA is performed on one layer at a time. That is, every layer is trained independently so that the reconstruction error with respect to input of current layer (output of the previous denoising auto-encoder layer) is minimized. Once this unsupervised \textit{pre-training} is completed on all layers, the network undergoes a another stage of training called supervised \textit{fine-tuning} where aim is to make prediction error of the supervised task minimum.
 
 The idea of auto-encoders has been part of the landscape of neural networks for decades. The aim auto-encoder is to encode the input $x$ into some latent representation $y = f(x)$ so that the input can be regenerated from the latent representation. The auto-encoder has two components: the encoder $f:x \rightarrow y$ and the decoder $g:y\rightarrow z$. The reconstruction error of Auto-encoder can be computed in different ways. Appropriate error measure is determined by the distributional assumptions on the input. More commonly used are:
 \begin{itemize}

@@ -1,14 +1,25 @@
 % Introduction.
-\chapter{INTRODUCTION}
+\chapter{Introduction}
 \label{chap:intro}
 
-\section{Raw TODO}
+The amount of video information has dramatically increased in last decade fueled by the advancement of multimedia applications. Video traffic is expected to be  79 percent of all Internet traffic by 2018 \footnote{Cisco Visual Networking Index: Forecast and Methodology, 2013-2018}. According to YouTube, in every minute approx.300 hours of video are uploaded\footnote{https://www.youtube.com/yt/press/statistics.html}. This exponential growth of the video data, demands for intelligent video analysis and understanding.
 
-%\paragraph{Keyword spotting for video soundtrack indexing}
-%The amount of available video information is dramatically increasing due to the development of multimedia applications. As a consequence, content based retrieval tools are urgently needed for fast and easy access to multimedia database but also to movies and recorded video news. In particular, queries may rely on off-line indexing. Keyword spotting on video soundtracks could be of great help in this indexation process and in the future associated with pattern or event recognition out of the strictly visual information. Specific constraints for this application are identified and a solution based on phonemic lattices is proposed. The word spotter achieves indexing on open vocabularies uttered by any speaker. It is fast enough for practical applications and does not require much additional stored information
+Video event detection is plays an important role in the intelligent video analysis. The Event detection includes identifying the temporal range of the event (i.e.when) or the location of the event (i.e. where). The identifying the temporal range of the event is specifically called as event spotting. 
 
-%\paragraph{Event based indexing of broadcasted sports video by intermodal collaboration}
-%In this paper, we propose event-based video indexing, which is a kind of indexing by its semantical contents. Because video data is composed of multimodal information streams such as visual, auditory, and textual [closed caption (CC)] streams, we introduce a strategy of intermodal collaboration, i.e., collaborative processing taking account of the semantical dependency between these streams. Its aim is to improve the reliability and efficiency in contents analysis of video. Focusing here on temporal correspondence between visual and CC streams, the proposed method attempts to seek for time spans in which events are likely to take place through extraction of keywords from the CC stream and then to index shots in the visual stream. The experimental results for broadcasted sports video of American football games indicate that intermodal collaboration is effective for video indexing by the events such as touchdown (TD) and field goal (FG)
+Our initial aim is to detect events in a video which are similar to the event in the given query video. The demand for such a problem came from existing video search engines. Current video search engines are made by thorough indexing of \textit{metadata} contained in video descriptions. Making such a detailed description is very hard. These \textit{metadata} may not describe all the events in a video with exact time of occurrence. Usually a viewer might not watch a whole video and will be interested only in specific events or highlights. For example, the goals and goal attempts get the most attention in football.
 
-%\paragraph{Temporal Sequence Modeling for Video Event Detection} 
-%The exponential growth of video content today creates a great need for methods of intelligent video analysis and understanding. Among them, video event detection plays a central role in many applications such as surveillance, topic discovery and content retrieval.   The task  of event detection involves identifying the temporal range of an event in a video (i.e.when) and sometimes the location of the event as well (i.e. where).  While there have been increasing efforts recently to tackle this problem, it remains rather challenging due to compounding issues such as large intra-variances of  events,  varied  durations of  events  and  the  presence  of background clutter
+In last decade, \textit{deep learning} has become a  buzzword in Machine learning community. Deep Neural Networks have produced exciting results on various problems in text, speech and image/video processing. DNNs are able to learn the feature representation directly from input. According to Hinton, deep bottleneck features have ability to represent input as more informative as DNNs are learning to represent input as abstract concepts. We are using different Deep Neural networks for extracting feature from video.
+
+Our intuition was using deep bottleneck feature and dynamic time warping, we will be able to spot events on video based on a query video sequence. While attempting  to get better deep bottleneck feature we have found a new  way of event recognition in video using CNN on frame difference and edge.
+
+With advancements on GPU hardware have enabled DNNs to scale to networks of millions of parameters. We have developed a Deep Neural Network toolkit which can run both on GPU and CPU architectures seamlessly: \textit{Python-DNN}. Python-DNN can also act as a standalone library.
+
+\subsubsection{Major Contributions}
+\begin{itemize}
+\item Developed a Deep Neural Network toolkit-\textit{Python-DNN}. 
+\item Experimented with different deep bottle neck features for Event Spotting.
+\item Proposed a novel approach to event recognition in video using CNN.
+\end{itemize}
+
+\subsubsection{Organization of thesis}
+The chapter \ref{chap:dnn} will discuss about the different deep learning techniques existing in machine learning community which are used in different stages of Work. The homegrown deep neural network toolkit is briefly discussed in chapter \ref{chap:toolkit}. Chapter titled \nameref{chap:event} (\ref{chap:event}) contains different experiments for event spotting in video and it's results  

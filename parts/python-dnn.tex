@@ -1,0 +1,280 @@
+\appendix
+\label{app:pythondnn}
+\chapter{How to Use : Python-DNN}
+%\label{app:pythondnn}
+\section{Installation}
+\subsection{As Toolkit}
+
+\noindent \textit{Python-DNN} is hosted publicly in github. One can get latest version by cloning git repository.
+\begin{lstlisting}[language=bash,basicstyle=\small] 
+$ git clone git://github.com/IITM-DONLAB/python-dnn.git
+\end{lstlisting}
+Or one can get tarball from \\
+\url{https://github.com/IITM-DONLAB/python-dnn/tarball/master}
+
+\subsubsection{Dependencies}
+\begin{itemize}
+	\item \href{https://www.python.org/downloads/}{Python} ($\geq2.6$, $< 3.0$),
+	\item \href{http://www.numpy.org/}{NumPy} ($\geq 1.6.1$),
+	\item \href{http://www.deeplearning.net/software/theano/install.html#install}{Theano} ($\geq 0.7$)
+	\item \href{http://matplotlib.org/}{matplotlib} ($\geq 1.4.3$).
+\end{itemize}
+
+\subsection{As Library}
+\textit{Python-DNN} can be installed as a library via 
+\textit{pip or easy\_install}.
+\begin{lstlisting}[language=bash,basicstyle=\small] 
+# pip install https://github.com/IITM-DONLAB/python-dnn/zipball/master
+\end{lstlisting}
+
+\section{Toolkit Configuration} 
+All configation files are in json format.
+\subsection{Model Configuration (model.conf)}
+\begin{table}[h]
+   \begin{center}
+   \begin{tabular}{|l|p{10cm}|l|} \hline
+   	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
+     *nnetType & type of Network (CNN/RBM/SDA/DNN) & \\
+     *train\_data & working directory containing data configuration and output \\ \hline
+	 *wdir & working directory & \\ \hline
+ 	 *data\_spec & path for data sepification relative to model.conf & \\ \hline
+	 *nnet\_spec & path for network configuration specification relative to model.conf & \\ \hline
+	 *output\_file & path for network model file relative to wdir & \\ \hline
+	 input\_file & path for pre-trained/fine-tuned model relative to wdir. & \\ \hline
+	 random\_seed & random seed for initialization of weights & none \\ \hline
+	 logger\_level & logger level : `INFO',`DEBUG' and `ERROR' & `INFO' \\ \hline
+	 batch\_size & mini batch size  & 128 \\ \hline
+	 *n\_ins & input dimension  & \\ \hline
+	 *n\_outs & output dimension (num classes) & \\ \hline
+	 finetune\_params& Refer \nameref{subsec:finetuneparam}	&  \\ \hline
+	 pretrain\_params& Refer \nameref{subsec:pretrainparam}	&  \\ \hline
+	 export\_path &  path for writting (bottleneck) features relative to model.conf & \\ \hline 	 
+	 processes & 
+	 	\begin{tabular}{r|p{6cm}} %\hlne
+	 	 pretraining & to do pre-training or not \\
+	 	 finetuning & to do fine-tuning or not \\
+	 	 testing & to do testing or not \\
+	 	 export\_data & to do feat extraction or not. If true export\_path is mandatory \\
+ 	   \end{tabular}	
+	 & false \\ \hline
+	 save\_freq & epoch interval for saving model & \\ \hline 	 	
+   \end{tabular}		
+   \end{center}
+ \end{table} 
+
+\subsubsection{Pretraining Parameters}
+\label{subsec:pretrainparam}
+\emph{pretrain\_params}: Configuration of pretraining method. It contains a json object with following parameters:
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|p{6cm}|}
+\hline
+ Param	 & Default value	 & nnet Type	 & Description\\
+\hline
+ \emph{gbrbm\_learning\_rate}	 &     0.005	 &    DBN	 & Pretraining learning rate for gbrbm layer.\\
+ \emph{learning\_rate}	 &      0.08	 &  SDA,DBN	 & Pretraining learning rate (DBN: for all layers except gbrbm layer)\\
+ \emph{epochs}	 &       15	 &    DBN	 & No of Pretraining epochs\\
+ \emph{initial\_momentum}	 &      0.5	 &    DBN	 & The initial momentum factor while pre-training\\
+ \emph{final\_momentum}	 &      0.9	 &    DBN	 & The final momentum factor while pre-training\\
+ \emph{initial\_momentum\_epoch}	 &       5	 &    DBN	 & No: of epochs with the initial momentum factor before switching\\
+ \emph{keep\_layer\_num}	 &       0	 &  SDA,DBN	 & From which layer Pre-Trainig Should Start.\\
+ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Finetune Parameters}
+\label{subsec:finetuneparam}
+\emph{finetune\_params} contain configuration of fine-tune learning method.There are 2 learning rate adaption technique supported by toolkit. They are
+\begin{itemize}
+\item C: Constant learning rate: run `epoch\_num' iterations with `learning\_rate' unchanged
+\item E: Exponential decay: we start with the learning rate of \emph{start\_rate}; if the validation error reduction between two epochs is less than \emph{min\_derror\_decay\_start}, the learning rate is scaled by \emph{scale\_by} during each of the remaining epoch. The whole traing terminates when the validation error reduction between two epochs falls below \emph{min\_derror\_stop}. \emph{min\_epoch\_decay\_star} is the minimum epoch number after which scaling can only be performed.
+\end{itemize}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{parameter}	& \textbf{description} 				& \textbf{default}\\  \hline
+momentum 			& momentum factor for finetuning 	& \\
+method 				& E : exponential decay 			& C\\
+					& C : constant learning rate 		& \\
+learning\_rate   	& used for C 						& 0.08\\
+epoch\_num          & used for C 			 			& 10\\
+start\_rate         & used for E 						& 0.08 \\
+scale\_by           & used for E 						& 0.5\\
+min\_derror\_decay\_start& used for E 					& 0.05\\
+min\_derror\_stop   & used for E 						& 0.05 \\
+min\_epoch\_decay\_start  & used for E 					& 15\\
+\hline
+\end{tabular}
+\caption[]{finetune\_params' contains a json object with these parameters}
+\end{table}
+
+\clearpage
+
+\subsection{Data Configuration (data.conf)}
+\begin{table}[h]
+\begin{center}
+  \medskip  \small configuration for training/testing/validation.
+   \begin{tabular}{|l|p{8cm}|c|} \hline
+   	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
+ 	*base\_path & Base path of data. &  \\  \hline
+   	*filename &  train/test/val filename & \\  \hline
+	*partition & data size (in MiB) to be loaded in memory & \\  \hline
+	random & allow random ordering  & true \\  \hline
+	random\_seed & seed for random numbers if random is true & \\  \hline 
+	keep\_flatten & flatten vector or reshape to input\_shape & false \\  \hline
+	*reader\_type & reader type : NP/T1/T2. & \\  \hline		
+	*input\_shape & shape of input data & \\  \hline
+	*dim\_shuffle &  shuffle order of the input data &  \\ \hline
+  \end{tabular}		
+\end{center}
+\end{table} 
+\noindent For the purpose of using the toolkit data have to be in anyone of the file format.
+\begin{itemize}
+\item{\textbf {Numpy Format [NP]:}The dataset is stored as single file in binary format in following structur,
+\begin{lstlisting}[language=bash,basicstyle=\small] 
+<json-header>
+<structured numpy.array>
+<structured numpy.array>
+..
+\end{lstlisting}
+json-header  : featdim (dimension of input vector after flattening), input\_shape (shape of input).}
+
+\item{\textbf {Text File (One level header) [T1]:} The dataset contains a root file with list of  text file names corresponding to a class. It has following format,
+\begin{lstlisting}[language=bash,basicstyle=\small] 
+<feat_dim> <num_classes>
+<data_file1>
+<data_file2>
+..
+\end{lstlisting}
+data\_file correspond to individual class files with following structure,
+\begin{lstlisting}[basicstyle=\small] 
+<feat_dim> <num_feat_vectors(optional)>
+<feat_vector>
+<feat_vector>
+..
+\end{lstlisting}}
+
+\item{\textbf {Text File (Two level header) [T2]:} This format has got extra level of indirection, the root file has got following structure,
+\begin{lstlisting}[language=bash,basicstyle=\small] 
+<feat_dim> <num_classes>
+<class_index_file1>
+<class_index_file2>
+..
+\end{lstlisting}
+class\_index\_file constitute of list of data filenames belonging to single class, 
+\begin{lstlisting}[basicstyle=\small] 
+<data_file1>
+<data_file2>
+..
+\end{lstlisting}}
+\end{itemize}
+
+\subsection{Network Configuration (nnet.conf)}
+\begin{table}[!htbp]
+\begin{center}
+  \medskip  \small configuration of cnn
+   \begin{tabular}{|c|p{12cm}|} \hline
+   	\textbf{parameter} & \textbf{description} \\  \hline
+   	 cnn & 
+	 \begin{tabular}{c|p{9cm}} %\hlne
+	 layers+ & 
+		\begin{tabular}{r|p{6cm}} %\hlne
+		convmat\_dim & dimension of convolution weights \\  \hline
+		num\_filters & number of feature maps \\  \hline
+		poolsize & max-pooling dimensions \\  \hline
+		update & updated weight during training. \\  \hline
+		activation & activation function used by the layer \\ 
+		\end{tabular} \\ \hline
+	  activation & global activation function \\ \hline
+	  use\_fast & use pylearn2 library for faster computation \\ 
+ 	   \end{tabular}	 \\ \hline
+ 	 mlp & 
+	 \begin{tabular}{c|p{9cm}} %\hlne 
+	  layers &  hidden layer sizes \\ \hline
+	  adv\_activation & 
+		\begin{tabular}{r|p{6cm}} %\hlne
+			method &  'maxout','pnorm' \\ \hline
+			pool\_size & pool size (in pnorm) \\ \hline
+			pnorm\_order & norm order for pnorm. (Default: 1) \\
+		\end{tabular} \\ \hline
+	  activation & activation function for mlp layers. (if adv\_activation is used, then either 'linear','relu' or 'cappedrelu') \\ 
+ \end{tabular}	 \\ \hline
+  \end{tabular}		
+\end{center}
+ \end{table} 
+
+\begin{table}[!htbp] 
+ \begin{center}
+  	\medskip  \small configuration of dnn
+   	\begin{tabular}{|c|p{8cm}|c|} \hline
+   	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
+	*hidden\_layers &  RBM layer sizes. & \\ \hline
+	pretrained\_layers & number of layers  pre-trained. & 0 \\ \hline
+	activation & activation function for the layers. (if adv\_activation is used, then either 'linear','relu' or 'cappedrelu') & tanh or linear \\ \hline
+	max\_col\_norm & The max value of norm of gradients (in dropout and maxout)	& null \\ \hline
+	l1\_reg &  l1 norm regularization & 0 \\ \hline
+	l2\_reg &  l2 norm regularization & 0 \\ \hline
+	adv\_activation & 
+		\begin{tabular}{r|p{5cm}} %\hlne
+		method &  'maxout','pnorm' \\ \hline
+		pool\_size & pool size (in pnorm) \\ \hline
+		pnorm\_order & norm order for pnorm. (Default: 1) \\
+		\end{tabular} & \\ \hline
+	do\_dropout &  use dropout or not & false  \\ \hline
+	dropout\_factor & dropout factors for DNN layers. & [0.0] \\ \hline
+	input\_dropout\_factor & dropout factor for input features & 0.0 \\ \hline
+	\end{tabular}
+\end{center}
+\end{table} 
+ 
+\begin{table}[!htbp] 
+ \begin{center}
+  	\medskip  \small configuration of dbn (rbm)
+	\begin{tabular}{|c|p{8cm}|c|} \hline
+   	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
+	*hidden\_layers &  RBM layer sizes. & \\ \hline
+	activation & activation function for the layers. & tanh \\ \hline
+	pretrained\_layers & number of layers  pre-trained. & 0 \\ \hline
+	first\_layer\_type & 'bb' (Bernoulli-Bernoulli) or 'gb' (Gaussian-Bernoulli) & gb  \\ 	\hline 
+	\end{tabular}		
+\end{center}
+\end{table} 
+\begin{table}[!htbp] 
+ \begin{center}
+  	\medskip  \small configuration of dbn (sda)
+	\begin{tabular}{|c|p{8cm}|c|} \hline
+   	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
+	*hidden\_layers &  hidden denoising autoencoder layer sizes & \\ \hline
+	activation & activation function for the layers & tanh \\ \hline
+	*corruption\_levels & corruption level for each layer &  \\ \hline
+	\end{tabular}		
+\end{center} 
+\end{table} 
+\noindent It is quite evident in all model configuration the activation functions are crucial. The activation function are used to transform the activation level of a unit (neuron) into an output signal. Generally, activation functions have a "squashing" effect. Python-DNN currently support following activation functions,
+\begin{itemize}
+\item {\textbf{sigmoid:} sigmoid function with equation: $f(x) = \frac{1}{(1 + \exp^{-x}}$. This is an S-shaped (sigmoid) curve, with output in the range $(0,1)$.}
+\item {\textbf{tanh:} hyperbolic tangent function is a sigmoid curve, like the logistic function, except that output lies in the range $(-1,+1)$.} 
+\item {\textbf{relu:} rectifier linear unit is an activation function defined as $f(x) = max(0, x)$}
+\item {\textbf{cappedrelu:} same as ReLU except we cap the units at 6.ie, $f(x) = min(max(x,0),6)$}
+\end{itemize}
+.\\
+Toolkit contain sample configuration (of MNIST and CIFAR dataset) in \textit{sample\_config/} folder
+\clearpage
+
+\section{Usage}
+
+\begin{enumerate}
+	\item Prepare Dataset: convert dataset to NP/T1/T2 formats.
+	\item Configure model: Note that CNN accepting an image with dimension $X \times Y$ with $K$ channel should have \textit{input\_shape} as $[K,X,Y]$
+	\item Configure data: Set the \textit{base\_path} and \textit{filename}. The parameter \textit{partition} need to be set properly in case of large dataset, assign value (in MB) less than primary memory/gpu memory. 
+	\item Configure neural net: nnet\_conf.json
+	\item Set environment flags: set \textit{device} to either cpu or gpu mode.
+	\begin{lstlisting}[language=bash,basicstyle=\small] 
+		export THEANO_FLAGS=device=cpu,floatX=float32
+	\end{lstlisting}
+	\item Run toolkit: The toolkit can be run by executing
+	\begin{lstlisting}[language=bash,basicstyle=\small] 
+		./python-dnn <model.conf>
+	\end{lstlisting}
+\end{enumerate}
