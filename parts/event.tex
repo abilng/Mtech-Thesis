@@ -120,13 +120,13 @@ CNN with frame-difference &&\\
 and edge detection &84.219\%   &90.508\% \\
 \hline
 HOG-MHI+Hierarchical &&\\
-Motion Filter \footnote{14}  & -  &78.80\% \\
+Motion Filter * \citep{tian2012hierarchical} & -  &78.80\% \\
 \hline
-&&\\
-  & -  &81.54\% \\
+MKL using&&\\
+$\chi^2$ kernel * \citep{zhao2014feature} & -  &81.54\% \\
 \hline
- &&\\
- & 79.98\%   & - \\
+ Using Probabilistic Ontologies&&\\
+ for Video Exploration * \citep{bustamante2012using} & 79.98\%   & - \\
 \hline  
 \end{tabular}
 \caption[Classification Accuracy]{Classification Accuracy}
@@ -204,7 +204,7 @@ GMM Mixtures & Threshold & Avg. Precision & Avg. Recall & F-measure\\
 \caption[Event spotting using GMM/VSM on CNN(Gray,Frame diff,Edge) bottleneck features (MSR Action Dataset) ]{ Precision \& Recall  of GMM/VSM on CNN bottleneck features (Basketball dataset)}
 \label{table:cnn_gmm_res_basket}
 \end{table}
-
+\pagebreak
 \subsubsection{DTW on bottleneck features}
 \textit{Dynamic Time Warping (DTW)} using deep bottleneck features extracted with help of the CNN model. DTW can be used for both event classification and spotting. In classification we have template sequence for each event type, and DTW of test sequence with each of the template sequence is performed and test sequence is classified as event which had least score (normalized). In event spotting we have query sequence and we have to find events in a test, so that event's DTW score(normalized) is less than a threshold.
 
@@ -244,9 +244,29 @@ Avg	&437.667	&228.667	&0.671\\
 \caption[Event classification using DTW on CNN bottleneck features (MSR Action dataset \RN{2}) ]{True Postive \& False Positive using DTW on CNN bottleneck features (MSR dataset)}
 \label{table:cnn_dtw_res_msr}
 \end{table} 
+\pagebreak
+\begin{figure}[ht]
+        \centering
+        \begin{subfigure}[b]{0.9\textwidth}
+        		\centering
+        		\includegraphics[width=\textwidth]{./imgs/MSR_DTW.eps}
+        		\caption{MSR Action Dataset}
+        \end{subfigure}
+        %~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+        
+        \begin{subfigure}[b]{0.9\textwidth}
+        			\centering
+                \includegraphics[width=\textwidth]{./imgs/Basket_DTW.eps}
+                \caption{Basketball dataset}
+        \end{subfigure}
+        \caption{ Histogram of Target score and Non-Target Score}
+        \label{fig:dtw_score}
+\end{figure}.
 
-The figure.\ref{fig:dtw} describe \textit{Target score vs Non-target} score of basketball dataset and MSR dataset. From the graph we can understand that by using DTW on bottleneck features we cannot perform event spotting.
+The figure.\ref{fig:dtw_score} describe \textit{Target score vs Non-target} score of basketball dataset and MSR dataset. From the graph we can understand that by using DTW on bottleneck features we cannot perform event spotting.
 
 \section{Summary}
 
-TODO .............
+The video event spotting is a non-trivial problem in the field of video analysis. We have tried to spot event in video using deep bottleneck features.
+
+We fist attempted to deep extract features which can describes events in video in a abstract scene using unsupervised methods. Later we experimented with supervised deep learning method for the same. Through these experiments, we have found that most of deep neural networks works only if we have humongous amount of data. Even though, Convolution neural network with pre-proceed frames as input has produced good recognition accuracy, the bottleneck feature are not discriminative enough for spotting the event (not using DTW).
