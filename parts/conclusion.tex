@@ -1,11 +1,11 @@
 \chapter{CONCLUSION AND FUTURE WORK} 
 \label{chap:concl}
 %%%
-Event spotting is the process of identifying the temporal range of the event in the video. We experimented using  different \textit{Deep Neural networks} for extracting deep bottleneck features from a video which are able to represent input as abstract concepts. We first attempted do bottleneck feature extraction with the help of unsupervised methods. Later, we experimented for same with the supervised \textit{convolutional neural network}.
+Event spotting is the process of identifying the temporal range of the event in the video. We experimented using  different \textit{deep neural networks} for extracting deep bottleneck features from a video which are able to represent input as abstract concepts. We first attempted  bottleneck feature extraction with the help of unsupervised methods. Later, we experimented for the same with the supervised \textit{convolutional neural network}.
 
-Through the experiments mentions in chapter \ref{chap:event}, we have found that for smaller dataset, deep neural networks have less impact.  The \textit{Convolution Neural Network (CNN)} with pre-proceed frames as input has produced good recognition accuracy, but its bottleneck features are not discriminative enough for spotting the event (not using DTW)
+Through the experiments mentions in chapter \ref{chap:event}, we have found that for smaller dataset, deep neural networks have less impact.  The \textit{convolution neural network (CNN)} with pre-proceed frames as input has produced good recognition accuracy, but its bottleneck features are not discriminative enough for spotting the event (not using DTW)
 
-One of the driving force behind Deep Neural Network is a humongous amount of data. It came from the fact that child's eyes take one picture about every 200 milliseconds, the average time an eye movement is made. So by age on which a child  is able to interpret images, he/she would have seen hundreds of millions of pictures of the real world. 
+One of the driving force behind \textit{deep neural network} is a humongous amount of data. It came from the fact that child's eyes take one picture about every 200 milliseconds, the average time an eye movement is made. 
 
 Since we were blinded by the result of deep neural networks in other fields, we jumped to the intuition of solving  the event spotting in the video using the deep neural networks on direct input. But later we found that for smaller dataset, pre-processing of input before passing to DNN will yields to a better result than giving direct input.
 

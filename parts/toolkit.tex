@@ -2,24 +2,23 @@
 \label{chap:toolkit}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-Deep Neural Network is the current trend
-in machine learning. Deep Neural networks can be best implemented using the modular, object-oriented approach. 
+Deep Neural Network is the current trend in machine learning. Deep Neural networks can be best implemented using the modular, object-oriented approach. 
 
-Even though there are many tool-kits, these toolkits lack simplicity. Moreover with the recent growth of GPU programming has paved the way for fast implementation of DNN. \textit{Python-DNN} was developed with modularity, and speed in mind.
+Even though there are many tool-kits, these toolkits lack simplicity. Moreover the recent growth of GPU programming has paved the way for fast implementation of DNN. \textit{Python-DNN} was developed with modularity, and speed in mind.
 
 \section{Python-DNN}
-\textit{Python DNN} is a lightweight deep learning toolkit developed in Python, which can run on both GPU and CPU. It makes use of \emph{theano} which allows optimisation and evaluation of mathematical expressions involving multi-dimensional arrays efficiently \cite{bergstra2010theano}.
+\textit{Python DNN} is a lightweight deep learning toolkit developed in Python, which can run on both GPU and CPU. It makes use of \emph{theano}  \cite{bergstra2010theano} which allows optimisation and evaluation of mathematical expressions involving multi-dimensional arrays efficiently.
 
 \subsection{Existing Toolkits/libraries}
 There are many Toolkit and libraries has been developed for Deep Neural Network. Some of them are following: 
 \begin{itemize}
-\item \href{http://kaldi.sourceforge.net/}{Kaldi} Speech Recognition tool-kit
-\item \href{https://github.com/rasmusbergpalm/DeepLearnToolbox}{DeepLearnToolbox}, A toolkit for \textit{Matlab \& Octave}
-\item \href{http://cs.stanford.edu/people/karpathy/convnetjs/}{convnetjs}, a JavaScript based library
-\item \href{https://radimrehurek.com/gensim}{Gensim}, a tool-kit for NLP
+\item \href{http://kaldi.sourceforge.net/}{Kaldi} \citep{Povey_ASRU2011}, a speech recognition tool-kit.
+\item \href{https://github.com/rasmusbergpalm/DeepLearnToolbox}{DeepLearnToolbox} \citep{IMM2012-06284}, a toolkit for \textit{matlab \& octave}.
+\item \href{http://cs.stanford.edu/people/karpathy/convnetjs/}{convnetjs} \citep{convnetjs} , a JavaScript based library.
+\item \href{https://radimrehurek.com/gensim}{Gensim} \citep{rehurek_lrec}, a tool-kit for natural language processing.
 \end{itemize}
 
-There are many issues with these existing toolkits. The major one is most of them are domain specific. Since Deep Neural Network is computationally heavy, there are many fast implementation of DNN which make use of GPU. But these toolkits work only with GPU. None of these toolkits can work seamlessly on both GPU and Multicore CPUs. 
+There are many issues with these existing toolkits. The major one is most of them are domain specific. Since Deep Neural Network is computationally heavy, there are many fast implementations of DNN, which make use of GPU. But these toolkits work only with GPU. None of these toolkits can work seamlessly on both GPU and Multicore CPUs. 
 
 We built a tool-kit to overcome this problem, which can also be used as a stand-alone library
 
@@ -62,7 +61,7 @@ are organised in JSON format and  hence make it legible to humans.
 \end{itemize}
 
 \section{Summary}
-\textit{Python DNN} is an indigenous deep neural network toolkit which is easy to configure and able to make use of both GPU and CPU architectures. The toolkit is publicly hosted in github\footnote{Public repository of \textit{Python-DNN} : (\url{https://github. com/IITM-DONLAB/python-dnn})}
+\textit{Python DNN} is an indigenous deep neural network toolkit which is easy to configure and able to make use of both GPU and CPU architectures. The toolkit is publicly hosted in github\footnote{Public repository of \textit{Python-DNN} : (\url{https://github. com/IITM-DONLAB/python-dnn})}. This toolkit was jointly developed with G.~ K.~Sudharshan.
 
 Further details about the toolkit installation, configuration and its usage is explained in Appendix \ref{app:pythondnn}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
