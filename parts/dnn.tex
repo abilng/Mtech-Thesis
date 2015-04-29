@@ -1,56 +1,55 @@
 \chapter{Deep Neural Networks}
 \label{chap:dnn}
 \section{Introduction}
-The major Problem in \textit{Machine Learning} is that in most of real world applications, many factors of variation influence every single piece of data. Most of real world applications require us to disentangle these factors of variation in data and discard the ones which we don't care about. But it can be very difficult to extract these high level abstract features from raw data obtained. \textit{Deep learning} aims solves this problem in representation learning by introducing representations that are expressed in terms of other, simpler representations.
+The major problem in \textit{Machine Learning} is that in most real world applications, many factors of variation influence data. Most of real world applications require us to disentangle these factors of variation in data and discard the ones which we don't care about. But it can be very difficult to extract these high level abstract features from raw data obtained. \textit{Deep learning} solves this problem in representation learning by introducing representations that are expressed in terms of other, simpler representations.
 
-According to \cite{deng2014deep}, \textit{``Deep learning is a set of algorithms in machine learning that attempt to model high-level abstractions in data by using model architectures composed of multiple non-linear transformations"}.They are also called hierarchical learning or deep structured learning. 
+According to \citet{deng2014deep}, \textit{``Deep learning is a set of algorithms in machine learning that attempt to model high-level abstractions in data by using model architectures composed of multiple non-linear transformations"}. This is also referred to as \textit{hierarchical learning} or \textit{deep structured learning}. 
 
-Most of the successful deep learning methods uses principles of \textit{Artificial Neural Networks (ANN)}. Different deep learning architectures like Deep Belief Networks (DBN) and Convolutional Neural Networks (CNNs) produced state-of-the-art results in different fields like image recognition, natural language processing and automatic speech recognition.
+Most of the successful deep learning methods uses principles of \textit{Artificial Neural Networks (ANN)}. Different deep learning architectures like Deep Belief Networks (DBN) and Convolutional Neural Networks (CNNs) have resulted in state-of-the-art results in different fields like image recognition, natural language processing and automatic speech recognition.
 
-In this chapter we fist introduces Deep Neural Network and its bacic concepts in \ref{sec:dnn:dnn}. Later we briefly discuss common DNN architecture like \textit{CNNs, DBN, etc}.
+In this chapter we fist introduces Deep Neural Network and its basic concepts in \ref{sec:dnn:dnn}. Later we briefly discuss common DNN architecture like \textit{CNNs, DBN, etc}.
 
 \section{Deep Neural Network}
 \label{sec:dnn:dnn}
-Artificial neural networks are family of statistical learning models inspired by the \textit{biological model of 1959 (by Nobel prize winners T.Wiesel and D.~H.~Hubel)}. A \textit{DNN (Deep Neural Network)} can be considered as a form of Artificial Neural Network, with multiple hidden layers. 
+Artificial neural networks are a family of statistical learning models inspired by the \textit{biological model of 1959 (by Nobel prize winners T.Wiesel and D.~H.~Hubel)}. A \textit{DNN (Deep Neural Network)} can be considered as a form of Artificial Neural Network, with multiple hidden layers. 
 
 
 \subsection{Motivations for Deep Architectures}
 The Major motivations for deep architectures are the following:
 
-\subsubsection{Deep architecture of Brain}
-One of major motivation of Deep Architectures is deep structure of brain. For example, study of visual cortex, shows areas which contains representation of the input, and how signals are flowing from an area to the next. Each level defines different level of abstractions. And in higher level, more abstract features represented in terms of the lower-level features. Moreover, representation in brain is neither local nor dense distributed. These representation in brain are sparse (only 1\% of neurons are simultaneously active). 
+\subsubsection{Deep architecture of the brain}
+One of major motivation of Deep Architectures is the deep structure of the brain. For example, the study of visual cortex, shows areas which contains the representation of the input, and flowing of the signals from an area to the next. Each level defines the different level of abstractions. At a higher level, more abstract are features represented in terms of the lower-level features. Moreover, representation in the brain is neither local nor dense distributed. These representations in the brain are sparse (only 1\% of neurons are simultaneously active).
 
 \subsubsection{Insufficient depth can hurt}
-According to complexity theory of circuit, compared to shallow architectures, deep architectures are more efficient in terms of number of parameters and computational elements for representing functions\citep{bengio2007scaling}. Haastad found that a function (of $n$ inputs) which can be efficiently represented with $O(n)$ nodes with a depth $d$, requires an ($O(2^n)$) nodes if depth is $d-1$. \citep{bengio2007greedy}
+According to complexity theory of circuit, compared to shallow architectures, deep architectures are more efficient in terms of number of parameters and computational elements for representing functions\citep{bengio2007scaling}. Haastad found that a function (of $n$ inputs) which can be efficiently represented with $O(n)$ nodes with a depth $d$, requires an ($O(2^n)$) nodes if depth is $d-1$ \citep{bengio2007greedy}.
 
 \subsubsection{Cognitive processes seem deep}
-If you consider process of perceiving by humans, we always organize ideas and concepts hierarchically. Humans first learns simple concepts and then composes these concepts for representing more abstract ones. 
-
+If you consider the process of perceiving by humans, we always organize ideas and concepts hierarchically. Humans first learn simple concepts and then composes these concepts for representing more abstract ones. 
 
 \subsection{General Deep Network Framework}
-As discussed in Section \ref{sec:dnn:dnn} Deep Neural Network can be considered as Multilayer perceptron with many hidden layers. Standard learning strategy of MLP contains following steps:
+As discussed in Section \ref{sec:dnn:dnn} Deep Neural Network can be considered as multilayer perceptron with many hidden layers. The standard learning strategy for MLP is made up of the following steps:
 \begin{itemize}
 \item The weights of Neural network is initialized by random values
 \item Apply gradient descent using back-propagation (BP) algorithm.
 \end{itemize}
-But Apart from few exceptions, researchers soon found out that an MLP of more
-than two hidden layers often failed \cite{bengio2007greedy} due to a well-known fact that the MLP learning involves an extremely difficult non-convex optimization problem and a gradient-based local search used in the BP algorithm easily gets stuck in local minimum.
+But apart from few exceptions, researchers soon found out that an MLP of more than two hidden layers often failed \cite{bengio2007greedy} due to a well-known fact that the MLP learning involves an extremely difficult non-convex optimization problem and a gradient-based local search used in
+the BP algorithm easily gets stuck in a local minimum 
 
-So For training Deep Network, \citet{hinton2006reducing} proposed a greedy layer-wise training algorithm. It contain following major steps:
+So for training deep network, \citet{hinton2006reducing} proposed a greedy layer-wise training algorithm. The major steps involved are:
 \begin{itemize}
-\item \textsc{Pretraining}: Each layer is trained in a greedy way. This is a unsupervised learning at each layer so that information from the input is preserved and factors of variation in data is untangled. This act as initialization step. Hence, instead of doing a random initialization, we perform careful initialization and reduce chance of getting stuck on local minima.
-\item \textsc{Finetuning}: Then network is fine-tuned with respect to the ultimate aim which may be classification or regression task.
+\item \textsc{Pretraining}: Each layer is trained in a greedy way. This is unsupervised learning at each layer so that information from the input is preserved and factors of variation in data are untangled. This acts as initialization step. Hence, instead of doing a random initialization, we perform careful initialization and reduce the chance of getting stuck on local minima.
+\item \textsc{Finetuning}: Then the network is fine-tuned with respect to the ultimate aim which may be classification or regression task.
 \end{itemize}
 
 \section{Deep Belief Networks}
-\citet{hinton2006reducing} introduced \emph{Deep Belief Networks (DBN)} which is a stacking of \emph{Restricted Boltzmann Machines (RBMs)}. Deep Belief Networks can be trained in a greedy manner\cite{hinton2006reducing}. Deep Belief Network is graphical model which tries to represent data into a deep hierarchical features. First, an unsupervised training is performed on each layer (RBM) in a greedy manner. Then fine-tune network based on a supervised training criterion.\\
+\citet{hinton2006reducing} introduced \emph{Deep Belief Networks (DBN)} which is a stacking of \emph{Restricted Boltzmann Machines (RBMs)}. Deep Belief Networks can be trained in a greedy manner\cite{hinton2006reducing}. Deep Belief Network is a graphical model which tries to represent data into deep hierarchical features. First, an unsupervised training is performed on each layer (RBM) in a greedy manner. Then the network is fine-tuned based on a supervised training criterion.\\
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1\textwidth]{./imgs/RBM_Train.eps} 
 \caption{Training of DBN}
 \end{figure}
 
-Restricted Boltzmann Machine (RBM) is an energy-based model. A graphical representation of an RBM is shown in figure. \ref{fig:rbm_layer}.
+Restricted Boltzmann Machine (RBM) is an energy-based model. A graphical representation of an RBM is shown in Figure. \ref{fig:rbm_layer}.
 
 \begin{figure}[!ht]
   \centering
@@ -59,9 +58,9 @@ Restricted Boltzmann Machine (RBM) is an energy-based model. A graphical represe
   \label{fig:rbm_layer}
 \end{figure}%
 
-Like every other energy based models, RBM also has energy for every possible configuration of parameters. The Energy function of RBM, $E(v,h)$ is defined as: 
+Like every other energy-based model, RBM also has an energy for every possible configuration of parameters. The energy function of RBM, $E(v,h)$ is defined as: 
 $$E(v,h) = - b'v - c'h - h'Wv$$
-where $W$ is weights between hidden and visible units and $b$ and $c$ are the bias of the visible($v$) and hidden layers($h$) respectively. Like other Energy based models, RBM also uses free energy (inspired from physics), which is defined as
+where $W$ are the weights between hidden and visible units and $b$ and $c$ are the bias of the visible($v$) and hidden layers($h$) respectively. Like other energy-based models, RBM also uses free energy (inspired from physics), which is defined as
 $$\mathcal{F}(v) = -log \sum_{h}{e^{-(E(v,h))}} $$
 $$\mathcal{F}(v) = - b'v - \sum_i \log \sum_{h_i} e^{h_i (c_i + W_i v)}$$
 
@@ -70,11 +69,10 @@ Since hidden nodes and visible nodes are conditionally independent and binary un
 \begin{align}
 p(h|v) &= \prod_i p(h_i|v) \\
 p(v|h) &= \prod_j p(v_j|h) \\
-P(h_i=1|v) &= sigm(c_i + W_i v) \label{eq:rbm_layers_prob1} \\
-P(v_j=1|h) &= sigm(b_j + W'_j h) \label{eq:rbm_layers_prob2} 
+P(h_i=1|v) &= sigmoid(c_i + W_i v) \label{eq:rbm_layers_prob1} \\
+P(v_j=1|h) &= sigmoid(b_j + W'_j h) \label{eq:rbm_layers_prob2}
 \end{align}
-
-And hence free energy becomes 
+where, $sigmoid(x)= \frac{1}{1 + e^{-x}}$. Hence free energy becomes
 $$\mathcal{F}(v)= - b'v - \sum_i \log(1 + e^{(c_i + W_i v)})$$ %\label{eq:rbm_freeE}
 Probability distributions over visible vectors can be defined in terms of the free energy.
 %p(v) = \frac {e^{-E(v)}} {Z} \text{ with } Z = \sum_v e^{-E(v)} \\
