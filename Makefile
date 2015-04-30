@@ -25,4 +25,5 @@ force:
 	
 clean:
 	rm -f $(FILE).aux $(FILE).bbl $(FILE).blg $(FILE).dvi $(FILE).log $(FILE).pdf $(FILE).ps
-	rm -f parts/*.aux
+	rm -f parts/*.aux *.log *.aux *.lof *.lot *.fls *.out *.toc
+	rm -f imgs/*-converted-to.*
