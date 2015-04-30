@@ -68,15 +68,15 @@ The \emph{pretrain\_params}: Configuration of pre-training method.  It contains 
 \centering
 \begin{tabular}{|l|l|l|p{6cm}|}
 \hline
- Param	 & Default value	 & nnet Type	 & Description\\
+ Parameters	 & Default value	 &  Type	  of nnet & Description\\
 \hline
- \emph{gbrbm\_learning\_rate}	 &     0.005	 &    DBN	 & Pre-training learning rate for gbrbm layer.\\
- \emph{learning\_rate}	 &      0.08	 &  SDA,DBN	 & Pre-training learning rate (DBN: for all layers except gbrbm layer)\\
- \emph{epochs}	 &       15	 &    DBN	 & No of Pre-training epochs\\
- \emph{initial\_momentum}	 &      0.5	 &    DBN	 & The initial momentum factor while pre-training\\
- \emph{final\_momentum}	 &      0.9	 &    DBN	 & The final momentum factor while pre-training\\
+ \emph{gbrbm\_learning\_rate}	 &     0.005	 &    DBN	 & Pretraining learning rate for Gaussian-Bernoulli RBM layer.\\
+ \emph{learning\_rate}	 &      0.08	 &  SDA,DBN	 & Pretraining learning rate (DBN: for all layers except Gaussian-Bernoulli layer)\\
+ \emph{epochs}	 &       15	 &    DBN	 & No of pretraining epochs\\
+ \emph{initial\_momentum}	 &      0.5	 &    DBN	 & The initial momentum factor while pretraining\\
+ \emph{final\_momentum}	 &      0.9	 &    DBN	 & The final momentum factor while pretraining\\
  \emph{initial\_momentum\_epoch}	 &       5	 &    DBN	 & No: of epochs with the initial momentum factor before switching\\
- \emph{keep\_layer\_num}	 &       0	 &  SDA,DBN	 & From which layer Pre-Training Should Start.\\
+ \emph{keep\_layer\_num}	 &       0	 &  SDA,DBN	 & From which layer pretraining should start.\\
  \hline
 \end{tabular}
 \end{table}
@@ -93,17 +93,17 @@ The \emph{finetune\_params} contains the configuration of fine-tune learning met
 \caption[]{\textit{finetune\_params} contains a json object with these parameters}
 \begin{tabular}{|l|l|l|}
 \hline
-\textbf{parameter}	& \textbf{description} 				& \textbf{default}\\  \hline
+\textbf{Parameter}	& \textbf{Description} 				& \textbf{Default value}\\  \hline
 momentum 			& momentum factor for fine-tuning 	& \\
 method 				& E : exponential decay 			& C\\
 					& C : constant learning rate 		& \\
-learning\_rate   	& used for C 						& 0.08\\
-epoch\_num          & used for C 			 			& 10\\
-start\_rate         & used for E 						& 0.08 \\
-scale\_by           & used for E 						& 0.5\\
-min\_derror\_decay\_start& used for E 					& 0.05\\
-min\_derror\_stop   & used for E 						& 0.05 \\
-min\_epoch\_decay\_start  & used for E 					& 15\\
+learning\_rate   	& used with C 						& 0.08\\
+epoch\_num          & used with C 			 			& 10\\
+start\_rate         & used with E 						& 0.08 \\
+scale\_by           & used with E 						& 0.5\\
+min\_derror\_decay\_start& used with E 					& 0.05\\
+min\_derror\_stop   & used with E 						& 0.05 \\
+min\_epoch\_decay\_start  & used with E 					& 15\\
 \hline
 \end{tabular}
 \end{table}
@@ -115,7 +115,7 @@ min\_epoch\_decay\_start  & used for E 					& 15\\
 \begin{center}
   \medskip  \small configuration for training/testing/validation.
    \begin{tabular}{|l|p{8cm}|c|} \hline
-   	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
+\textbf{Parameter}	& \textbf{Description} 				& \textbf{Default value}\\  \hline \hline
  	*base\_path & Base path of data. &  \\  \hline
    	*filename &  train/test/validation data set file-name & \\  \hline
 	*partition & data size (in MiB) to be loaded in memory & \\  \hline
@@ -174,7 +174,7 @@ The \textit{class\_index\_file} consists of the list of data file-names belongin
 \begin{center}
   \medskip  \small configuration of cnn
    \begin{tabular}{|c|p{12cm}|} \hline
-   	\textbf{parameter} & \textbf{description} \\  \hline
+   	\textbf{Parameter} & \textbf{Description} \\  \hline
    	 cnn & 
 	 \begin{tabular}{c|p{9cm}} %\hlne
 	 layers+ & 
@@ -207,7 +207,7 @@ The \textit{class\_index\_file} consists of the list of data file-names belongin
  \begin{center}
   	\medskip  \small configuration of dnn
    	\begin{tabular}{|c|p{8cm}|c|} \hline
-   	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
+   	\textbf{Parameter} & \textbf{Description} & \textbf{Default}\\  \hline
 	*hidden\_layers &  RBM layer sizes. & \\ \hline
 	pretrained\_layers & number of layers  pre-trained. & 0 \\ \hline
 	activation & activation function for the layers. (if adv\_activation is used, then either 'linear','relu' or 'cappedrelu') & tanh or linear \\ \hline
@@ -231,7 +231,7 @@ The \textit{class\_index\_file} consists of the list of data file-names belongin
  \begin{center}
   	\medskip  \small configuration of dbn (rbm)
 	\begin{tabular}{|c|p{8cm}|c|} \hline
-   	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
+   	\textbf{Parameter} & \textbf{Description} & \textbf{Default}\\  \hline
 	*hidden\_layers &  RBM layer sizes. & \\ \hline
 	activation & activation function for the layers. & tanh \\ \hline
 	pretrained\_layers & number of layers  pre-trained. & 0 \\ \hline
@@ -243,7 +243,7 @@ The \textit{class\_index\_file} consists of the list of data file-names belongin
  \begin{center}
   	\medskip  \small configuration of dbn (sda)
 	\begin{tabular}{|c|p{8cm}|c|} \hline
-   	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
+   	\textbf{Parameter} & \textbf{Description} & \textbf{Default}\\  \hline
 	*hidden\_layers &  hidden denoising auto-encoder layer sizes & \\ \hline
 	activation & activation function for the layers & tanh \\ \hline
 	*corruption\_levels & corruption level for each layer &  \\ \hline

@@ -4,29 +4,29 @@
 \section{Introduction}
 As mentioned in introduction (chapter \ref{chap:intro}), our ultimate aim was to find all the events in the search video $(\mathcal{V})$ which are similar to the event in a given query $(\mathcal{Q})$.  Since video is a temporal sequence, we have to model temporal dependencies in the data at the sub-event level.
 
-\textit{Dynamic Time Warping (DTW)} is well known for its ability to comparing two time-dependent sequences.  Intuitively, the sequences are warped in a nonlinear fashion to match each other.  Even though DTW was developed to compare different speech patterns in ASR (Automatic Speech Recognition), nowadays DTW has been applied to other fields \cite{muller2007information}.  So we decided to make use of DTW for comparing (and hence for spotting an event) in Query and Search Video.
+\textit{Dynamic Time Warping (DTW)} is well known for its ability to comparing two time-dependent sequences.  Intuitively, the sequences are warped in a nonlinear fashion to match each other.  Even though DTW was developed to compare different speech patterns in ASR (Automatic Speech Recognition), nowadays DTW has been applied to other fields \cite{muller2007information}.  So we decided to make use of DTW for comparing (and hence for spotting an event) \textit{query} and \textit{search video}.
 
-The effective features must be extracted from the video sequence so that features will be able to describe events in video.  We decided to make use of Deep Neural Network for extracting these features.
+The effective features must be extracted from the video sequence so that features will be able to describe events in video.  We decided to make use of \textit{Deep Neural Network} for extracting these features.
 
-In this chapter, we will first discuss why we preferred  DNN over classical feature extractors.  In Section \ref{sec:event:unsupervised}, we go through different unsupervised methods attempted to answer the question \textit{``Will any unsupervised Deep Learning Techniques work for feature extraction ?"}.  Later in section \ref{sec:event:supervised}, we go through experiments which use supervised CNNs  
+In this chapter, we will first discuss why we preferred  DNN over classical feature extractors.  In Section \ref{sec:event:unsupervised}, we go through different unsupervised methods attempted to answer the question \textit{``Will any unsupervised deep learning techniques work for feature extraction ?"}.  Later in section \ref{sec:event:supervised}, we go through experiments which use supervised CNNs  
 
 \section{Why Deep Neural Networks?}
 \label{sec:event:why}
 We have to capture underlying temporal structures of actions (i.e.  intra-dependencies) through feature representations.  Some of the classical features in videos are SIFT (Scale-invariant feature transform), HOG (Histogram of oriented gradients), Optical Flow, HOF (Histograms of flow orientations), HOG3D (Histograms of 3D gradients), MBH (motion boundary histograms).  These classical feature extraction methods require a high amount of computation\cite{baker2011database,chatfield2011devil}.  This time-consuming process of feature extraction limits the speed of testing, thus limiting the scope of real-time applications.
 
-In recent years, deep learning has produced remarkable results and has significantly outperformed state-of-the-art classical methods \cite{KarpathyCVPR14}.  Deep Neural Networks (DNNs) are able to learn the feature representation directly from the raw data and hence results in significant performance boosting (refer chapter \ref{chap:dnn}).  Moreover, bottleneck features generated from deep neural networks (Deep Bottleneck Features) are found to be better features in automatic speech recognition (ASR) systems \cite{yu2011improved,gehring2013extracting}.
+In recent years, deep learning has produced remarkable results and has significantly outperformed state-of-the-art classical methods \cite{KarpathyCVPR14}.  Deep Neural Networks (DNNs) are able to learn the feature representation directly from the raw data and hence results in significant performance boosting (refer chapter \ref{chap:dnn}).  Moreover, bottleneck features generated from deep neural networks (\textit{deep bottleneck features}) are found to be better features in automatic speech recognition (ASR) systems \cite{yu2011improved,gehring2013extracting}.
 
 \section{Unsupervised Methods}
 \label{sec:event:unsupervised}
-Our initial approach was to find out \textit{``Will any unsupervised Deep Learning Techniques work for feature extraction ?"}.  Experiments were performed on the \textbf{OSUPEL basketball dataset} \cite{brendel2011probabilistic}.  The OSUPEL basketball dataset contains videos of drills and small basketball games.  Since these videos were shot in a real-world setting it contains challenges like slow and sudden camera motion, the motion blur of fast actions, inter-player occlusions, and varying illumination.  Resolution of the dataset is $960 \times 540$ pixels and frame rate is $29$fps.
+Our initial approach was to find out \textit{``Will any unsupervised deep learning techniques work for feature extraction ?"}.  Experiments were performed on the \textbf{OSUPEL basketball dataset} \cite{brendel2011probabilistic}.  The OSUPEL basketball dataset contains videos of drills and small basketball games.  Since these videos were shot in a real-world setting it contains challenges like slow and sudden camera motion, the motion blur of fast actions, inter-player occlusions, and varying illumination.  Resolution of the dataset is $960 \times 540$ pixels and frame rate is $29$fps.
 
-In this section, we go through different unsupervised Deep Neural Network methods that have been experimented.
+In this section, we go through different unsupervised deep neural network methods that have been experimented.
 
 \subsection{Deep Belief Network} 
 The complete video of resolution $960 \times 540$ was reduced to $256 \times 144$ pixels.  Then each frame was fed to a \textit{Deep Belief Network (DBN)} which tries to reduce its dimensionality.  Different DBNs with different sizes of deep bottleneck features (400,1000 and 2000) were analysed.  But we encountered a problem: the features we obtained were somewhat random.  We found that the large size of the weight matrix is the reason behind this issue.  To train such a big network, we need a big dataset.
 
 \subsection{DBN on DCT Coefficients}
-Since our previous attempt failed as the input dimension was too big, we decided to make use of Discrete Cosine Transform (DCT).  The advantage of DCT is that it can be implemented using a fast algorithm and is commonly used for dimensionality reduction in images/videos \cite{er2005high}.  Reduced resolution video ($256 \times 144$) was taken and DCT was computed for each frame.  The low-frequency coefficients of DCT were taken (top 1500) and normalized with respect to mean.  Then we used Deep Belief Network which tries to reduce the dimensionality (to 400/200).
+Since our previous attempt failed as the input dimension was too big, we decided to make use of \textit{Discrete Cosine Transform (DCT)}.  The advantage of DCT is that it can be implemented using a fast algorithm and is commonly used for dimensionality reduction in images/videos \cite{er2005high}.  Reduced resolution video ($256 \times 144$) was taken and DCT was computed for each frame.  The low-frequency coefficients of DCT were taken (top 1500) and normalized with respect to mean.  Then we used deep belief network which tries to reduce the dimensionality (to 400/200).
 
 But it was found that DBN features yields same outputs, irrespective of the input if we use more than one layer.  With a single layer Restricted Boltzmann machine (first Layer is Gaussian-Bernoulli layer), we are getting some variation but not enough for identifying the events.\\
 
@@ -54,7 +54,7 @@ But it was found that DBN features yields same outputs, irrespective of the inpu
                 \caption{Reconstructed frame from DBN features (single layer)}
                 \label{fig:dbn}
         \end{subfigure}
-        \caption{ A Analysis of DBN features}
+        \caption{ An Analysis of DBN features}
         \label{fig:dct+dbn}
 \end{figure}.
 
@@ -66,9 +66,9 @@ Since SdA tries to learn weights so that reconstruction error is less and most o
 \label{sec:event:dct_gmm}
 This section discusses a combined approach which uses principles of Gaussian posteriorgram and Vector Space Model.
 
-The concept of the Gaussian posteriorgram is similar to that of the posterior feature vectors\citep{zhang2010towards}.  For each frame, a probability vector containing the posterior probabilities of each of the Gaussian components in a Gaussian Mixture Model is computed.  This probability vector is called as  Gaussian posteriorgram.
+The concept of the Gaussian posteriorgram is similar to that of the posterior feature vectors\citep{zhang2010towards}.  For each frame, a probability vector containing the posterior probabilities of each of the Gaussian components in a \textit{Gaussian mixture model (GMM)} is computed.  This probability vector is called as  Gaussian posteriorgram.
 
-Vector space model (VSM) is widely used in NLP for information retrieval.  Vector space model has proved to be successful for many image applications such as classification and video indexing and retrieval \citep{galmar2007analysis}.
+\textit{Vector space model (VSM)} is widely used in NLP for information retrieval.  Vector space model has proved to be successful for many image applications such as classification and video indexing and retrieval \citep{galmar2007analysis}.
 
 \begin{table}[ht]
 \caption[Event spotting using GMM/VSM on DCT features (Basketball Dataset) ]{ Precision \& Recall  of GMM/VSM on DCT features (Basketball dataset)}
@@ -105,7 +105,7 @@ We build smaller GMMs (4 - 50 mixtures) and trained them with some of the videos
 
 \section{Supervised Methods}
 \label{sec:event:supervised}
-Through the experiments mentioned in section  \ref{sec:event:unsupervised}, we found that deep bottleneck features using unsupervised learning does not give any benefit in the identification of events in Video.  Moreover, these techniques try to capture more similar features in the video, rather than capturing abstract representations which describe events in video.
+Through the experiments mentioned in section  \ref{sec:event:unsupervised}, we found that deep bottleneck features using unsupervised learning does not give any benefit in the identification of events in video.  Moreover, these techniques try to capture more similar features in the video, rather than capturing abstract representations which describe events in video.
 
 In this section, we examine the use of \textit{Convolutional Neural Networks} for extracting deep bottleneck features.  CNNs have produced many groundbreaking results in various research topics of image and video processing \citep{KarpathyCVPR14, ji20133d, krizhevsky2012imagenet}.
 
@@ -184,7 +184,7 @@ Similar to the method discussed in section \ref{sec:event:dct_gmm}, we examined 
 The \textit{precision, recall and F-measure} of the experiment are given in Table \ref{table:cnn_gmm_res_msr} (MSR dataset) and Table \ref{table:cnn_gmm_res_basket} (Basketball dataset).
 
 \begin{table}[ht]
-\caption[Event spotting using GMM/VSM on CNN(Gray,Frame diff,Edge) bottleneck features (Basketball dataset) ]{ Precision \& Recall  of GMM/VSM on CNN bottleneck features (Basketball dataset)}
+\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) bottleneck features (Basketball dataset) ]{ Precision \& Recall  of GMM/VSM on CNN bottleneck features (Basketball dataset)}
 \label{table:cnn_gmm_res_basket}
 \centering
 \begin{tabular}{|c|c|l|l|l|}
@@ -216,7 +216,7 @@ GMM Mixtures & Threshold & Avg. Precision & Avg. Recall & F-measure\\
 \end{table}
 
 \begin{table}[h]
-\caption[Event spotting using GMM/VSM on CNN(Gray,Frame diff,Edge) bottleneck features (MSR Action Dataset) ]{ Precision \& Recall  of GMM/VSM on CNN bottleneck features (MSR dataset)}
+\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) bottleneck features (MSR Action Dataset) ]{ Precision \& Recall  of GMM/VSM on CNN bottleneck features (MSR dataset)}
 \label{table:cnn_gmm_res_msr}
 \centering
 \begin{tabular}{|c|c|l|l|l|}
@@ -292,7 +292,7 @@ Avg	&437.667	&228.667	&0.671\\
                 \includegraphics[width=\textwidth]{./imgs/Basket_DTW.eps}
                 \caption{Basketball dataset}
         \end{subfigure}
-        \caption{ Histogram of Target score and Non-Target Score}
+        \caption{Histogram of \textit{Target score} and \textit{Non-Target} score}
         \label{fig:dtw_score}
 \end{figure}.
 

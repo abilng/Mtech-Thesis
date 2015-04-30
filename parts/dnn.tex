@@ -11,7 +11,7 @@ In this chapter we first introduces Deep Neural Network and its basic concepts i
 
 \section{Deep Neural Network}
 \label{sec:dnn:dnn}
-Artificial neural networks are a family of statistical learning models inspired by the \textit{biological model of 1959 (by Nobel prize winners T.Wiesel and D.~H.~Hubel)}.  A \textit{DNN (Deep Neural Network)} can be considered as a form of Artificial Neural Network, with multiple hidden layers. 
+Artificial neural networks are a family of statistical learning models inspired by the \textit{biological model of 1959 (by Nobel prize winners T.Wiesel and D.~H.~Hubel)}.  A \textit{DNN (Deep Neural Network)} can be considered as a form of \textit{artificial neural network}, with multiple hidden layers. 
 
 
 \subsection{Motivations for Deep Architectures}
@@ -42,19 +42,19 @@ So for training deep network, \citet{hinton2006reducing} proposed a greedy layer
 \end{itemize}
 
 \section{Deep Belief Networks}
-\citet{hinton2006reducing} introduced \emph{Deep Belief Networks (DBN)} which is a stacking of \emph{Restricted Boltzmann Machines (RBMs)}.  Deep Belief Networks can be trained in a greedy manner\cite{hinton2006reducing}.  Deep Belief Network is a graphical model which tries to represent data in terms of deep hierarchical features.  First, an unsupervised training is performed on each layer (RBM) in a greedy manner.  Then the network is fine-tuned based on a supervised training criterion.\\
+\citet{hinton2006reducing} introduced \emph{Deep Belief Networks (DBN)} which is a stacking of \emph{Restricted Boltzmann Machines (RBMs)}.  Deep belief networks can be trained in a greedy manner\cite{hinton2006reducing}.  Deep belief network is a graphical model which tries to represent data in terms of deep hierarchical features.  First, an unsupervised training is performed on each layer (RBM) in a greedy manner.  Then the network is fine-tuned based on a supervised training criterion.\\
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1\textwidth]{./imgs/RBM_Train.eps} 
 \caption{Training of DBN}
 \end{figure}
 
-Restricted Boltzmann Machine (RBM) is an energy-based model.  A graphical representation of an RBM is shown in Figure.\ref{fig:rbm_layer}.
+The \textit{restricted Boltzmann machine (RBM)} is an energy-based model.  A graphical representation of an RBM is shown in Figure.\ref{fig:rbm_layer}.
 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=0.5\textwidth]{./imgs/rbm.eps}
-  \caption{A Restricted Boltzmann Machine Layer}
+  \caption{A Restricted Boltzmann Machine layer}
   \label{fig:rbm_layer}
 \end{figure}%
 
@@ -132,7 +132,7 @@ The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in ord
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.6\textwidth]{./imgs/convolution.png} 
-\caption[convolutional layer explained]{An example of convolutional layer.  There are four feature maps in ${(m-1)}^{th}$ layer and two (represented by $h^0$ and $h^1$) in next ($m$).  The blue and red squares denote pixel values in feature maps ($h^0$ and $h^1$) in the $m^{th}$ layer.  These pixels are computed from $(m-1)^{th}$ layer pixels that falls within the $2\times2$ receptive field of corresponding kernel (represented as colored rectangles).}
+\caption[Convolutional layer explained]{An example of convolutional layer.  There are four feature maps in ${(m-1)}^{th}$ layer and two (represented by $h^0$ and $h^1$) in next ($m$).  The blue and red squares denote pixel values in feature maps ($h^0$ and $h^1$) in the $m^{th}$ layer.  These pixels are computed from $(m-1)^{th}$ layer pixels that falls within the $2\times2$ receptive field of corresponding kernel (represented as colored rectangles).}
 \label{fig:cnn_layer}
 \end{figure}
 
@@ -162,7 +162,7 @@ $$v^{pqr}_{ij} = \tanh(b_{ij}+\sum_{m} \sum_{x=0}^{X_i-1} \sum_{y=0}^{Y_i-1} \su
 where $X_i \times Y_i \times Z_i$ is the size (height, width and depth  along the temporal dimension) of the 3D kernel and $w^{xyz}_{ijm}$ is the cost of the 3D kernel connected to the $m^{th}$ feature map in the $i^{th}$ layer.  Similarly, Pooling/Sub-sampling is done in both spatial and temporal domains.
 
 \section{Summary}
-Deep learning algorithms attempts to model high-level abstractions in data using multiple non-linear transformations.  Deep neural networks are basically artificial neural networks with multiple hidden layers between input and output.  The major characteristics of deep learning are:
+The deep learning algorithms attempts to model high-level abstractions in data using multiple non-linear transformations.  \textit{Deep neural networks (DNNs)} are basically artificial neural networks with multiple hidden layers between input and output.  The major characteristics of deep learning are:
 \begin{itemize}
 \item They are usually multilayered and hierarchical.
 \item They contains multiple non-linear transformations 
@@ -171,8 +171,8 @@ Deep learning algorithms attempts to model high-level abstractions in data using
 
 Most of the deep neural networks have greedy layer-wise training algorithm (pretraining) for initialization weights and followed by supervised fine-tuning.
  
-The deep belief network is made of stacking RBM layers.  RBM attempts to reduce the free energy of network and is trained by contrastive divergence (CD-k).
+The \textit{deep belief network (DNN)} is made of stacking \textit{restricted Boltzmann machine (RBM)} layers.  RBM attempts to reduce the free energy of network and is trained by contrastive divergence (CD-k).
 
-The denoising auto-encodes can be stacked to form SdA.  The aim of denoising auto-encodes is to predict the original data from it's corrupted version.
+The \textit{denoising auto-encodes} can be stacked to form \textit{SdA}.  The aim of denoising auto-encodes is to predict the original data from it's corrupted version.
 
-The convolutional neural network contains a series of convolution and subsampling layers and optionally fully connected layers.  CNN uses spatial sub-sampling and shared weights to provide some degree of freedom from shift, scale and distortion of input.
+The \textit{convolutional neural network} contains a series of convolution and subsampling layers and optionally fully connected layers.  CNN uses spatial sub-sampling and shared weights to provide some degree of freedom from shift, scale and distortion of input.
