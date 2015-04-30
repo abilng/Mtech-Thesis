@@ -4,7 +4,7 @@
 \section{Installation}
 \subsection{As Toolkit}
 
-\noindent \textit{Python-DNN} is hosted publicly in github. One can get latest version by cloning git repository.
+\noindent \textit{Python-DNN} is hosted publicly in github.  One can get latest version by cloning git repository.
 \begin{lstlisting}[language=bash,basicstyle=\small] 
 $ git clone git://github.com/IITM-DONLAB/python-dnn.git
 \end{lstlisting}
@@ -53,7 +53,7 @@ All configuration files are in json format.
 	 	 pretraining & to do pre-training or not \\
 	 	 finetuning & to do fine-tuning or not \\
 	 	 testing & to do testing or not \\
-	 	 export\_data & to do feat extraction or not. If true export\_path is mandatory \\
+	 	 export\_data & to do feat extraction or not.  If true export\_path is mandatory \\
  	   \end{tabular}	
 	 & false \\ \hline
 	 save\_freq & epoch interval for saving model & \\ \hline 	 	
@@ -63,7 +63,7 @@ All configuration files are in json format.
 
 \subsubsection{Pretraining Parameters}
 \label{subsec:pretrainparam}
-The \emph{pretrain\_params}: Configuration of pre-training method. It contains a json object with the following parameters:
+The \emph{pretrain\_params}: Configuration of pre-training method.  It contains a json object with the following parameters:
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|l|l|p{6cm}|}
@@ -83,10 +83,10 @@ The \emph{pretrain\_params}: Configuration of pre-training method. It contains a
 
 \subsubsection{Finetune Parameters}
 \label{subsec:finetuneparam}
-The \emph{finetune\_params} contains the configuration of fine-tune learning method.There are two learning rate adaptation techniques supported by tool-kit. They are
+The \emph{finetune\_params} contains the configuration of fine-tune learning method.There are two learning rate adaptation techniques supported by tool-kit.  They are
 \begin{itemize}
 \item C: Constant learning rate: run `epoch\_num' iterations with `learning\_rate' unchanged
-\item E: Exponential decay: We start with the learning rate of \emph{start\_rate}; if the validation error reduction between two epochs is less than \emph{min\_derror\_decay\_start}, the learning rate is scaled by \emph{scale\_by} during each of the remaining epoch. The whole training terminates when the validation error reduction between two epochs falls below \emph{min\_derror\_stop}. \emph{min\_epoch\_decay\_star} is the minimum epoch number after which scaling can only be performed.
+\item E: Exponential decay: We start with the learning rate of \emph{start\_rate}; if the validation error reduction between two epochs is less than \emph{min\_derror\_decay\_start}, the learning rate is scaled by \emph{scale\_by} during each of the remaining epoch.  The whole training terminates when the validation error reduction between two epochs falls below \emph{min\_derror\_stop}. \emph{min\_epoch\_decay\_star} is the minimum epoch number after which scaling can only be performed.
 \end{itemize}
 \begin{table}[h]
 \centering
@@ -139,7 +139,7 @@ min\_epoch\_decay\_start  & used for E 					& 15\\
 \end{lstlisting}
 json-header  : featdim (dimension of input vector after flattening), input\_shape (shape of input).}
 
-\item{\textbf {Text File (One level header) [T1]:} The dataset contains a root file with list of  text file names corresponding to a class. It has the following format,
+\item{\textbf {Text File (One level header) [T1]:} The dataset contains a root file with list of  text file names corresponding to a class.  It has the following format,
 \begin{lstlisting}[language=bash,basicstyle=\small] 
 <feat_dim> <num_classes>
 <data_file1>
@@ -250,9 +250,9 @@ The \textit{class\_index\_file} consists of the list of data file-names belongin
 	\end{tabular}		
 \end{center} 
 \end{table} 
-\noindent It is quite evident in all model configurations that the activation functions are crucial. The activation functions are used to transform the activation level of a unit (neuron) into an output signal. Generally, activation functions have a "squashing" effect. Python-DNN currently support following activation functions,
+\noindent It is quite evident in all model configurations that the activation functions are crucial.  The activation functions are used to transform the activation level of a unit (neuron) into an output signal.  Generally, activation functions have a "squashing" effect.  Python-DNN currently support following activation functions,
 \begin{itemize}
-\item {\textbf{sigmoid:} sigmoid function with equation: $f(x) = \frac{1}{(1 + \exp^{-x}}$. This is an S-shaped (sigmoid) curve, with output in the range $(0,1)$.}
+\item {\textbf{sigmoid:} sigmoid function with equation: $f(x) = \frac{1}{(1 + \exp^{-x}}$.  This is an S-shaped (sigmoid) curve, with output in the range $(0,1)$.}
 \item {\textbf{tanh:} hyperbolic tangent function is a sigmoid curve, like the logistic function, except that output lies in the range $(-1,+1)$.} 
 \item {\textbf{relu:} rectifier linear unit is an activation function defined as $f(x) = max(0, x)$}
 \item {\textbf{cappedrelu:} same as ReLU except we cap the units at 6.ie, $f(x) = min(max(x,0),6)$}
@@ -266,7 +266,7 @@ Toolkit contains sample configuration (of MNIST and CIFAR dataset) in \textit{sa
 \begin{enumerate}
 	\item Prepare Dataset: convert dataset to NP/T1/T2 formats.
 	\item Configure model: Note that CNN accepting an image with dimension $X \times Y$ with $K$ channel should have \textit{input\_shape} as $[K,X,Y]$
-	\item Configure data: Set the \textit{base\_path} and \textit{filename}. The parameter \textit{partition} needs to be set properly in case of large dataset, assign value (in MB) less than primary memory/gpu memory. 
+	\item Configure data: Set the \textit{base\_path} and \textit{filename}.  The parameter \textit{partition} needs to be set properly in case of large dataset, assign value (in MB) less than primary memory/gpu memory. 
 	\item Configure neural net: nnet\_conf.json
 	\item Set environment flags: set \textit{device} to either cpu or gpu mode.
 	\begin{lstlisting}[language=bash,basicstyle=\small] 
