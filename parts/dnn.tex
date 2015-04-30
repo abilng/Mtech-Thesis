@@ -18,7 +18,7 @@ Artificial neural networks are a family of statistical learning models inspired 
 The Major motivations for deep architectures are the following:
 
 \subsubsection{Deep architecture of the brain}
-One of major motivation of Deep Architectures is the deep structure of the brain. For example, the study of visual cortex, shows areas which contains the representation of the input, and flowing of the signals from an area to the next. Each level defines the different level of abstractions. At a higher level, more abstract are features represented in terms of the lower-level features. Moreover, representation in the brain is neither local nor dense distributed. These representations in the brain are sparse (only 1\% of neurons are simultaneously active).
+One of the major motivation of Deep Architectures is the deep structure of the brain. For example, the study of visual cortex, shows areas which contain the representation of the input, and flowing of the signals from an area to the next. Each level defines the different level of abstractions. At a higher level, more abstract features are represented in terms of the lower-level features. Moreover, representation in the brain is neither local nor densely distributed. These representations in the brain are sparse (only 1\% of neurons are simultaneously active).
 
 \subsubsection{Insufficient depth can hurt}
 According to complexity theory of circuit, compared to shallow architectures, deep architectures are more efficient in terms of number of parameters and computational elements for representing functions\citep{bengio2007scaling}. Haastad found that a function (of $n$ inputs) which can be efficiently represented with $O(n)$ nodes with a depth $d$, requires an ($O(2^n)$) nodes if depth is $d-1$ \citep{bengio2007greedy}.
@@ -38,7 +38,7 @@ the BP algorithm easily gets stuck in a local minimum
 So for training deep network, \citet{hinton2006reducing} proposed a greedy layer-wise training algorithm. The major steps involved are:
 \begin{itemize}
 \item \textsc{Pretraining}: Each layer is trained in a greedy way. This is unsupervised learning at each layer so that information from the input is preserved and factors of variation in data are untangled. This acts as initialization step. Hence, instead of doing a random initialization, we perform careful initialization and reduce the chance of getting stuck on local minima.
-\item \textsc{Finetuning}: Then the network is fine-tuned with respect to the ultimate aim which may be classification or regression task.
+\item \textsc{Finetuning}: Then the network is fine-tuned with respect to the ultimate objective which can be a classification or regression task.
 \end{itemize}
 
 \section{Deep Belief Networks}
@@ -66,7 +66,7 @@ where $W$ are the weights between hidden and visible units and $b$ and $c$ are t
 \mathcal{F}(v) &= - b'v - \sum_i \log \sum_{h_i} e^{h_i (c_i + W_i v)}\\
 \end{align*}
 
-Since hidden nodes and visible nodes are conditionally independent and binary units (where $v_j \& h_i \in \{0,1\}$), we have 
+Since hidden and visible nodes are conditionally independent and binary units (where $v_j \& h_i \in \{0,1\}$), we have 
 %\begin{equation} 
 \begin{align}
 p(h|v) &= \prod_i p(h_i|v) \\
@@ -96,7 +96,7 @@ A faster learning algorithm was proposed by Hinton \cite{hinton2002training,hint
 
 The change in the weights is given by
 $$ \Delta W = \eta ({vh^\mathsf{T}}_{data} - {v'h'^{\mathsf{T}}}_{recon}). $$
-where $\eta$ is learning rate. Outer product $vh^\mathsf{T}$ is referred to as the positive gradient and that of $v'$ and $h'$ as negative gradient. The adaption of biases of the hidden and the visible layer is done by a similar learning method that uses the states of individual nodes. This process of training RBMs using Gibbs sampling is referred to as \textbf{contrastive divergence (CD-k)}. In practice, $k=1$ has been shown to work exceptionally well \cite{hinton2010practical}.
+where $\eta$ is learning rate. Outer product $vh^\mathsf{T}$ is referred to as the positive gradient and that of $v'$ and $h'$ as negative gradient. The adaption of biases of the hidden and the visible layer is done by a similar learning method that uses the states of individual nodes. This process of training RBMs using Gibbs sampling is referred to as \textbf{contrastive divergence (CD-k)}. In practice, $k=1$ works exceptionally well \cite{hinton2010practical}.
 
 \section{Stacked Denoising Auto-encoders}
 \citet{vincent2010stacked} introduced the \emph{stacked denoising auto-encoder (SdA)} which is a modified version of the stacked auto-encoder. The stacked denoising auto-encoder (SdA) is formed by stacking of denoising auto-encoders so that the input of each layer ($dA_i$) is the hidden representation produced by the layer below ($dA_{i-1}$). The pre-training of SdA is performed on one layer at a time. That is, every layer is trained independently so that the reconstruction error with respect to the input of current layer (output of the previous denoising auto-encoder layer) is minimized. Once this unsupervised \textit{pre-training} is completed on all layers, the network undergoes another stage of training called supervised \textit{fine-tuning} where the objective is to make prediction error of the supervised task minimum.
@@ -109,7 +109,7 @@ $$ L(\mathbf{x} \mathbf{z}) = || \mathbf{x} - \mathbf{z} ||^2$$
 $$L(\mathbf{x}, \mathbf{z}) = - \sum^d_{k=1}[\mathbf{x}_k \log \mathbf{z}_k + (1 - \mathbf{x}_k)\log(1 - \mathbf{z}_k)]$$
 \end{itemize}
 
-The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in order to force the hidden layer to discover more robust features and prevent it from simply learning the identity, the auto-encoder is trained to reconstruct the input from a corrupted version of it} \cite{vincent2008extracting}. The denoising auto-encoder can be viewed as a stochastic version of the auto-encoder. The stochastic corruption process randomly makes few of nodes in the input layer to $0$ with a probability (called as corruption rate). Then the auto-encoder tries to predict the original vector from it's corrupted vectors. The \textit{ability to predict any subset of variables from the rest} allows denoising auto-encoders to effectively capture the joint distribution between a set of variables.
+The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in order to force the hidden layer to discover more robust features and prevent it from simply learning the identity, the auto-encoder is trained to reconstruct the input from a corrupted version of it} \cite{vincent2008extracting}. The denoising auto-encoder can be viewed as a stochastic version of the auto-encoder. The stochastic corruption process randomly makes few nodes in the input layer to $0$ with a probability (called as corruption rate). Then the auto-encoder tries to predict the original vector from it's corrupted vectors. The \textit{ability to predict any subset of variables from the rest} allows denoising auto-encoders to effectively capture the joint distribution between a set of variables.
 
 \begin{figure}[ht]
 \centering
@@ -157,22 +157,22 @@ Since this linear filter is applying repeatedly, the resulting connectivity act 
 Typically, convolutional neural networks consists of a number of convolutional and subsampling layers optionally followed by fully connected layers (MLP). Some times we can use SVM instead of MLP. Unlike other neural networks which take a vector as input,  the convolutional neural network takes  is a $m \times n \times r$ image as input. where $m$ is the height and $n$ width of the image and $r$ is the number of channels (eg.: three for RGB)/input feature maps. 
 
 \subsection{3D Convolutional Neural Networks}
-The 3D convolutional neural networks extract features from both the spatial and the temporal domain by performing 3D convolutions, hence capturing the motion information from multiple adjacent frames.\cite{ji20133d} The value at $(p, q, r)$ on the $j^{th}$ feature map (in the $i^{th}$ layer) is given by
+The 3D convolutional neural networks extract features from both the spatial and the temporal domain by performing 3D convolutions, hence captures the motion information from multiple adjacent frames.\cite{ji20133d} The value at $(p, q, r)$ on the $j^{th}$ feature map (in the $i^{th}$ layer) is given by
 $$v^{pqr}_{ij} = \tanh(b_{ij}+\sum_{m} \sum_{x=0}^{X_i-1} \sum_{y=0}^{Y_i-1} \sum_{z=0}^{Z_i-1} w^{xyz}_{ijm} v^{(p+x)(q+y)(r+z)}_{(i−1)m}) $$
 where $X_i \times Y_i \times Z_i$ is the size (height, width and depth  along the temporal dimension) of the 3D kernel and $w^{xyz}_{ijm}$ is the cost of the 3D kernel connected to the $m^{th}$ feature map in the $i^{th}$ layer. Similarly, Pooling/Sub-sampling is done in both spatial and temporal domain.
 
 \section{Summary}
-Deep learning algorithms attempts to learn model high-level abstractions in data using multiple non-linear transformations. Deep neural networks is basically artificial neural network with multiple hidden layers between input and output. Major characteristics of deep learning are:
+Deep learning algorithms attempts to model high-level abstractions in data using multiple non-linear transformations. Deep neural networks is basically artificial neural network with multiple hidden layers between input and output. Major characteristics of deep learning are:
 \begin{itemize}
 \item They are usually multilayered and hierarchical.
 \item They contains multiple non-linear transformations 
-\item They act as a feature extractors, they tries to high level abstract features from raw data.
+\item They act as a feature extractors, they try to extract the high level abstract features from raw data.
 \end{itemize}
 
 Most of the deep neural networks have greedy layer-wise training algorithm (pretraining) for initialization weights and followed by supervised fine-tuning.
  
-The deep belief network is made of stacking of RBM layers. RBM attempts to reduce the free energy of network and is trained by contrastive divergence (CD-k).
+The deep belief network is made of stacking RBM layers. RBM attempts to reduce the free energy of network and is trained by contrastive divergence (CD-k).
 
-The denoising auto-encodes can be stacked to form SdA. The aim of denoising Auto-encodes to predict the original data from the it's corrupted version.
+The denoising auto-encodes can be stacked to form SdA. The aim of denoising auto-encodes to predict the original data from the it's corrupted version.
 
 The convolutional neural network contains a series of convolution and subsampling layers and an optionally fully connected layer. CNN uses spatial sub-sampling and shared weights to provide some degree of freedom from shift, scale and distortion of input.
