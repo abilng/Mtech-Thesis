@@ -1,14 +1,14 @@
 \chapter{CONCLUSION AND FUTURE WORK} 
 \label{chap:concl}
 %%%
-Event spotting is the process of identifying the temporal range of the event in the video. We experimented using  different \textit{deep neural networks} for extracting deep bottleneck features from a video which are able to represent input as abstract concepts. We first attempted  bottleneck feature extraction with the help of unsupervised methods. Later, we experimented for the same with the supervised \textit{convolutional neural network}.
+Event spotting is the process of identifying the temporal range of the event in the video. We experimented using  different \textit{deep neural networks} for extracting deep bottleneck features from a video which are able to represent input as abstract concepts. We first attempted bottleneck feature extraction with the help of unsupervised methods. Later, we experimented for the same with the supervised \textit{convolutional neural network}.
 
-Through the experiments mentions in chapter \ref{chap:event}, we have found that for smaller dataset, deep neural networks have less impact.  The \textit{convolution neural network (CNN)} with pre-proceed frames as input has produced good recognition accuracy, but its bottleneck features are not discriminative enough for spotting the event (not using DTW)
+Through the experiments mentioned in chapter \ref{chap:event}, we have found that for smaller dataset, deep neural networks have less impact.  The \textit{convolution neural network (CNN)} with pre-proceed frames as input has produced good recognition accuracy, but its bottleneck features are not discriminative enough for spotting the event (not using DTW)
 
-One of the driving force behind \textit{deep neural network} is a humongous amount of data. It came from the fact that child's eyes take one picture about every 200 milliseconds, the average time an eye movement is made. 
+One of the driving force behind \textit{deep neural network} is a humongous amount of data. It comes from the fact that a child's eyes take one picture about every 200 milliseconds, the average time an eye movement is made. 
 
-Since we were blinded by the result of deep neural networks in other fields, we jumped to the intuition of solving  the event spotting in the video using the deep neural networks on direct input. But later we found that for smaller dataset, pre-processing of input before passing to DNN will yields to a better result than giving direct input.
+Since we were blinded by the results of deep neural networks in other fields, we jumped to the intuition of solving the challenge of event spotting in a video using the deep neural networks on direct input. But later we found that for smaller dataset, pre-processing of input before passing to DNN yields a better result than giving direct input.
 
-Since deep bottleneck features alone does not able to solve event spotting problem in the video. For getting better descriptive features, we have to combine classical features and deep bottleneck features.  
+Since deep bottleneck features are not able to solve event spotting problem in the video. For getting better descriptive features, we have to combine classical features and deep bottleneck features.  
 
 %I end this thesis by quoting Fei-Fei Li, Director of Artificial Intelligence Lab and Vision Lab, Stanford, \textit{``First, let's teach machines to see. Then, they help us to see better."}

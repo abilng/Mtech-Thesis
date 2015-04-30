@@ -27,7 +27,7 @@ Or one can get tarball from \\
 \end{lstlisting}
 
 \section{Toolkit Configuration} 
-All configation files are in json format.
+All configuration files are in json format.
 \subsection{Model Configuration (model.conf)}
 \begin{table}[h]
    \begin{center}
@@ -36,7 +36,7 @@ All configation files are in json format.
      *nnetType & type of Network (CNN/RBM/SDA/DNN) & \\
      *train\_data & working directory containing data configuration and output \\ \hline
 	 *wdir & working directory & \\ \hline
- 	 *data\_spec & path for data sepification relative to model.conf & \\ \hline
+ 	 *data\_spec & path for data specification relative to model.conf & \\ \hline
 	 *nnet\_spec & path for network configuration specification relative to model.conf & \\ \hline
 	 *output\_file & path for network model file relative to wdir & \\ \hline
 	 input\_file & path for pre-trained/fine-tuned model relative to wdir. & \\ \hline
@@ -47,7 +47,7 @@ All configation files are in json format.
 	 *n\_outs & output dimension (num classes) & \\ \hline
 	 finetune\_params& Refer \nameref{subsec:finetuneparam}	&  \\ \hline
 	 pretrain\_params& Refer \nameref{subsec:pretrainparam}	&  \\ \hline
-	 export\_path &  path for writting (bottleneck) features relative to model.conf & \\ \hline 	 
+	 export\_path &  path for writing (bottleneck) features relative to model.conf & \\ \hline 	 
 	 processes & 
 	 	\begin{tabular}{r|p{6cm}} %\hlne
 	 	 pretraining & to do pre-training or not \\
@@ -63,37 +63,38 @@ All configation files are in json format.
 
 \subsubsection{Pretraining Parameters}
 \label{subsec:pretrainparam}
-\emph{pretrain\_params}: Configuration of pretraining method. It contains a json object with following parameters:
+The \emph{pretrain\_params}: Configuration of pre-training method. It contains a json object with the following parameters:
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|l|l|p{6cm}|}
 \hline
  Param	 & Default value	 & nnet Type	 & Description\\
 \hline
- \emph{gbrbm\_learning\_rate}	 &     0.005	 &    DBN	 & Pretraining learning rate for gbrbm layer.\\
- \emph{learning\_rate}	 &      0.08	 &  SDA,DBN	 & Pretraining learning rate (DBN: for all layers except gbrbm layer)\\
- \emph{epochs}	 &       15	 &    DBN	 & No of Pretraining epochs\\
+ \emph{gbrbm\_learning\_rate}	 &     0.005	 &    DBN	 & Pre-training learning rate for gbrbm layer.\\
+ \emph{learning\_rate}	 &      0.08	 &  SDA,DBN	 & Pre-training learning rate (DBN: for all layers except gbrbm layer)\\
+ \emph{epochs}	 &       15	 &    DBN	 & No of Pre-training epochs\\
  \emph{initial\_momentum}	 &      0.5	 &    DBN	 & The initial momentum factor while pre-training\\
  \emph{final\_momentum}	 &      0.9	 &    DBN	 & The final momentum factor while pre-training\\
  \emph{initial\_momentum\_epoch}	 &       5	 &    DBN	 & No: of epochs with the initial momentum factor before switching\\
- \emph{keep\_layer\_num}	 &       0	 &  SDA,DBN	 & From which layer Pre-Trainig Should Start.\\
+ \emph{keep\_layer\_num}	 &       0	 &  SDA,DBN	 & From which layer Pre-Training Should Start.\\
  \hline
 \end{tabular}
 \end{table}
 
 \subsubsection{Finetune Parameters}
 \label{subsec:finetuneparam}
-\emph{finetune\_params} contain configuration of fine-tune learning method.There are 2 learning rate adaption technique supported by toolkit. They are
+The \emph{finetune\_params} contains the configuration of fine-tune learning method.There are two learning rate adaptation techniques supported by tool-kit. They are
 \begin{itemize}
 \item C: Constant learning rate: run `epoch\_num' iterations with `learning\_rate' unchanged
-\item E: Exponential decay: we start with the learning rate of \emph{start\_rate}; if the validation error reduction between two epochs is less than \emph{min\_derror\_decay\_start}, the learning rate is scaled by \emph{scale\_by} during each of the remaining epoch. The whole traing terminates when the validation error reduction between two epochs falls below \emph{min\_derror\_stop}. \emph{min\_epoch\_decay\_star} is the minimum epoch number after which scaling can only be performed.
+\item E: Exponential decay: We start with the learning rate of \emph{start\_rate}; if the validation error reduction between two epochs is less than \emph{min\_derror\_decay\_start}, the learning rate is scaled by \emph{scale\_by} during each of the remaining epoch. The whole training terminates when the validation error reduction between two epochs falls below \emph{min\_derror\_stop}. \emph{min\_epoch\_decay\_star} is the minimum epoch number after which scaling can only be performed.
 \end{itemize}
 \begin{table}[h]
 \centering
+\caption[]{\textit{finetune\_params} contains a json object with these parameters}
 \begin{tabular}{|l|l|l|}
 \hline
 \textbf{parameter}	& \textbf{description} 				& \textbf{default}\\  \hline
-momentum 			& momentum factor for finetuning 	& \\
+momentum 			& momentum factor for fine-tuning 	& \\
 method 				& E : exponential decay 			& C\\
 					& C : constant learning rate 		& \\
 learning\_rate   	& used for C 						& 0.08\\
@@ -105,7 +106,6 @@ min\_derror\_stop   & used for E 						& 0.05 \\
 min\_epoch\_decay\_start  & used for E 					& 15\\
 \hline
 \end{tabular}
-\caption[]{finetune\_params' contains a json object with these parameters}
 \end{table}
 
 \clearpage
@@ -117,7 +117,7 @@ min\_epoch\_decay\_start  & used for E 					& 15\\
    \begin{tabular}{|l|p{8cm}|c|} \hline
    	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
  	*base\_path & Base path of data. &  \\  \hline
-   	*filename &  train/test/val filename & \\  \hline
+   	*filename &  train/test/validation data set file-name & \\  \hline
 	*partition & data size (in MiB) to be loaded in memory & \\  \hline
 	random & allow random ordering  & true \\  \hline
 	random\_seed & seed for random numbers if random is true & \\  \hline 
@@ -128,9 +128,9 @@ min\_epoch\_decay\_start  & used for E 					& 15\\
   \end{tabular}		
 \end{center}
 \end{table} 
-\noindent For the purpose of using the toolkit data have to be in anyone of the file format.
+\noindent For the purpose of using the tool-kit data have to be in anyone of the file format.
 \begin{itemize}
-\item{\textbf {Numpy Format [NP]:}The dataset is stored as single file in binary format in following structur,
+\item{\textbf {Numpy Format [NP]:}The dataset is stored as single file in binary format in the following structure,
 \begin{lstlisting}[language=bash,basicstyle=\small] 
 <json-header>
 <structured numpy.array>
@@ -139,14 +139,14 @@ min\_epoch\_decay\_start  & used for E 					& 15\\
 \end{lstlisting}
 json-header  : featdim (dimension of input vector after flattening), input\_shape (shape of input).}
 
-\item{\textbf {Text File (One level header) [T1]:} The dataset contains a root file with list of  text file names corresponding to a class. It has following format,
+\item{\textbf {Text File (One level header) [T1]:} The dataset contains a root file with list of  text file names corresponding to a class. It has the following format,
 \begin{lstlisting}[language=bash,basicstyle=\small] 
 <feat_dim> <num_classes>
 <data_file1>
 <data_file2>
 ..
 \end{lstlisting}
-data\_file correspond to individual class files with following structure,
+The \textit{data\_file} corresponds to individual class files with the following structure,
 \begin{lstlisting}[basicstyle=\small] 
 <feat_dim> <num_feat_vectors(optional)>
 <feat_vector>
@@ -154,14 +154,14 @@ data\_file correspond to individual class files with following structure,
 ..
 \end{lstlisting}}
 
-\item{\textbf {Text File (Two level header) [T2]:} This format has got extra level of indirection, the root file has got following structure,
+\item{\textbf {Text File (Two level header) [T2]:} This format has got extra level of indirection, the root file has got the following structure,
 \begin{lstlisting}[language=bash,basicstyle=\small] 
 <feat_dim> <num_classes>
 <class_index_file1>
 <class_index_file2>
 ..
 \end{lstlisting}
-class\_index\_file constitute of list of data filenames belonging to single class, 
+The \textit{class\_index\_file} consists of the list of data file-names belonging to single class, 
 \begin{lstlisting}[basicstyle=\small] 
 <data_file1>
 <data_file2>
@@ -244,13 +244,13 @@ class\_index\_file constitute of list of data filenames belonging to single clas
   	\medskip  \small configuration of dbn (sda)
 	\begin{tabular}{|c|p{8cm}|c|} \hline
    	\textbf{parameter} & \textbf{description} & \textbf{default}\\  \hline
-	*hidden\_layers &  hidden denoising autoencoder layer sizes & \\ \hline
+	*hidden\_layers &  hidden denoising auto-encoder layer sizes & \\ \hline
 	activation & activation function for the layers & tanh \\ \hline
 	*corruption\_levels & corruption level for each layer &  \\ \hline
 	\end{tabular}		
 \end{center} 
 \end{table} 
-\noindent It is quite evident in all model configuration the activation functions are crucial. The activation function are used to transform the activation level of a unit (neuron) into an output signal. Generally, activation functions have a "squashing" effect. Python-DNN currently support following activation functions,
+\noindent It is quite evident in all model configurations that the activation functions are crucial. The activation functions are used to transform the activation level of a unit (neuron) into an output signal. Generally, activation functions have a "squashing" effect. Python-DNN currently support following activation functions,
 \begin{itemize}
 \item {\textbf{sigmoid:} sigmoid function with equation: $f(x) = \frac{1}{(1 + \exp^{-x}}$. This is an S-shaped (sigmoid) curve, with output in the range $(0,1)$.}
 \item {\textbf{tanh:} hyperbolic tangent function is a sigmoid curve, like the logistic function, except that output lies in the range $(-1,+1)$.} 
@@ -258,7 +258,7 @@ class\_index\_file constitute of list of data filenames belonging to single clas
 \item {\textbf{cappedrelu:} same as ReLU except we cap the units at 6.ie, $f(x) = min(max(x,0),6)$}
 \end{itemize}
 .\\
-Toolkit contain sample configuration (of MNIST and CIFAR dataset) in \textit{sample\_config/} folder
+Toolkit contains sample configuration (of MNIST and CIFAR dataset) in \textit{sample\_config/} folder
 \clearpage
 
 \section{Usage}
@@ -266,7 +266,7 @@ Toolkit contain sample configuration (of MNIST and CIFAR dataset) in \textit{sam
 \begin{enumerate}
 	\item Prepare Dataset: convert dataset to NP/T1/T2 formats.
 	\item Configure model: Note that CNN accepting an image with dimension $X \times Y$ with $K$ channel should have \textit{input\_shape} as $[K,X,Y]$
-	\item Configure data: Set the \textit{base\_path} and \textit{filename}. The parameter \textit{partition} need to be set properly in case of large dataset, assign value (in MB) less than primary memory/gpu memory. 
+	\item Configure data: Set the \textit{base\_path} and \textit{filename}. The parameter \textit{partition} needs to be set properly in case of large dataset, assign value (in MB) less than primary memory/gpu memory. 
 	\item Configure neural net: nnet\_conf.json
 	\item Set environment flags: set \textit{device} to either cpu or gpu mode.
 	\begin{lstlisting}[language=bash,basicstyle=\small] 
