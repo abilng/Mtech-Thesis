@@ -95,7 +95,7 @@ The \emph{finetune\_params} contains the configuration of fine-tune learning met
 \hline
 \textbf{Parameter}	& \textbf{Description} 				& \textbf{Default value}\\  \hline
 momentum 			& momentum factor for fine-tuning 	& \\
-method 				& E : exponential decay 			& C\\
+method 				& E : exponential decay 			    & C\\
 					& C : constant learning rate 		& \\
 learning\_rate   	& used with C 						& 0.08\\
 epoch\_num          & used with C 			 			& 10\\
@@ -252,7 +252,7 @@ The \textit{class\_index\_file} consists of the list of data file-names belongin
 \end{table} 
 \noindent It is quite evident in all model configurations that the activation functions are crucial.  The activation functions are used to transform the activation level of a unit (neuron) into an output signal.  Generally, activation functions have a "squashing" effect.  Python-DNN currently support following activation functions,
 \begin{itemize}
-\item {\textbf{sigmoid:} sigmoid function with equation: $f(x) = \frac{1}{(1 + \exp^{-x}}$.  This is an S-shaped (sigmoid) curve, with output in the range $(0,1)$.}
+\item {\textbf{sigmoid:} sigmoid function with equation: $f(x) = \frac{1}{(1 + \exp^{-x})}$.  This is an S-shaped (sigmoid) curve, with output in the range $(0,1)$.}
 \item {\textbf{tanh:} hyperbolic tangent function is a sigmoid curve, like the logistic function, except that output lies in the range $(-1,+1)$.} 
 \item {\textbf{relu:} rectifier linear unit is an activation function defined as $f(x) = max(0, x)$}
 \item {\textbf{cappedrelu:} same as ReLU except we cap the units at 6.ie, $f(x) = min(max(x,0),6)$}

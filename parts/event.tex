@@ -23,7 +23,7 @@ Our initial approach was to find out \textit{``Will any unsupervised deep learni
 In this section, we go through different unsupervised deep neural network methods that have been experimented.
 
 \subsection{Deep Belief Network} 
-The complete video of resolution $960 \times 540$ was reduced to $256 \times 144$ pixels.  Then each frame was fed to a \textit{Deep Belief Network (DBN)} which tries to reduce its dimensionality.  Different DBNs with different sizes of DBN features (400,1000 and 2000) were analysed.  But we encountered a problem: the features we obtained were somewhat random.  We found that the large size of the weight matrix is the reason behind this issue.  To train such a big network, we need a big dataset.
+The complete video of resolution $960 \times 540$ was reduced to $256 \times 144$ pixels.  Then each frame was fed to a \textit{Deep Belief Network (DBN)} which tries to reduce its dimensionality.  DBNs with different sizes of DBN features (400,1000 and 2000) were analysed.  But we encountered a problem: the features we obtained were somewhat random.  We found that the large size of the weight matrix is the reason behind this issue.  To train such a big network, we need a big dataset.
 
 \subsection{DBN on DCT Coefficients}
 Since our previous attempt failed as the input dimension was too big, we decided to make use of \textit{Discrete Cosine Transform (DCT)}.  The advantage of DCT is that it can be implemented using a fast algorithm and is commonly used for dimensionality reduction in images/videos \cite{er2005high}.  Reduced resolution video ($256 \times 144$) was taken and DCT was computed for each frame.  The low-frequency coefficients of DCT were taken (top 1500) and normalized with respect to mean.  Then we used deep belief network which tries to reduce the dimensionality (to 400/200).
@@ -184,7 +184,7 @@ Similar to the method discussed in section \ref{sec:event:dct_gmm}, we examined 
 The \textit{precision, recall and F-measure} of the experiment are given in Table \ref{table:cnn_gmm_res_msr} (MSR dataset) and Table \ref{table:cnn_gmm_res_basket} (Basketball dataset).
 
 \begin{table}[ht]
-\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) CNN features (Basketball dataset) ]{ Precision \& Recall  of GMM/VSM on CNN  features (Basketball dataset)}
+\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) features (Basketball dataset) ]{ Precision \& Recall  of GMM/VSM on CNN  features (Basketball dataset)}
 \label{table:cnn_gmm_res_basket}
 \centering
 \begin{tabular}{|c|c|l|l|l|}
