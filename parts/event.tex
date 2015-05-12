@@ -14,7 +14,7 @@ In this chapter, we will first discuss why we preferred  DNN over classical feat
 \label{sec:event:why}
 We have to capture underlying temporal structures of actions (i.e.  intra-dependencies) through feature representations.  Some of the classical features in videos are SIFT (Scale-invariant feature transform), HOG (Histogram of oriented gradients), Optical Flow, HOF (Histograms of flow orientations), HOG3D (Histograms of 3D gradients), MBH (motion boundary histograms).  These classical feature extraction methods require a high amount of computation\cite{baker2011database,chatfield2011devil}.  This time-consuming process of feature extraction limits the speed of testing, thus limiting the scope of real-time applications.
 
-In recent years, deep learning has produced remarkable results and has significantly outperformed state-of-the-art classical methods \cite{KarpathyCVPR14}.  Deep Neural Networks (DNNs) are able to learn the feature representation directly from the raw data and hence results in significant performance boosting (refer chapter \ref{chap:dnn}).  Moreover, bottleneck features generated from deep neural networks (\textit{deep bottleneck features}) are found to be better features in automatic speech recognition (ASR) systems \cite{yu2011improved,gehring2013extracting}.
+In recent years, deep learning has produced remarkable results and has significantly outperformed state-of-the-art classical methods \cite{KarpathyCVPR14}.  Deep Neural Networks (DNNs) are able to learn the feature representation directly from the raw data and hence results in significant performance boosting (refer chapter \ref{chap:dnn}).  Moreover, the features generated using deep neural networks (\textit{DNN features}) are found to be better features in automatic speech recognition (ASR) systems \cite{yu2011improved,gehring2013extracting}.
 
 \section{Unsupervised Methods}
 \label{sec:event:unsupervised}
@@ -23,7 +23,7 @@ Our initial approach was to find out \textit{``Will any unsupervised deep learni
 In this section, we go through different unsupervised deep neural network methods that have been experimented.
 
 \subsection{Deep Belief Network} 
-The complete video of resolution $960 \times 540$ was reduced to $256 \times 144$ pixels.  Then each frame was fed to a \textit{Deep Belief Network (DBN)} which tries to reduce its dimensionality.  Different DBNs with different sizes of deep bottleneck features (400,1000 and 2000) were analysed.  But we encountered a problem: the features we obtained were somewhat random.  We found that the large size of the weight matrix is the reason behind this issue.  To train such a big network, we need a big dataset.
+The complete video of resolution $960 \times 540$ was reduced to $256 \times 144$ pixels.  Then each frame was fed to a \textit{Deep Belief Network (DBN)} which tries to reduce its dimensionality.  Different DBNs with different sizes of DBN features (400,1000 and 2000) were analysed.  But we encountered a problem: the features we obtained were somewhat random.  We found that the large size of the weight matrix is the reason behind this issue.  To train such a big network, we need a big dataset.
 
 \subsection{DBN on DCT Coefficients}
 Since our previous attempt failed as the input dimension was too big, we decided to make use of \textit{Discrete Cosine Transform (DCT)}.  The advantage of DCT is that it can be implemented using a fast algorithm and is commonly used for dimensionality reduction in images/videos \cite{er2005high}.  Reduced resolution video ($256 \times 144$) was taken and DCT was computed for each frame.  The low-frequency coefficients of DCT were taken (top 1500) and normalized with respect to mean.  Then we used deep belief network which tries to reduce the dimensionality (to 400/200).
@@ -105,14 +105,14 @@ We build smaller GMMs (4 - 50 mixtures) and trained them with some of the videos
 
 \section{Supervised Methods}
 \label{sec:event:supervised}
-Through the experiments mentioned in section  \ref{sec:event:unsupervised}, we found that deep bottleneck features using unsupervised learning does not give any benefit in the identification of events in video.  Moreover, these techniques try to capture more similar features in the video, rather than capturing abstract representations which describe events in video.
+Through the experiments mentioned in section  \ref{sec:event:unsupervised}, we found that DNN features using unsupervised learning does not give any benefit in the identification of events in video.  Moreover, these techniques try to capture more similar features in the video, rather than capturing abstract representations which describe events in video.
 
-In this section, we examine the use of \textit{Convolutional Neural Networks} for extracting deep bottleneck features.  CNNs have produced many groundbreaking results in various research topics of image and video processing \citep{KarpathyCVPR14, ji20133d, krizhevsky2012imagenet}.
+In this section, we examine the use of \textit{Convolutional Neural Networks} for extracting features.  CNNs have produced many groundbreaking results in various research topics of image and video processing \citep{KarpathyCVPR14, ji20133d, krizhevsky2012imagenet}.
 
 Experiments described in this section are performed on the \textbf{OSUPEL basketball dataset} \cite{brendel2011probabilistic} (hereafter referred as basketball dataset) and \textbf{Microsoft Research Action Dataset \RN{2}} (hereafter referred as MSR dataset).  MSR dataset contains 54 videos recorded in a crowded environment.  These videos have a resolution of $320 \times 240$ pixels and frame rate of $15$ fps.  There are three action types in this dataset: \textit{hand waving, hand-clapping, and boxing } and multiple actions are present in each video.
 
 \subsection{3D-CNN with color map feature}
-For extracting deep bottleneck features, we can use 3D-CNN model.  This model extracts features from both spatial and temporal dimensions by performing three dimensional convolutions on input, thereby capturing the motion information encoded in adjacent frames\citep{ji20133d}.
+For extracting DNN features, we can use 3D-CNN model.  This model extracts features from both spatial and temporal dimensions by performing three dimensional convolutions on input, thereby capturing the motion information encoded in adjacent frames\citep{ji20133d}.
 
 Videos of reduced resolution are fed into a 3D-CNN model with 3 color channel (RGB) as input feature maps.
 
@@ -178,13 +178,13 @@ For each frame (of reduced resolution video), frame differencing and edge detect
 The architecture of CNN is $C(11, 11, 10)-P(4, 4)-C(6, 6, 10)-P(2, 2)-FC(200)$ for basketball dataset and $C(11, 11, 10)-P(4,4)-C(5, 5, 6)-P(2,2)-FC(50)$ for MSR dataset.  The result of the experiments is shown in Table \ref{table:cnn_res}.
 
 
-\subsubsection{GMM on bottleneck features}
-Similar to the method discussed in section \ref{sec:event:dct_gmm}, we examined the performance of our approach (based on the principle of Gaussian posteriorgram and Vector Space Model) on deep bottleneck features extracted using   the above model.
+\subsubsection{GMM on CNN features}
+Similar to the method discussed in section \ref{sec:event:dct_gmm}, we examined the performance of our approach (based on the principle of Gaussian posteriorgram and Vector Space Model) on features extracted using the above CNN model.
 
 The \textit{precision, recall and F-measure} of the experiment are given in Table \ref{table:cnn_gmm_res_msr} (MSR dataset) and Table \ref{table:cnn_gmm_res_basket} (Basketball dataset).
 
 \begin{table}[ht]
-\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) bottleneck features (Basketball dataset) ]{ Precision \& Recall  of GMM/VSM on CNN bottleneck features (Basketball dataset)}
+\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) CNN features (Basketball dataset) ]{ Precision \& Recall  of GMM/VSM on CNN  features (Basketball dataset)}
 \label{table:cnn_gmm_res_basket}
 \centering
 \begin{tabular}{|c|c|l|l|l|}
@@ -216,7 +216,7 @@ GMM Mixtures & Threshold & Avg. Precision & Avg. Recall & F-measure\\
 \end{table}
 
 \begin{table}[h]
-\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) bottleneck features (MSR Action Dataset) ]{ Precision \& Recall  of GMM/VSM on CNN bottleneck features (MSR dataset)}
+\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) features (MSR Action Dataset) ]{ Precision \& Recall  of GMM/VSM on CNN features (MSR dataset)}
 \label{table:cnn_gmm_res_msr}
 \centering
 \begin{tabular}{|c|c|l|l|l|}
@@ -238,14 +238,14 @@ GMM Mixtures & Threshold & Avg. Precision & Avg. Recall & F-measure\\
 
 %\pagebreak
 
-\subsubsection{DTW on bottleneck features}
-\textit{Dynamic Time Warping (DTW)} using deep bottleneck features are extracted with help of the above CNN model.  DTW can be used for both event classification and spotting.  In classification, we have template sequence for each event type, and DTW of test sequence with each of the template sequence is performed and the test sequence is classified as event which has the least score (normalized).  In event spotting, we have query sequence and we have to find events in a test so that event's DTW score(normalized) is less than a threshold.
+\subsubsection{DTW on CNN features}
+\textit{Dynamic Time Warping (DTW)} using features that are extracted with help of the above CNN model.  DTW can be used for both event classification and spotting.  In classification, we have template sequence for each event type, and DTW of test sequence with each of the template sequence is performed and the test sequence is classified as event which has the least score (normalized).  In event spotting, we have query sequence and we have to find events in a test so that event's DTW score(normalized) is less than a threshold.
 
 
 The \textit{True positive \& False positive} of the DTW event classification on basketball dataset are given in Table \ref{table:cnn_dtw_res_basket} and that of MSR dataset are given by \ref{table:cnn_dtw_res_msr}
 
 \begin{table}[ht]
-\caption[Event classification using DTW on CNN bottleneck features (OSUPEL basketball dataset) ]{True positive \& False positive using DTW on CNN bottle neck features (basketball dataset)}
+\caption[Event classification using DTW on CNN features (OSUPEL basketball dataset) ]{True positive \& False positive using DTW on CNN bottle neck features (basketball dataset)}
 \label{table:cnn_dtw_res_basket}
 \centering
 \begin{tabular}{|l|l|l|l|}
@@ -263,7 +263,7 @@ Avg         &255  &549.6 &0.3174\\
 \end{table} 
 
 \begin{table}[ht]
-\caption[Event classification using DTW on CNN bottleneck features (MSR Action dataset \RN{2}) ]{True positive \& False positive using DTW on CNN bottleneck features (MSR dataset)}
+\caption[Event classification using DTW on CNN features (MSR Action dataset \RN{2}) ]{True positive \& False positive using DTW on CNN features (MSR dataset)}
 \label{table:cnn_dtw_res_msr}
 \centering
 \begin{tabular}{|l|l|l|l|}
@@ -296,10 +296,10 @@ Avg	&437.667	&228.667	&0.671\\
         \label{fig:dtw_score}
 \end{figure}.
 
-Figure.\ref{fig:dtw_score} describe \textit{Target score vs Non-target} score of basketball dataset and MSR dataset.  From the graph, we can understand that by using DTW on bottleneck features we cannot perform event spotting.
+Figure.\ref{fig:dtw_score} describe \textit{Target score vs Non-target} score of basketball dataset and MSR dataset.  From the graph, we can understand that by using DTW on CNN features we cannot perform event spotting.
 
 \section{Summary}
 
-Video event spotting is a non-trivial problem in the field of video analysis.  We have tried to spot event in the video using deep bottleneck features.
+Video event spotting is a non-trivial problem in the field of video analysis.  We have tried to spot event in the video using DNN features.
 
-We first attempted to extract deep features which can describe events in the video in an abstract sense using unsupervised methods.  Later we experimented with supervised deep learning method for the same.  Through these experiments, we have found that most of the deep neural networks work only if we have a humongous amount of data.  Even though convolution neural network with pre-proceed frames as input has produced good recognition accuracy, the bottleneck features are not discriminative enough for spotting the event (not using DTW).
+We first attempted to extract deep features which can describe events in the video in an abstract sense using unsupervised methods.  Later we experimented with supervised deep learning method for the same.  Through these experiments, we have found that most of the deep neural networks work only if we have a humongous amount of data.  Even though convolution neural network with pre-proceed frames as input has produced good recognition accuracy, it's features are not discriminative enough for spotting the event (not using DTW).

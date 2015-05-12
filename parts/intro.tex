@@ -8,16 +8,16 @@ Video event detection plays an important role in intelligent video analysis.  Ev
 
 Our initial aim is to detect events in a video which are similar to the event in the given query video.  The demand for such a problem came from existing video search engines.  Current video search engines use the video descriptions, in terms of  \textit{meta data} available as text, for indexing.  Making such a detailed description is very hard.  Meta data is subject to human error and the temporal location specified in the meta data can be approximate.  Usually, a viewer might not watch a whole video and will be interested only in specific events or highlights.  For example, the goals and goal attempts get the most attention in a football match.
 
-In the last decade, \textit{deep learning} has become the new buzzword in the machine learning community.  Deep Neural Networks have produced exciting results on various problems in text, speech and image/video processing.  DNNs are able to learn the feature representation directly from the raw data.  According to \citet{hinton2009deep}, deep bottleneck features have the ability to not only learn the features that are representative but can also learn the abstract concepts that may be available in the data.   The objective of the work reported in this thesis is to extract features using DNNs from video for the task of event detection.
+In the last decade, \textit{deep learning} has become the new buzzword in the machine learning community.  Deep Neural Networks have produced exciting results on various problems in text, speech and image/video processing.  DNNs are able to learn the feature representation directly from the raw data.  According to \citet{hinton2009deep}, DNN features have the ability to not only learn the features that are representative but can also learn the abstract concepts that may be available in the data.   The objective of the work reported in this thesis is to extract features using DNNs from video for the task of event detection.
 
-Our intuition was using the \textit{deep bottleneck features} and dynamic time warping, we will be able to spot events on video based on a query video sequence.  While attempting  to get better deep bottleneck feature we have found a new  way of event recognition in the video using CNN on frame difference and edge.
+Our intuition was using the \textit{DNN features} and dynamic time warping, we will be able to spot events on video based on a query video sequence.  While attempting  to get better DNN feature we have found a new  way of event recognition in the video using CNN on frame difference and edge.
 
 With advancements in GPU hardware has enabled DNNs to scale to networks with millions of parameters.  We have developed a Deep Neural Network toolkit which can run both on GPU and CPU architectures seamlessly: \textit{Python-DNN}.  Python-DNN can also act as a standalone library.
 
 \subsubsection{Major Contributions}
 \begin{itemize}
 \item Developed a deep neural network toolkit-\textit{Python-DNN}. 
-\item Experimented with different deep bottleneck features for \textit{event spotting}.
+\item Experimented with different DNN features for \textit{event spotting}.
 \item Proposed a novel approach to event recognition in video using CNN.
 \end{itemize}
 
