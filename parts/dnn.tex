@@ -1,55 +1,55 @@
 \chapter{Deep Neural Networks}
 \label{chap:dnn}
 \section{Introduction}
-The major problem in \textit{Machine Learning} is that in most real world applications, many factors of variation influence data.  Such real world applications require us to disentangle these factors of variation in data and discard the ones which we don't care about.  But it can be very difficult to extract these high level abstract features the available raw data.  \textit{Deep learning} solves this problem in representation learning by introducing representations that are expressed in terms of other, simpler representations.
+The major problem in \textit{Machine Learning} is that in most real world applications, many factors of variation influence data.  Such real world applications require us to disentangle these factors of variation in data and discard the ones which we do not care about.  But it can be very difficult to extract these high level abstract features from the available raw data.  \textit{Deep learning} solves this problem in representation learning by introducing representations that are expressed in terms of other, simpler representations.
 
 According to \citet{deng2014deep}, \textit{``Deep learning is a set of algorithms in machine learning that attempt to model high-level abstractions in data by using model architectures composed of multiple non-linear transformations"}.  This is also referred to as \textit{hierarchical learning} or \textit{deep structured learning}. 
 
-Most of the successful deep learning methods use principles of \textit{Artificial Neural Networks (ANN)}.  Different deep learning architectures like Deep Belief Networks (DBN) and Convolutional Neural Networks (CNNs) have resulted in state-of-the-art results in different fields like image recognition, natural language processing and automatic speech recognition.
+Most of the successful deep learning methods use principles of \textit{Artificial Neural Networks (ANNs)}.  Different deep learning architectures like Deep Belief Networks (DBNs) and Convolutional Neural Networks (CNNs) have produced state-of-the-art results in different fields like image recognition, natural language processing and automatic speech recognition.
 
-In this chapter we first introduces Deep Neural Network and its basic concepts in \ref{sec:dnn:dnn}.  Later we briefly discuss common DNN architectures like \textit{CNNs, DBN, etc}.
+In this chapter, we first introduce Deep Neural Networks and the basic concepts involved in \ref{sec:dnn:dnn}.  Later we briefly discuss common DNN architectures like \textit{CNNs, DBN, etc.}.
 
 \section{Deep Neural Network}
 \label{sec:dnn:dnn}
-Artificial neural networks are a family of statistical learning models inspired by the \textit{biological model of 1959 (by Nobel prize winners T.Wiesel and D.~H.~Hubel)}.  A \textit{DNN (Deep Neural Network)} can be considered as a form of \textit{artificial neural network}, with multiple hidden layers. 
+Artificial neural networks are a family of statistical learning models inspired by the \textit{biological model} of 1959 (by Nobel prize winners T.Wiesel and D.~H.~Hubel).  A \textit{DNN (Deep Neural Network)} can be considered as a form of \textit{artificial neural network}, with multiple hidden layers. 
 
 
 \subsection{Motivations for Deep Architectures}
-The Major motivations for using deep architectures are the following:
+The major motivations for using deep architectures are the following:
 
 \subsubsection{Deep architecture of the brain}
-A major motivation of Deep Architectures is the deep structure of the brain.  For example, the study of visual cortex shows areas which contain the representation of the input, and flowing of the signals from one area to the next.  Each level defines the different levels of abstractions.  At a higher level, more abstract features are represented in terms of the lower-level features.  Moreover, representation in the brain is neither local nor densely distributed.  These representations in the brain are sparse (only 1\% of neurons are simultaneously active).
+A major motivation to use Deep Architectures is the deep structure of the brain.  For example, the study of the visual cortex shows areas which contain the representation of the input, and flow of the signals from one area to the next.  Each level defines the different levels of abstractions.  At a higher level, more abstract features are represented in terms of the lower-level features.  Moreover, representation in the brain is neither local nor densely distributed.  These representations in the brain are sparse (only 1\% of neurons are simultaneously active).
 
 \subsubsection{Insufficient depth can hurt}
-According to complexity theory of circuit, compared to shallow architectures, deep architectures are more efficient in terms of number of parameters and computational elements for representing functions\citep{bengio2007scaling}.  Haastad found that a function (of $n$ inputs) which can be efficiently represented with $O(n)$ nodes with a depth $d$, requires an ($O(2^n)$) nodes if depth is $d-1$ \citep{bengio2007greedy}.
+According to complexity theory of  circuits, as compared to shallow architectures, deep architectures are more efficient in terms of number of parameters and computational elements for representing functions \citep{bengio2007scaling}.  Haastad\citep{bengio2007greedy} found that a function (of $n$ inputs) which can be efficiently represented with $O(n)$ nodes with a depth $d$, requires an $O(2^n)$ nodes if depth is $d-1$.
 
 \subsubsection{Cognitive processes seem deep}
-If you consider the process of perception in humans, we always organize ideas and concepts hierarchically.  Humans first learn simple concepts and then composes these concepts for representing more abstract ones. 
+If you consider the process of perception in humans, we always organize ideas and concepts hierarchically.  Humans first learn simple concepts and use these concepts for representing more abstract ones. 
 
 \subsection{General Deep Network Framework}
-As discussed in Section \ref{sec:dnn:dnn}, \textit{deep neural network (DNN)} can be considered as a multilayer perceptron with many hidden layers.  The standard learning strategy for MLP is made up of the following steps:\\
+As discussed in Section \ref{sec:dnn:dnn}, \textit{Deep Neural Network (DNN)} can be considered as a multilayer perceptron with many hidden layers.  The standard learning strategy for a MLP is made up of the following steps :
 \begin{itemize}
 \item Initialize the weights of the neural network with random values.
 \item Apply gradient descent using back-propagation (BP) algorithm.
 \end{itemize}
-But apart from few exceptions, researchers soon found out that an MLP of more than two hidden layers often failed \cite{bengio2007greedy} due to a well-known fact that the MLP learning involves an extremely difficult non-convex optimization problem and a gradient-based local search used in
-the BP algorithm easily gets stuck in a local minimum 
+Apart from few exceptions, researchers soon found that a MLP of more than two hidden layers often failed \cite{bengio2007greedy} due to a well-known fact that the MLP learning involves an extremely difficult non-convex optimization problem and the gradient-based local search used in
+the BP algorithm easily gets stuck at a local minimum. 
 
-So for training deep network, \citet{hinton2006reducing} proposed a greedy layer-wise training algorithm.  The major steps involved are:
+Thus, for training a deep network, \citet{hinton2006reducing} proposed a greedy layer-wise training algorithm.  The major steps involved are:
 \begin{itemize}
-\item \textsc{Pretraining}: Each layer is trained in a greedy way.  This is unsupervised learning at each layer so that information from the input is preserved and factors of variation in data are untangled.  This acts as the initialization step.  Hence, instead of doing a random initialization, we perform careful initialization and reduce the chances of getting stuck at a local minima.
-\item \textsc{Finetuning}: Then the network is fine-tuned with respect to the ultimate objective which may be a classification or regression task.
+\item \textsc{Pretraining}: Each layer is trained in a greedy way.  This is unsupervised learning at each layer so that information from the input is preserved and factors of variation in data are untangled.  This acts as the initialization step.  Hence, instead of doing a random initialization, we perform careful initialization and reduce the chances of getting stuck at local minima.
+\item \textsc{Finetuning}: The network is then fine-tuned with respect to the ultimate objective, which may be a classification or regression task.
 \end{itemize}
 
 \section{Deep Belief Networks}
-\citet{hinton2006reducing} introduced \emph{Deep Belief Networks (DBN)} which is a stacking of \emph{Restricted Boltzmann Machines (RBMs)}.  Deep belief networks can be trained in a greedy manner\cite{hinton2006reducing}.  Deep belief network is a graphical model which tries to represent data in terms of deep hierarchical features.  First, an unsupervised training is performed on each layer (RBM) in a greedy manner.  Then the network is fine-tuned based on a supervised training criterion.\\
+\citet{hinton2006reducing} introduced \emph{Deep Belief Networks (DBNs)} which is a stacking of \emph{Restricted Boltzmann Machines (RBMs)}.  Deep belief networks can be trained in a greedy manner \cite{hinton2006reducing}.  A deep belief network is a graphical model which tries to represent data in terms of deep hierarchical features.  First, an unsupervised training is performed on each layer (RBM) in a greedy manner.  Then the network is fine-tuned based on a supervised training criterion.\\
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1\textwidth]{./imgs/RBM_Train.eps} 
 \caption{Training of DBN}
 \end{figure}
 
-The \textit{restricted Boltzmann machine (RBM)} is an energy-based model.  A graphical representation of an RBM is shown in Figure.\ref{fig:rbm_layer}.
+The \textit{restricted Boltzmann machine (RBM)} is an energy-based model.  A graphical representation of an RBM is shown in Figure \ref{fig:rbm_layer}.
 
 \begin{figure}[!ht]
   \centering
@@ -58,9 +58,9 @@ The \textit{restricted Boltzmann machine (RBM)} is an energy-based model.  A gra
   \label{fig:rbm_layer}
 \end{figure}%
 
-Like every other energy-based model, RBM also has an energy for every possible configuration of parameters.  The energy function of RBM, $E(v,h)$ is defined as: 
+Like every other energy-based model, a RBM also has an energy for every possible configuration of parameters.  The energy function of the RBM, $E(v,h)$ is defined as: 
 $$E(v,h) = - b'v - c'h - h'Wv$$
-where $W$ are the weights between hidden and visible units and $b$ and $c$ are the bias of the visible ($v$) and hidden layers ($h$) respectively.  Like other energy-based models, RBM also uses free energy (inspired from physics), which is defined as
+where $W$ are the weights between the hidden and visible units and $b$ and $c$ are the bias of the visible ($v$) and hidden layers ($h$) respectively.  Like other energy-based models, RBM also uses free energy (inspired from physics), which is defined as
 \begin{align*}
 \mathcal{F}(v) &= -log \sum_{h}{e^{-(E(v,h))}} \\
 \mathcal{F}(v) &= - b'v - \sum_i \log \sum_{h_i} e^{h_i (c_i + W_i v)}\\
@@ -76,9 +76,9 @@ p(v|h) &= \prod_j p(v_j|h)
 P(h_i=1|v) &= sigmoid(c_i + W_i v) \label{eq:rbm_layers_prob1} \\
 P(v_j=1|h) &= sigmoid(b_j + W'_j h) \label{eq:rbm_layers_prob2}
 \end{align}
-where, $sigmoid(x)= \frac{1}{1 + e^{-x}}$. Hence free energy becomes
+where $sigmoid(x)= \frac{1}{1 + e^{-x}}$. Hence free energy becomes
 $$\mathcal{F}(v)= - b'v - \sum_i \log(1 + e^{(c_i + W_i v)})$$ %\label{eq:rbm_freeE}
-Probability distributions over visible vectors can be defined in terms of the free energy.
+Probability distributions over visible vectors can be defined in terms of the free energy:
 %p(v) = \frac {e^{-E(v)}} {Z} \text{ with } Z = \sum_v e^{-E(v)} \\
 \begin{align*}
 P(v) = \frac{e^{-\mathcal{F}(v)}}{Z} \text{, where } Z=\sum_v e^{-\mathcal{F}(v)}.
@@ -90,22 +90,22 @@ A faster learning algorithm was proposed by Hinton \cite{hinton2002training,hint
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.3\textwidth]{./imgs/markov_chain.png}
-\caption[Markov chain of training RBM layer]{Markov chain, that uses alternating Gibbs sampling for training RBM layer. $(v^{(t)}, h^{(t)})$ become accurate samples of $p(v,h)$ when $t \rightarrow \infty$}
+\caption[Markov chain of training RBM layer]{Markov chain, that uses alternating Gibbs sampling for training a RBM layer. $(v^{(t)}, h^{(t)})$ become accurate samples of $p(v,h)$ when $t \rightarrow \infty$.}
 \label{fig:rbmmarkovChain}
 \end{figure}
 
 The change in the weights is given by
-$$ \Delta W = \eta ({vh^\mathsf{T}}_{data} - {v'h'^{\mathsf{T}}}_{recon}). $$
-where $\eta$ is the learning rate.  Outer product $vh^\mathsf{T}$ is referred to as the positive gradient and that of $v'$ and $h'$ as negative gradient.  The adaption of biases of the hidden and the visible layer are performed by a similar learning method that uses the states of individual nodes.  This process of training RBMs using Gibbs sampling is referred to as \textbf{contrastive divergence (CD-k)}.  In practice, fixing $k=1$ works exceptionally well \cite{hinton2010practical}.
+$$ \Delta W = \eta ({vh^\mathsf{T}}_{data} - {v'h'^{\mathsf{T}}}_{recon}) $$
+where $\eta$ is the learning rate.  Outer product $vh^\mathsf{T}$ is referred to as the positive gradient and that of $v'$ and $h'$ as the negative gradient.  The adaption of biases of the hidden and the visible layer are performed by a similar learning method that uses the states of individual nodes.  This process of training RBMs using Gibbs sampling is referred to as \textbf{contrastive divergence (CD-k)}.  In practice, fixing $k=1$ works exceptionally well \cite{hinton2010practical}.
 
 \section{Stacked Denoising Auto-encoders}
 \citet{vincent2010stacked} introduced the \emph{stacked denoising auto-encoder (SdA)} which is a modified version of the stacked auto-encoder.  The stacked denoising auto-encoder (SdA) is formed by stacking denoising auto-encoders so that the input of each layer ($dA_i$) is the hidden representation produced by the layer below ($dA_{i-1}$).  The pre-training of SdA is performed one layer at a time.  That is, every layer is trained independently so that the reconstruction error with respect to the input of current layer (output of the previous denoising auto-encoder layer) is minimized.  Once this unsupervised \textit{pre-training} is completed on all layers, the network undergoes another stage of training called supervised \textit{fine-tuning} where the objective is to minimize prediction error of the supervised task.
 
-The idea of auto-encoders has been part of the landscape of neural networks for decades.  The aim of the auto-encoder is to encode the input $x$ into some latent representation $y = f(x)$ so that the input can be regenerated from the latent representation.  The auto-encoder has two components: the encoder $f:x \rightarrow y$ and the decoder $g:y \rightarrow z$.  The reconstruction error of auto-encoder can be computed in different ways.  The appropriate error measure is determined by the distributional assumptions on the input.  Commonly used error measures are:
+The idea of auto-encoders has been part of the landscape of neural networks for decades.  The aim of the auto-encoder is to encode the input $x$ into some latent representation $y = f(x)$ so that the input can be regenerated from the latent representation.  The auto-encoder has two components: the encoder $f:x \rightarrow y$ and the decoder $g:y \rightarrow z$.  The reconstruction error of the auto-encoder can be computed in different ways.  The appropriate error measure is determined by the distributional assumptions on the input.  Commonly used error measures are:
 \begin{itemize}
-\item Squared error.
+\item Squared error:
 $$ L(\mathbf{x} \mathbf{z}) = || \mathbf{x} - \mathbf{z} ||^2$$
-\item If the inputs can be considered as binomial probabilities or inputs are binary, then we can use cross-entropy between input and reconstruction as an error measure.
+\item If the inputs can be considered as binomial probabilities or if the inputs are binary, then we can use the cross-entropy between input and reconstruction as an error measure:
 $$L(\mathbf{x}, \mathbf{z}) = - \sum^d_{k=1}[\mathbf{x}_k \log \mathbf{z}_k + (1 - \mathbf{x}_k)\log(1 - \mathbf{z}_k)]$$
 \end{itemize}
 
@@ -114,36 +114,36 @@ The principle behind \emph{denoising auto-encoders (dA)} is that, \textit{in ord
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\textwidth]{./imgs/sda.eps}
-\caption[The denoising auto-encoder architecture]{The denoising auto-encoder architecture. $\mathbf{\tilde{x}}$ is a corrupted version of a train vector $\mathbf{x}$.  The auto-encoder maps (encodes) $\mathbf{\tilde{x}}$ to $\mathbf{y}$ ($\mathbf{y} = f(\mathbf{\tilde{x}})$).  Then auto-encoder attempts to reconstruct $\mathbf{x}$ , resulting in $ \mathbf{z} = g(\mathbf{y}) $. Reconstruction error is measured by loss $L_{H}(\mathbf{x},\mathbf{z})$. }
+\caption[The denoising auto-encoder architecture]{The denoising auto-encoder architecture. $\mathbf{\tilde{x}}$ is a corrupted version of a training vector $\mathbf{x}$.  The auto-encoder maps (encodes) $\mathbf{\tilde{x}}$ to $\mathbf{y}$ ($\mathbf{y} = f(\mathbf{\tilde{x}})$).  Then the auto-encoder attempts to reconstruct $\mathbf{x}$ , resulting in $ \mathbf{z} = g(\mathbf{y}) $. Reconstruction error is measured by loss $L_{H}(\mathbf{x},\mathbf{z})$. }
 \label{fig:sdaChain}
 \end{figure}
 
 \section{Convolutional Neural Networks}
 \emph{Convolutional Neural Network (CNN)} is a variant of multilayer perceptron and is inspired by biological processes (from the complex arrangement of cells in the cat's visual cortex).  Convolutional neural networks are designed to have less amount of preprocessing \cite{lecun1998gradient}.  It was first introduced by Fukushima in 1980 and later improved by \citet{lecun1998gradient}.  CNNs are widely used for image and video recognition.  CNNs make use of local receptive fields, shared weights and spatial sub-sampling to ensure some degree of shift, scale and distortion invariance.
 
-\noindent Two key ideas of convolutional neural networks are
+\noindent Two key ideas of convolutional neural networks are:
 \begin{itemize}
-\item \textsc{Sparse Connectivity:} The inputs to hidden nodes in layer $m$ are from a subset of nodes in layer $m-1$, which have spatially contiguous receptive fields.  This creates a receptive field behaviour and hence ensures that filters produce the strong response to a spatially local pattern in the input.
+\item \textsc{Sparse Connectivity:} The inputs to the hidden nodes in a layer $m$ are from a subset of nodes in layer $m-1$, which have spatially contiguous receptive fields.  This creates a receptive field behaviour and hence ensures that filters produce a strong response to a spatially local pattern in the input.
 
 
-\item \textsc{Shared Weights:} Each filter $h_i$ of CNN is replicated.  These replicated filters share the same weight matrix and bias vector.  This replication of weights not only reduces the number of parameters to be estimated but also makes the CNN to learn position invariant feature detection.
+\item \textsc{Shared Weights:} Each filter $h_i$ of CNN is replicated.  These replicated filters share the same weight matrix and bias vector.  This replication of weights not only reduces the number of parameters to be estimated but also makes the CNN learn position invariant feature detection.
 \end{itemize}
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.6\textwidth]{./imgs/convolution.png} 
-\caption[Convolutional layer explained]{An example of convolutional layer.  There are four feature maps in ${(m-1)}^{th}$ layer and two (represented by $h^0$ and $h^1$) in next ($m$).  The blue and red squares denote pixel values in feature maps ($h^0$ and $h^1$) in the $m^{th}$ layer.  These pixels are computed from $(m-1)^{th}$ layer pixels that falls within the $2\times2$ receptive field of corresponding kernel (represented as colored rectangles).}
+\caption[Convolutional layer explained]{An example of a convolutional layer.  There are four feature maps in the ${(m-1)}^{th}$ layer and two (represented by $h^0$ and $h^1$) in the next ($m$).  The blue and red squares denote pixel values in feature maps ($h^0$ and $h^1$) in the $m^{th}$ layer.  These pixels are computed from the $(m-1)^{th}$ layer pixels that fall within the $2\times2$ receptive field of the corresponding kernel (represented as colored rectangles).}
 \label{fig:cnn_layer}
 \end{figure}
 
 
-\noindent CNNs tries to capture high level features of input images using the following operations:
+\noindent CNNs try to capture high level features of the input images using the following operations:
 \begin{itemize}
 \item \textsc{Convolution}: The most important operation of CNN is convolution.  A \textit{feature map} is obtained by convolution of the input image with a linear filter and then applying a non-linear function. 
-$$h^k_{ij} = \mathit{f}( (W^k * x)_{ij} + b_k ).$$
-where $h^k_{ij}$ is $(i,j)^{th}$ value in $k^{th}$ feature map, $W^k$ and $b_k$ are weights and bias of $k^{th}$ filter and $\mathit{f}$ is activation function.
+$$h^k_{ij} = \mathit{f}( (W^k * x)_{ij} + b_k )$$
+where $h^k_{ij}$ is the $(i,j)^{th}$ value in $k^{th}$ feature map, $W^k$ and $b_k$ are the weights and bias of the $k^{th}$ filter and $\mathit{f}$ is an activation function.
 
-Since this linear filter is applied repeatedly, the resulting connectivity act as a series of overlapping receptive fields \cite{KarpathyCVPR14}.
+Since this linear filter is applied repeatedly, the resulting connectivity acts as a series of overlapping receptive fields \cite{KarpathyCVPR14}.
 \item \textsc{Sub Sampling}: Sub-sampling refers to reducing the overall size of a signal.  The most commonly used subsampling method is \textit{max pooling}.  Max pooling divides the input feature map into a collection of sub-regions which are non-overlapping and emits the maximum value in each such sub-region.  It helps in reduction of computation for higher layers.  Moreover, it provides some form of translation invariance. 
 \end{itemize}
 
@@ -154,25 +154,25 @@ Since this linear filter is applied repeatedly, the resulting connectivity act a
 \label{fig:cnn}
 \end{figure}
 \footnotetext{From site: http://white.stanford.edu/}. 
-Typically, convolutional neural networks consist of a number of convolutional and subsampling layers optionally followed by fully connected layers (MLP).  Some times we can use SVM instead of MLP.  Unlike other neural networks which take a vector as input,  the convolutional neural network takes an $m \times n \times r$ image as input, where $m$ and $n$ are the height and width of the image, respectively and $r$ is the number of channels (eg.: three for RGB)/input feature maps. 
+Typically, convolutional neural networks consist of a number of convolutional and subsampling layers optionally followed by fully connected layers (MLP).  Some times we can use SVM instead of MLP.  Unlike other neural networks which take a vector as input,  the convolutional neural network takes an $m \times n \times r$ image as input, where $m$ and $n$ are the height and width of the image respectively, and $r$ is the number of channels (eg. three for RGB)/input feature maps. 
 
 \subsection{3D Convolutional Neural Networks}
-The 3D convolutional neural networks extract features from both the spatial and the temporal domains by performing 3D convolutions, hence captures the motion information from multiple adjacent frames.\cite{ji20133d} The value at $(p, q, r)$ on the $j^{th}$ feature map (in the $i^{th}$ layer) is given by
+3D convolutional neural networks \textit{(3D-CNNs)} extract features from both the spatial and the temporal domains by performing 3D convolutions, hence capturing the motion information from multiple adjacent frames \cite{ji20133d}. The value at $(p, q, r)$ on the $j^{th}$ feature map (in the $i^{th}$ layer) is given by
 $$v^{pqr}_{ij} = \tanh(b_{ij}+\sum_{m} \sum_{x=0}^{X_i-1} \sum_{y=0}^{Y_i-1} \sum_{z=0}^{Z_i-1} w^{xyz}_{ijm} v^{(p+x)(q+y)(r+z)}_{(i−1)m}) $$
 where $X_i \times Y_i \times Z_i$ is the size (height, width and depth  along the temporal dimension) of the 3D kernel and $w^{xyz}_{ijm}$ is the cost of the 3D kernel connected to the $m^{th}$ feature map in the $i^{th}$ layer.  Similarly, Pooling/Sub-sampling is done in both spatial and temporal domains.
 
 \section{Summary}
-The deep learning algorithms attempts to model high-level abstractions in data using multiple non-linear transformations.  \textit{Deep neural networks (DNNs)} are basically artificial neural networks with multiple hidden layers between input and output.  The major characteristics of deep learning are:
+The deep learning algorithms attempt to model high-level abstractions in data using multiple non-linear transformations.  \textit{Deep neural networks (DNNs)} are basically artificial neural networks with multiple hidden layers between the input and output.  The major characteristics of deep learning are:
 \begin{itemize}
 \item They are usually multilayered and hierarchical.
-\item They contains multiple non-linear transformations 
-\item They act as a feature extractors - they try to extract high level abstract features from raw data.
+\item They contains multiple non-linear transformations.
+\item They act as feature extractors - they try to extract high level abstract features from raw data.
 \end{itemize}
 
-Most of the deep neural networks have greedy layer-wise training algorithm (pretraining) for initialization weights and followed by supervised fine-tuning.
+Most deep neural networks incorporate a greedy layer-wise training algorithm (pretraining) for initialization of the weights, followed by supervised fine-tuning.
  
-The \textit{deep belief network (DNN)} is made of stacking \textit{restricted Boltzmann machine (RBM)} layers.  RBM attempts to reduce the free energy of network and is trained by contrastive divergence (CD-k).
+The \textit{deep belief network (DNN)} is made by stacking \textit{restricted Boltzmann machine (RBM)} layers.  RBM attempts to reduce the free energy of the network and is trained by contrastive divergence (CD-k).
 
-The \textit{denoising auto-encodes} can be stacked to form \textit{SdA}.  The aim of denoising auto-encodes is to predict the original data from it's corrupted version.
+The \textit{denoising auto-encoders} can be stacked to form \textit{SdA}.  The aim of denoising auto-encoders is to predict the original data from it's corrupted version.
 
 The \textit{convolutional neural network} contains a series of convolution and subsampling layers and optionally fully connected layers.  CNN uses spatial sub-sampling and shared weights to provide some degree of freedom from shift, scale and distortion of input.

@@ -2,24 +2,24 @@
 \chapter{Introduction}
 \label{chap:intro}
 
-The amount of video information has dramatically increased in the last decade, owing to advancement in multimedia application and bandwidth.  Video traffic is expected to be  79 percent of all Internet traffic by 2018 \footnote{Cisco Visual Networking Index: Forecast and Methodology, 2013-2018}.  According to YouTube, in every minute approx.~300 hours of video is uploaded \footnote{https://www.youtube.com/yt/press/statistics.html}.  This exponential growth of the video data, demands intelligent video analysis and understanding.
+The quantity of video information has dramatically increased in the last decade, owing to advances in multimedia applications and in bandwidth.  Video traffic is expected to be  79 percent of all Internet traffic by 2018 \footnote{Cisco Visual Networking Index: Forecast and Methodology, 2013-2018}.  According to YouTube, in every minute, approx.~300 hours of video is uploaded \footnote{https://www.youtube.com/yt/press/statistics.html}.  This exponential growth of video data demands intelligent video analysis and understanding.
 
-Video event detection plays an important role in intelligent video analysis.  Event detection includes identifying the temporal range of the event (i.e.when) or the location of the event (i.e.  where).  Identifying the temporal range of the event is specifically referred to as event spotting. 
+Video event detection plays an important role in intelligent video analysis.  Event detection includes identifying the temporal range of the event (i.e.when) or the location of the event (i.e.  where).  Identifying the temporal range of the event is specifically referred to as \textit{event spotting}. 
 
-Our initial aim is to detect events in a video which are similar to the event in the given query video.  The demand for such a problem came from existing video search engines.  Current video search engines use the video descriptions, in terms of  \textit{meta data} available as text, for indexing.  Making such a detailed description is very hard.  Meta data is subject to human error and the temporal location specified in the meta data can be approximate.  Usually, a viewer might not watch a whole video and will be interested only in specific events or highlights.  For example, the goals and goal attempts get the most attention in a football match.
+Our initial aim is to detect events in a video which are similar to the event in a given query video.  The demand for such a problem came from existing video search engines.  Current video search engines use the video descriptions, in terms of  \textit{meta data} available as text, for indexing.  Making such a detailed description is very hard.  Meta data is subject to human error and the temporal location specified in the meta data can be approximate.  Usually, a viewer might not watch a whole video and will be interested only in specific events or highlights.  For example, the goals and goal attempts get the most attention in a football match.
 
-In the last decade, \textit{deep learning} has become the new buzzword in the machine learning community.  Deep Neural Networks have produced exciting results on various problems in text, speech and image/video processing.  DNNs are able to learn the feature representation directly from the raw data.  According to \citet{hinton2009deep}, DNN features have the ability to not only learn the features that are representative but can also learn the abstract concepts that may be available in the data.   The objective of the work reported in this thesis is to extract features using DNNs from video for the task of event detection.
+In the last decade, \textit{deep learning} has become the new buzzword in the machine learning community.  \textit{Deep Neural Networks (DNNs)} have produced exciting results on various problems in text, speech and image/video processing.  DNNs are able to learn the feature representation directly from the raw data.  According to \citet{hinton2009deep}, DNN features have the ability to not only learn the features that are representative, but can also learn the abstract concepts that may be available in the data.   The objective of the work reported in this thesis is to extract features using DNNs from video for the task of event detection.
 
-Our intuition was using the \textit{DNN features} and dynamic time warping, we will be able to spot events on video based on a query video sequence.  While attempting  to get better DNN feature we have found a new  way of event recognition in the video using CNN on frame difference and edge.
+Our intuition was that by using the \textit{DNN features} and dynamic time warping, we will be able  to spot similar events in the video based on a query video sequence.  While attempting  to get better DNN features, we have found a new  way of event recognition in the video using CNN on frame difference and edge.
 
-With advancements in GPU hardware has enabled DNNs to scale to networks with millions of parameters.  We have developed a Deep Neural Network toolkit which can run both on GPU and CPU architectures seamlessly: \textit{Python-DNN}.  Python-DNN can also act as a standalone library.
+Advancements in GPU hardware have enabled DNNs to scale to networks with millions of parameters.  We have developed a Deep Neural Network toolkit which can run both on GPU and CPU architectures seamlessly: \textit{Python-DNN}.  Python-DNN can also act as a standalone library.
 
 \subsubsection{Major Contributions}
 \begin{itemize}
-\item Developed a deep neural network toolkit-\textit{Python-DNN}. 
+\item Developed a deep neural network toolkit: \textit{Python-DNN}. 
 \item Experimented with different DNN features for \textit{event spotting}.
-\item Proposed a novel approach to event recognition in video using CNN.
+\item Proposed a novel approach to event recognition in video using CNNs.
 \end{itemize}
 
 \subsubsection{Organization of thesis}
-The chapter \ref{chap:dnn} discusses different deep learning techniques that are relevant for the work.  The homegrown deep neural network toolkit is briefly discussed in chapter \ref{chap:toolkit}.  Chapter titled \nameref{chap:event} (\ref{chap:event}) contains different experiments for event spotting in video and it's results.
+Chapter \ref{chap:dnn} discusses different deep learning techniques that are relevant to this work.  The homegrown deep neural network toolkit is briefly discussed in Chapter \ref{chap:toolkit}.  The chapter entitled \nameref{chap:event} (\ref{chap:event}) contains different experiments for event spotting in video and their results.

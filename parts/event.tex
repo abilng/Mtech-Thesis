@@ -2,33 +2,33 @@
 \label{chap:event}
 
 \section{Introduction}
-As mentioned in introduction (chapter \ref{chap:intro}), our ultimate aim was to find all the events in the search video $(\mathcal{V})$ which are similar to the event in a given query $(\mathcal{Q})$.  Since video is a temporal sequence, we have to model temporal dependencies in the data at the sub-event level.
+As mentioned in the introduction (Chapter \ref{chap:intro}), our ultimate aim was to find all the events in the search video $(\mathcal{V})$ which are similar to the event in a given query $(\mathcal{Q})$.  Since video is a temporal sequence, we have to model temporal dependencies in the data at the sub-event level.
 
-\textit{Dynamic Time Warping (DTW)} is well known for its ability to comparing two time-dependent sequences.  Intuitively, the sequences are warped in a nonlinear fashion to match each other.  Even though DTW was developed to compare different speech patterns in ASR (Automatic Speech Recognition), nowadays DTW has been applied to other fields \cite{muller2007information}.  So we decided to make use of DTW for comparing (and hence for spotting an event) \textit{query} and \textit{search video}.
+\textit{Dynamic Time Warping (DTW)} is well known for its ability to compare two time-dependent sequences.  Intuitively, the sequences are warped in a nonlinear fashion to match each other.  Even though DTW was developed to compare different speech patterns in ASR (Automatic Speech Recognition), nowadays DTW has been applied to other fields as well \cite{muller2007information}.  So we decided to make use of DTW for comparing (and hence for spotting an event) the \textit{query} and \textit{search video}.
 
-The effective features must be extracted from the video sequence so that features will be able to describe events in video.  We decided to make use of \textit{Deep Neural Network} for extracting these features.
+The effective features must be extracted from the video sequence so that features will be able to describe events in the video.  We decided to make use of \textit{Deep Neural Networks} for extracting these features.
 
-In this chapter, we will first discuss why we preferred  DNN over classical feature extractors.  In Section \ref{sec:event:unsupervised}, we go through different unsupervised methods attempted to answer the question \textit{``Will any unsupervised deep learning techniques work for feature extraction ?"}.  Later in section \ref{sec:event:supervised}, we go through experiments which use supervised CNNs  
+In this chapter, we will first discuss why we preferred  DNN over classical feature extractors.  In Section \ref{sec:event:unsupervised}, we go through different unsupervised methods attempted to answer the question \textit{``Will any unsupervised deep learning techniques work for feature extraction ?"}.  Later in section \ref{sec:event:supervised}, we go through experiments which use supervised CNNs.  
 
 \section{Why Deep Neural Networks?}
 \label{sec:event:why}
 We have to capture underlying temporal structures of actions (i.e.  intra-dependencies) through feature representations.  Some of the classical features in videos are SIFT (Scale-invariant feature transform), HOG (Histogram of oriented gradients), Optical Flow, HOF (Histograms of flow orientations), HOG3D (Histograms of 3D gradients), MBH (motion boundary histograms).  These classical feature extraction methods require a high amount of computation\cite{baker2011database,chatfield2011devil}.  This time-consuming process of feature extraction limits the speed of testing, thus limiting the scope of real-time applications.
 
-In recent years, deep learning has produced remarkable results and has significantly outperformed state-of-the-art classical methods \cite{KarpathyCVPR14}.  Deep Neural Networks (DNNs) are able to learn the feature representation directly from the raw data and hence results in significant performance boosting (refer chapter \ref{chap:dnn}).  Moreover, the features generated using deep neural networks (\textit{DNN features}) are found to be better features in automatic speech recognition (ASR) systems \cite{yu2011improved,gehring2013extracting}.
+In recent years, deep learning has produced remarkable results and has significantly outperformed state-of-the-art classical methods \cite{KarpathyCVPR14}.  Deep Neural Networks (DNNs) are able to learn the feature representation directly from the raw data and hence results in significant performance boosts (refer Chapter \ref{chap:dnn}).  Moreover, the features generated using deep neural networks (\textit{DNN features}) are found to be better features in automatic speech recognition (ASR) systems \cite{yu2011improved,gehring2013extracting}.
 
 \section{Unsupervised Methods}
 \label{sec:event:unsupervised}
-Our initial approach was to find out \textit{``Will any unsupervised deep learning techniques work for feature extraction ?"}.  Experiments were performed on the \textbf{OSUPEL basketball dataset} \cite{brendel2011probabilistic}.  The OSUPEL basketball dataset contains videos of drills and small basketball games.  Since these videos were shot in a real-world setting it contains challenges like slow and sudden camera motion, the motion blur of fast actions, inter-player occlusions, and varying illumination.  Resolution of the dataset is $960 \times 540$ pixels and frame rate is $29$fps.
+Our initial approach was to find out \textit{``Will any unsupervised deep learning techniques work for feature extraction ?"}.  Experiments were performed on the \textbf{OSUPEL basketball dataset} \cite{brendel2011probabilistic}.  The OSUPEL basketball dataset contains videos of drills and small basketball games.  Since these videos were shot in a real-world setting it contains challenges like slow and sudden camera motion, the motion blur of fast actions, inter-player occlusions, and varying illumination.  Resolution of the dataset is $960 \times 540$ pixels and frame rate is $29$ fps.
 
-In this section, we go through different unsupervised deep neural network methods that have been experimented.
+In this section, we go through different unsupervised deep neural network methods that have been experimented with.
 
 \subsection{Deep Belief Network} 
-The complete video of resolution $960 \times 540$ was reduced to $256 \times 144$ pixels.  Then each frame was fed to a \textit{Deep Belief Network (DBN)} which tries to reduce its dimensionality.  DBNs with different sizes of DBN features (400,1000 and 2000) were analysed.  But we encountered a problem: the features we obtained were somewhat random.  We found that the large size of the weight matrix is the reason behind this issue.  To train such a big network, we need a big dataset.
+The complete video of resolution $960 \times 540$ was reduced to $256 \times 144$ pixels.  Then each frame was fed to a \textit{Deep Belief Network (DBN)} which tries to reduce its dimensionality.  DBNs with different sizes of DBN features (400,1000 and 2000) were analysed.  But we encountered a problem; the features we obtained were somewhat random.  We found that the large size of the weight matrix is the reason behind this issue.  To train such a big network, we need a big dataset.
 
 \subsection{DBN on DCT Coefficients}
-Since our previous attempt failed as the input dimension was too big, we decided to make use of \textit{Discrete Cosine Transform (DCT)}.  The advantage of DCT is that it can be implemented using a fast algorithm and is commonly used for dimensionality reduction in images/videos \cite{er2005high}.  Reduced resolution video ($256 \times 144$) was taken and DCT was computed for each frame.  The low-frequency coefficients of DCT were taken (top 1500) and normalized with respect to mean.  Then we used deep belief network which tries to reduce the dimensionality (to 400/200).
+Since our previous attempt failed as the input dimension was too big, we decided to make use of \textit{Discrete Cosine Transform (DCT)}.  The advantage of DCT is that it can be implemented using a fast algorithm and is commonly used for dimensionality reduction in images/videos \cite{er2005high}.  Reduced resolution video ($256 \times 144$) was taken and DCT was computed for each frame.  The low-frequency coefficients of DCT were taken (top 1500) and normalized with respect to mean.  Then we used a deep belief network which tries to reduce the dimensionality (to 400/200).
 
-But it was found that DBN features yields same outputs, irrespective of the input if we use more than one layer.  With a single layer Restricted Boltzmann machine (first Layer is Gaussian-Bernoulli layer), we are getting some variation but not enough for identifying the events.\\
+But it was found that DBN features yield the same outputs, irrespective of the input if we use more than one layer.  With a single layer Restricted Boltzmann machine (first Layer is Gaussian-Bernoulli layer), we are getting some variation but not enough for identifying the events.\\
 
 
 \begin{figure}
@@ -54,7 +54,7 @@ But it was found that DBN features yields same outputs, irrespective of the inpu
                 \caption{Reconstructed frame from DBN features (single layer)}
                 \label{fig:dbn}
         \end{subfigure}
-        \caption{ An Analysis of DBN features}
+        \caption{ An analysis of DBN features}
         \label{fig:dct+dbn}
 \end{figure}.
 
@@ -66,12 +66,12 @@ Since SdA tries to learn weights so that reconstruction error is less and most o
 \label{sec:event:dct_gmm}
 This section discusses a combined approach which uses principles of Gaussian posteriorgram and Vector Space Model.
 
-The concept of the Gaussian posteriorgram is similar to that of the posterior feature vectors\citep{zhang2010towards}.  For each frame, a probability vector containing the posterior probabilities of each of the Gaussian components in a \textit{Gaussian mixture model (GMM)} is computed.  This probability vector is called as  Gaussian posteriorgram.
+The concept of the Gaussian posteriorgram is similar to that of the posterior feature vectors \citep{zhang2010towards}.  For each frame, a probability vector containing the posterior probabilities of each of the Gaussian components in a \textit{Gaussian mixture model (GMM)} is computed.  This probability vector is called as  Gaussian posteriorgram.
 
 \textit{Vector space model (VSM)} is widely used in NLP for information retrieval.  Vector space model has proved to be successful for many image applications such as classification and video indexing and retrieval \citep{galmar2007analysis}.
 
 \begin{table}[ht]
-\caption[Event spotting using GMM/VSM on DCT features (Basketball Dataset) ]{ Precision \& Recall  of GMM/VSM on DCT features (Basketball dataset)}
+\caption[Event spotting using GMM/VSM on DCT features (OSUPEL Basketball Dataset) ]{ Precision \& Recall  of GMM/VSM on DCT features (Basketball Dataset)}
 \label{table:dct_gmm_res_basket}
 \centering
 \begin{tabular}{|c|c|l|l|l|}
@@ -100,12 +100,12 @@ GMM	 & Thresh	 & Prec(Avg)	 & Recal(Avg)	 & F-score \\
 \end{tabular}
 \end{table}
 
-We build smaller GMMs (4 - 50 mixtures) and trained them with some of the videos.  Then the responsibility of each frame in the search and query video was calculated.  We assume that the query contains only one event, so we represented each query as a single vector (mean of the responsibilities of all frames in the query).  The inner product of each search video vector (corresponding to each frame of the search video) with a representative vector of query video was taken.  Finally, all the continuous frames of length at least half of that of the query with all inner products greater than a threshold, were considered to be similar events.  With 10 mixtures and 0.55 as the threshold, we captured most events but also captured a lot of false positives (refer Table.\ref{table:dct_gmm_res_basket})
+We build smaller GMMs (4 - 50 mixtures) and trained them with some of the videos.  Then the responsibility of each frame in the search and query video was calculated.  We assume that the query contains only one event, so we represented each query as a single vector (mean of the responsibilities of all frames in the query).  The inner product of each search video vector (corresponding to each frame of the search video) with a representative vector of query video was taken.  Finally, all the continuous frames of length at least half of that of the query, with all inner products greater than a threshold, were considered to be similar events.  With 10 mixtures and 0.55 as the threshold, we captured most events but also captured a lot of false positives (refer to Table.\ref{table:dct_gmm_res_basket})
 
 
 \section{Supervised Methods}
 \label{sec:event:supervised}
-Through the experiments mentioned in section  \ref{sec:event:unsupervised}, we found that DNN features using unsupervised learning does not give any benefit in the identification of events in video.  Moreover, these techniques try to capture more similar features in the video, rather than capturing abstract representations which describe events in video.
+Through the experiments mentioned in Section  \ref{sec:event:unsupervised}, we found that DNN features using unsupervised learning do not give any benefit in the identification of events in video.  Moreover, these techniques try to capture more similar features in the video, rather than capturing abstract representations which describe events in the video.
 
 In this section, we examine the use of \textit{Convolutional Neural Networks} for extracting features.  CNNs have produced many groundbreaking results in various research topics of image and video processing \citep{KarpathyCVPR14, ji20133d, krizhevsky2012imagenet}.
 
@@ -116,26 +116,26 @@ For extracting DNN features, we can use 3D-CNN model.  This model extracts featu
 
 Videos of reduced resolution are fed into a 3D-CNN model with 3 color channel (RGB) as input feature maps.
 
-In case of basketball dataset, the input is of size $144 \times 256 \times 5 \times 3$ (5 in time axis).  And for MSR dataset the size of input is $120 \times 160 \times 5 \times 3$.
+In case of the basketball dataset, the input is of size $144 \times 256 \times 5 \times 3$ (5 in time axis).  And for the MSR dataset, the size of input is $120 \times 160 \times 5 \times 3$.
 
-Classification result of 3d-CNN was biased on both datasets, All of the data was classified into a single class.  Even though we repeated the experiment by varying input and kernel dimensions, we got the same result.  Also the result of the same experiment on reduced dataset (by removing some of the classes), had the same bias.
+Classification result of 3d-CNN was biased on both datasets,and all of the data was classified into a single class.  Even though we repeated the experiment by varying input and kernel dimensions, we got the same result.  Also the result of the same experiment on reduced dataset (by removing some of the classes), had the same bias.
 
 \subsection{CNN with color map feature}
-\citet{KarpathyCVPR14} showed that single-frame architecture with the color map as input will produce satisfactory results.  So each frame of videos with reduced resolution is fed into CNN model with 3 color channel (RGB) as input feature maps.
+\citet{KarpathyCVPR14} showed that single-frame architecture with the color map as input will produce satisfactory results.  So each frame of the videos with reduced resolution is fed into CNN model with 3 color channel (RGB) as input feature maps.
 
-In case of basketball dataset, the input is of size $144 \times 256 \times 3$.  Using shorthand notation, the full architecture is $C(15, 15, 10)-P(4, 4)-C(5, 5, 10)-P(2, 2)-FC(500)$. $C(X, Y, K)$ denotes convolutional layer with $K$ kernels of size $X \times Y$.  A max-Pooling layer of size $X \times Y$ is represented as $P(X,Y)$. $FC(N)$ represents a fully connected layer with $N$ nodes.
+In case of basketball dataset, the input is of size $144 \times 256 \times 3$.  Using shorthand notation, the full architecture is $C(15, 15, 10)-P(4, 4)-C(5, 5, 10)-P(2, 2)-FC(500)$. $C(X, Y, K)$ denotes a convolutional layer with $K$ kernels of size $X \times Y$.  A max-pooling layer of size $X \times Y$ is represented as $P(X,Y)$. $FC(N)$ represents a fully connected layer with $N$ nodes.
 
-For MSR dataset size of the input is $120 \times 160 \times 3$.  The full architecture of CNN is $C(10, 10, 7)-P(2, 2)-C(5, 5, 5)-P(2, 2)-FC(100)$
+For the MSR dataset, size of the input is $120 \times 160 \times 3$.  The full architecture of the CNN is $C(10, 10, 7)-P(2, 2)-C(5, 5, 5)-P(2, 2)-FC(100)$.
 
 The result of the experiments is shown in Table \ref{table:cnn_res}.
 
-We found that CNN with single frame gives better classification accuracy than 3D-CNN.  We believe that it may be due to deficiency of data (3D-CNN has only $1/5^{th}$ of data point when compared to single frame CNN).
+We found that a CNN with single frame gives better classification accuracy than a 3D-CNN.  We believe that it may be due to deficiency of data (the 3D-CNN has only $1/5^{th}$ of data point when compared to a single frame CNN).
 
-Even though, MSR Dataset has produced a good result, the result of basketball dataset is poor.  The reason behind this lies in the fact that basketball dataset has more camera motion, motion blur, and scaling compared to MSR dataset.
+Even though experiments on the MSR Dataset have produced good results, the results on the Basketball Dataset are poor.  The reason behind this lies in the fact that the basketball dataset has more camera motion, motion blur, and scaling compared to the MSR dataset.
 
 
 \begin{table}[h]
-\caption[A comparison of different methods (classification accuracy)]{A comparison of different methods (classification accuracy)}
+\caption[A comparison of different methods (Classification Accuracy)]{A comparison of different methods (classification accuracy)}
 \label{table:cnn_res}
 \centering
 \begin{tabular}{|l|c|c|}
@@ -151,7 +151,7 @@ CNN with color map  &69.375\%   &76.687\% \\
 CNN with frame-difference &&\\
 and edge detection &84.219\%   &90.508\% \\
 \hline
-HOG-MHI+Hierarchical &&\\
+HOG-MHI + Hierarchical &&\\
 Motion Filter * \citep{tian2012hierarchical} & -  &78.80\% \\
 \hline
 MKL using&&\\
@@ -166,25 +166,25 @@ $\chi^2$ kernel * \citep{zhao2014feature} & -  &81.54\% \\
 
 \subsection{CNN with frame difference and edge detection}
 
-Many have attempted to give some pre-processed input to convolutional neural networks and have been able to produce an exceptional result in video event recognition \citep{ji20133d}.  So instead of giving 3 colour maps, a pre-processed input is fed to 2D CNN.
+Many have attempted to give some pre-processed input to convolutional neural networks and have been able to produce exceptional results in video event recognition \citep{ji20133d}.  So instead of giving 3 colour maps, a pre-processed input is fed to 2D CNN.
 
-For each frame (of reduced resolution video), frame differencing and edge detection is performed.  The frame differencing will act as background subtraction.  The edges of images is found with Canny edge detection algorithm.  A grayscale copy of original frame is also kept.  Thus, CNN takes 3 feature maps:
+For each frame (of reduced resolution video), frame differencing and edge detection is performed.  The frame differencing will act as background subtraction.  The edges of images is found with Canny edge detection algorithm.  A grayscale copy of the original frame is also kept.  Thus, the CNN takes 3 feature maps:
 \begin{enumerate}
 \item Grayscale frame.
 \item Edge (using Canny edge detection).
 \item Frame difference.
 \end{enumerate}
 
-The architecture of CNN is $C(11, 11, 10)-P(4, 4)-C(6, 6, 10)-P(2, 2)-FC(200)$ for basketball dataset and $C(11, 11, 10)-P(4,4)-C(5, 5, 6)-P(2,2)-FC(50)$ for MSR dataset.  The result of the experiments is shown in Table \ref{table:cnn_res}.
+The architecture of CNN is $C(11, 11, 10)-P(4, 4)-C(6, 6, 10)-P(2, 2)-FC(200)$ for the basketball dataset and $C(11, 11, 10)-P(4,4)-C(5, 5, 6)-P(2,2)-FC(50)$ for the MSR dataset.  The result of the experiments is shown in Table \ref{table:cnn_res}.
 
 
 \subsubsection{GMM on CNN features}
 Similar to the method discussed in section \ref{sec:event:dct_gmm}, we examined the performance of our approach (based on the principle of Gaussian posteriorgram and Vector Space Model) on features extracted using the above CNN model.
 
-The \textit{precision, recall and F-measure} of the experiment are given in Table \ref{table:cnn_gmm_res_msr} (MSR dataset) and Table \ref{table:cnn_gmm_res_basket} (Basketball dataset).
+The \textit{Precision, Recall and F-measure} of the experiment are given in Table \ref{table:cnn_gmm_res_msr} (MSR dataset) and Table \ref{table:cnn_gmm_res_basket} (Basketball dataset).
 
 \begin{table}[ht]
-\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) features (Basketball dataset) ]{ Precision \& Recall  of GMM/VSM on CNN  features (Basketball dataset)}
+\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) features (OSUPEL Basketball Dataset) ]{ Precision \& Recall  of GMM/VSM on CNN  features (Basketball dataset)}
 \label{table:cnn_gmm_res_basket}
 \centering
 \begin{tabular}{|c|c|l|l|l|}
@@ -216,7 +216,7 @@ GMM Mixtures & Threshold & Avg. Precision & Avg. Recall & F-measure\\
 \end{table}
 
 \begin{table}[h]
-\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) features (MSR Action Dataset) ]{ Precision \& Recall  of GMM/VSM on CNN features (MSR dataset)}
+\caption[Event spotting using GMM/VSM on CNN (on pre-processed input) features (MSR Action Dataset II) ]{ Precision \& Recall  of GMM/VSM on CNN features (MSR dataset)}
 \label{table:cnn_gmm_res_msr}
 \centering
 \begin{tabular}{|c|c|l|l|l|}
@@ -239,13 +239,13 @@ GMM Mixtures & Threshold & Avg. Precision & Avg. Recall & F-measure\\
 %\pagebreak
 
 \subsubsection{DTW on CNN features}
-\textit{Dynamic Time Warping (DTW)} using features that are extracted with help of the above CNN model.  DTW can be used for both event classification and spotting.  In classification, we have template sequence for each event type, and DTW of test sequence with each of the template sequence is performed and the test sequence is classified as event which has the least score (normalized).  In event spotting, we have query sequence and we have to find events in a test so that event's DTW score(normalized) is less than a threshold.
+\textit{Dynamic Time Warping (DTW)} was performed using features that are extracted with help of the above CNN model.  DTW can be used for both event classification and spotting.  In classification, we have a template sequence for each event type, and DTW of the test sequence with each of the template sequences is performed and that test sequence which has the least score (normalized) is classified as an event.  In event spotting, we have query sequence and we have to find events in a test so that event's DTW score(normalized) is less than a threshold.
 
 
-The \textit{True positive \& False positive} of the DTW event classification on basketball dataset are given in Table \ref{table:cnn_dtw_res_basket} and that of MSR dataset are given by \ref{table:cnn_dtw_res_msr}
+The number of \textit{True positive \& False positive} of the DTW event classification on basketball dataset are given in Table \ref{table:cnn_dtw_res_basket} and that of the MSR dataset are given by \ref{table:cnn_dtw_res_msr}
 
 \begin{table}[ht]
-\caption[Event classification using DTW on CNN features (OSUPEL basketball dataset) ]{True positive \& False positive using DTW on CNN features (basketball dataset)}
+\caption[Event classification using DTW on CNN features (OSUPEL basketball Dataset) ]{No. of true positive \& No. of false positive using DTW on CNN features (basketball dataset)}
 \label{table:cnn_dtw_res_basket}
 \centering
 \begin{tabular}{|l|l|l|l|}
@@ -263,7 +263,7 @@ Avg         &255  &549.6 &0.3174\\
 \end{table} 
 
 \begin{table}[ht]
-\caption[Event classification using DTW on CNN features (MSR Action dataset \RN{2}) ]{True positive \& False positive using DTW on CNN features (MSR dataset)}
+\caption[Event classification using DTW on CNN features (MSR Action Dataset \RN{2}) ]{No. of true positive \& No. of false positive using DTW on CNN features (MSR dataset)}
 \label{table:cnn_dtw_res_msr}
 \centering
 \begin{tabular}{|l|l|l|l|}
@@ -296,10 +296,10 @@ Avg	&437.667	&228.667	&0.671\\
         \label{fig:dtw_score}
 \end{figure}.
 
-Figure.\ref{fig:dtw_score} describe \textit{Target score vs Non-target} score of basketball dataset and MSR dataset.  From the graph, we can understand that by using DTW on CNN features we cannot perform event spotting.
+Figure \ref{fig:dtw_score} describes \textit{Target score vs Non-target} score of the basketball dataset and the MSR dataset.  From the graph, we can understand that by using DTW on CNN features we cannot perform event spotting.
 
 \section{Summary}
 
-Video event spotting is a non-trivial problem in the field of video analysis.  We have tried to spot event in the video using DNN features.
+Video event spotting is a non-trivial problem in the field of video analysis.  We have tried to spot events in the video using DNN features.
 
-We first attempted to extract deep features which can describe events in the video in an abstract sense using unsupervised methods.  Later we experimented with supervised deep learning method for the same.  Through these experiments, we have found that most of the deep neural networks work only if we have a humongous amount of data.  Even though convolution neural network with pre-proceed frames as input has produced good recognition accuracy, it's features are not discriminative enough for spotting the event (not using DTW).
+We first attempted to extract deep features which can describe events in the video in an abstract sense using unsupervised methods.  Later we experimented with supervised deep learning methods for the same.  Through these experiments, we have found that most of the deep neural networks work only if we have a humongous amount of data.  Even though convolution neural network with pre-proceed frames as input has produced good recognition accuracy, it's features are not discriminative enough for spotting the event (not using DTW).

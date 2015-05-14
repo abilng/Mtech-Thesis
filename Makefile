@@ -1,6 +1,6 @@
 FILE = main
 
-all: $(FILE).pdf
+all: force
 
 .PHONY: clean
 
